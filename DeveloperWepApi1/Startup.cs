@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeveloperWepApi1.Model.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,7 +15,7 @@ using Microsoft.OpenApi.Models;
 
 namespace DeveloperWepApi1
 {
-    public class Startup
+    public class  Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -31,9 +32,18 @@ namespace DeveloperWepApi1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
+            services.AddSingleton(
+                new List<Developer>()
+            {
+                new() {Id = Guid.NewGuid(),Name = "Anıl",Surname = "Berk",Department = "backend"},
+                new() {Id = Guid.NewGuid(),Name = "Gökhan",Surname = "Kocamaz",Department = "backend"},
+                new() {Id = Guid.NewGuid(),Name = "Tekin",Surname = "eke",Department = "backend"}
+            }
+                );
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP requ   est pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
