@@ -23,8 +23,7 @@ namespace DeveloperWepApi1.Controllers
             Developers.Add(developer);
             return Ok(developer.Id);
         }
-        
-        [HttpGet("getById")]
+        [HttpGet("{id}",Name = "id")]
         public IActionResult GetById(Guid id)
         {
             var getId = Developers.FirstOrDefault(x => x.Id == id);
