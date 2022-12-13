@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeveloperWepApi1.Model;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
@@ -17,17 +19,41 @@ namespace DeveloperWepApi1.Controllers
             Developers = developers;
         }
 
-        [HttpPost("AddDeveloper")]
-        public IActionResult AddDeveloper(Developer developer)
+        [HttpPost("CreateDeveloper")]
+        public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
+            var developer = new Developer()
+            {
+                Id = Guid.NewGuid(),
+                Name = createDeveloperDto.Name,
+                Surname = createDeveloperDto.Surname
+            };
             Developers.Add(developer);
-            return Ok(developer.Id);
+
+            var response = new DeveloperCreateResponse()
+            {
+                Id = developer.Id
+            };
+            return Ok(response);
         }
-        [HttpGet("{id}",Name = "id")]
-        public IActionResult GetById(Guid id)
+        // [HttpPost("AddDeveloper")]
+        // public IActionResult AddDeveloper(Developer developer)
+        // {
+        //     Developers.Add(developer);
+        //     return Ok(developer.Id);
+        // }
+        [HttpGet("{developerId}",Name = "developerId")]
+        public IActionResult GetById(Guid developerId)
         {
-            var getId = Developers.FirstOrDefault(x => x.Id == id);
+            var getId = Developers.FirstOrDefault(x => x.Id == developerId);
             return Ok(getId);
+        }
+
+        [HttpPut("UpdateDeveloper + {developerId:guid}")]
+        public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
+        {
+            
+            return Ok();
         }
         
         [HttpGet ("getAll")]
@@ -37,7 +63,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(getAll);
         }
 
-        [HttpPost("delete")]
+        [HttpDelete("delete")]
         public IActionResult Delete(Guid id)
         {
             var delete = Developers.Remove(Developers.FirstOrDefault(x => x.Id == id));
