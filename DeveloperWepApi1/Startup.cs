@@ -32,14 +32,16 @@ namespace DeveloperWepApi1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
-            services.AddSingleton(
+            services.AddSingleton
+            (
                 new List<Developer>()
-            {
-                new() {Id = Guid.NewGuid(),Name = "Anıl",Surname = "Berk",Department = "backend"},
-                new() {Id = Guid.NewGuid(),Name = "Gökhan",Surname = "Kocamaz",Department = "backend"},
-                new() {Id = Guid.NewGuid(),Name = "Tekin",Surname = "eke",Department = "backend"}
-            }
-                );
+                {
+                    new() { Id = Guid.NewGuid(), Name = "Anıl", Surname = "Berk", Department = "backend" },
+                    new() { Id = Guid.NewGuid(), Name = "Gökhan", Surname = "Kocamaz", Department = "backend" },
+                    new() { Id = Guid.NewGuid(), Name = "Tekin", Surname = "eke", Department = "backend" }
+                }
+                
+            );
 
         }
 

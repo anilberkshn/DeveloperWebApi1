@@ -31,6 +31,14 @@ namespace TaskWepApi1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TaskWepApi1", Version = "v1" });
             });
+
+            services.AddSingleton
+            (
+                new List<Task>()
+                {
+                    
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
