@@ -1,4 +1,4 @@
-namespace DeveloperWepApi1.Model
+namespace DeveloperWepApi1.Model.RequestModels
 {
     public class CreateDeveloperDto 
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DeveloperWepApi1.Model;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Model.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,7 +48,7 @@ namespace DeveloperWepApi1.Controllers
         public IActionResult SearchDeveloper([FromQuery] SearchDeveloperDto searchDeveloperDto)
         {
         var developers = _developers.Where(x => x.Name.Contains(searchDeveloperDto.Name,StringComparison.OrdinalIgnoreCase));
-        if (!developers.Any())
+        if (developers.Any())
         {
             return NotFound();
         }
