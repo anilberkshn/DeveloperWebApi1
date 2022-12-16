@@ -10,9 +10,9 @@ namespace TaskWepApi1.TaskModel.TaskEntities
         
         public string Description { get; set; }
         
-        public int Department { get; set; }
+        public string Department { get; set; }
         
-        public Guid DeveloperId { get; set; }
+        public Guid? DeveloperId { get; set; }
         
         public int Status { get; set; }
     }

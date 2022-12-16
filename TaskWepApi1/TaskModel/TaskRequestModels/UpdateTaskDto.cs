@@ -2,7 +2,7 @@ using System;
 
 namespace TaskWepApi1.TaskModel.TaskRequestModels
 {
-    public class UpdateTaskRequestDto
+    public class UpdateTaskDto
     {
        // public string Title { get; set; }   title değişmez mantığı ile Create kısmından farklı olması için
 

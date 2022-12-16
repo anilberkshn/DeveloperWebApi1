@@ -2,7 +2,7 @@ using System;
 
 namespace TaskWepApi1.TaskModel.TaskRequestModels
 {
-    public class CreateTaskRequest
+    public class CreateTaskDto
     {
         public string Title { get; set; }
 

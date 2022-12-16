@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <Folder Include="TaskModel\TaskErrorModels" />
-      <Folder Include="TaskModel\TaskResponseModels" />
     </ItemGroup>
 
 </Project>

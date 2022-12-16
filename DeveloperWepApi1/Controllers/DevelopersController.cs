@@ -11,14 +11,15 @@ namespace DeveloperWepApi1.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    
     public class DevelopersController : ControllerBase
     {
         public List<Developer> _developers { get; set; }
+
         public DevelopersController(List<Developer> developers)
         {
             _developers = developers;
         }
+
         //------------------------------------------------------------------------
         [HttpPost("CreateDeveloper")]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
@@ -47,39 +48,37 @@ namespace DeveloperWepApi1.Controllers
         [HttpGet("SearchDeveloper")]
         public IActionResult SearchDeveloper([FromQuery] SearchDeveloperDto searchDeveloperDto)
         {
-        var developers = _developers.Where(x => x.Name.Contains(searchDeveloperDto.Name,StringComparison.OrdinalIgnoreCase));
-        if (developers.Any())
-        {
-            return NotFound();
-        }
+            var developers = _developers.Where(x =>
+                x.Name.Contains(searchDeveloperDto.Name, StringComparison.OrdinalIgnoreCase));
+            if (developers.Any())
+            {
+                return NotFound();
+            }
 
-        return Ok(developers);
+            return Ok(developers);
         }
 
         [HttpPut("developerId:guid")]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
             var developer = _developers.FirstOrDefault(x => x.Id == developerId);
-            if (developer== null)
+            if (developer == null)
             {
                 return NotFound();
             }
 
             return Ok();
-
         }
-        
-        
         //--------------------------------------------------------------------------------------
-        
-        [HttpGet("{developerId}",Name = "developerId")]
+
+        [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
             var getId = _developers.FirstOrDefault(x => x.Id == developerId);
             return Ok(getId);
         }
-        
-        [HttpGet ("getAll")]
+
+        [HttpGet("getAll")]
         public IActionResult GetAll()
         {
             var getAll = _developers;
@@ -89,17 +88,15 @@ namespace DeveloperWepApi1.Controllers
         [HttpDelete("delete")]
         public IActionResult Delete(Guid id)
         {
-          //  var developer  = _developers.Remove(_developers.FirstOrDefault(x => x.Id == id));
-            var developer  = _developers.FirstOrDefault(x => x.Id == id);
+            //  var developer  = _developers.Remove(_developers.FirstOrDefault(x => x.Id == id));
+            var developer = _developers.FirstOrDefault(x => x.Id == id);
             if (developer == null)
             {
                 return NotFound();
             }
+
             _developers.Remove(developer);
             return Ok(developer);
         }
-        
-        
-        
     }
 }
