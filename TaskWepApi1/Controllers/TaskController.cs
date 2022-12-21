@@ -15,8 +15,7 @@ namespace TaskWepApi1.Controllers
 
     public class TaskController : Controller
     {
-        public List<TaskModel.TaskEntities.Task> _tasks { get; set; }
-        /*List<Task> yaparken farklı bir task a gidiyor. Entities içindekine dikkat et*/ 
+        public List<TaskModel.TaskEntities.Task> _tasks { get; set; } /*List<Task> yaparken farklı bir task a gidiyor. Entities içindekine dikkat et*/ 
         public TaskController(List<Task> tasks)
         {
             _tasks = tasks;
@@ -45,7 +44,7 @@ namespace TaskWepApi1.Controllers
             return Ok(response);
         }
 
-        [HttpGet ("SearchTask:Deneme:123")]
+        [HttpGet ("SearchTask")]
         public IActionResult SearchTask([FromQuery] SearchTaskDto searchTaskDto)
         {
             var tasks = _tasks.Where(x =>

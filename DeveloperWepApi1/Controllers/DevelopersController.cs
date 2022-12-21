@@ -31,7 +31,7 @@ namespace DeveloperWepApi1.Controllers
                 Surname = createDeveloperDto.Surname
             };
             _developers.Add(developer);
-
+ 
             var response = new DeveloperCreateResponse()
             {
                 Id = developer.Id
@@ -47,6 +47,7 @@ namespace DeveloperWepApi1.Controllers
 
         [HttpGet("SearchDeveloper")]
         public IActionResult SearchDeveloper([FromQuery] SearchDeveloperDto searchDeveloperDto)
+        // bulamadı
         {
             var developers = _developers.Where(x =>
                 x.Name.Contains(searchDeveloperDto.Name, StringComparison.OrdinalIgnoreCase));
@@ -67,6 +68,10 @@ namespace DeveloperWepApi1.Controllers
                 return NotFound();
             }
 
+            developer.Department = updateDeveloperDto.Department;
+            developer.Name = updateDeveloperDto.Name;
+            developer.Surname = updateDeveloperDto.Surname;
+
             return Ok();
         }
         //--------------------------------------------------------------------------------------
@@ -85,6 +90,11 @@ namespace DeveloperWepApi1.Controllers
             return Ok(getAll);
         }
 
+        /// <summary>
+        /// Delete Developer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("delete")]
         public IActionResult Delete(Guid id)
         {
