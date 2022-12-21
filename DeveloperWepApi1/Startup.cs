@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Model.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,8 @@ namespace DeveloperWepApi1
                 }
                 
             );
+            /*-------------------------------------------------------------------*/
+            var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
 
         }
 
