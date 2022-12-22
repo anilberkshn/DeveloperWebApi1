@@ -35,7 +35,7 @@ namespace DeveloperWepApi1.Mongo
             return record.Id;
         }
 
-        public List<T> ReadAll()
+        public List<T> FindAll()
         {
             var record = _collection.AsQueryable().ToList();
             return record;

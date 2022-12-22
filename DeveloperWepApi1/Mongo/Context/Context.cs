@@ -15,7 +15,7 @@ namespace DeveloperWepApi1.Mongo.Context
         }
 
         public IMongoCollection<T> DbMongoCollectionSet<T>(string collection) 
-        {
+        { 
             return _mongoDatabase.GetCollection<T>(collection);
         }
         // Collectionumuzu da repositoryinin içine ekledik.

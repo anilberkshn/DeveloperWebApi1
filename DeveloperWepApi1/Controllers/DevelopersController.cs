@@ -5,19 +5,21 @@ using DeveloperWepApi1.Model;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Model.ResponseModels;
+using DeveloperWepApi1.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/developer")]
     public class DevelopersController : ControllerBase
     {
-        public List<Developer> _developers { get; set; }
+        //public List<Developer> _developers { get; set; }
+        private readonly IRepository _repository;
 
-        public DevelopersController(List<Developer> developers)
+        public DevelopersController(IRepository repository)
         {
-            _developers = developers;
+            _repository = repository;
         }
 
         //------------------------------------------------------------------------
@@ -30,7 +32,7 @@ namespace DeveloperWepApi1.Controllers
                 Name = createDeveloperDto.Name,
                 Surname = createDeveloperDto.Surname
             };
-            _developers.Add(developer);
+            _repository.InsertDeveloper(developer);
  
             var response = new DeveloperCreateResponse()
             {
@@ -45,24 +47,24 @@ namespace DeveloperWepApi1.Controllers
         //     return Ok(developer.Id);
         // }
 
-        [HttpGet("SearchDeveloper")]
-        public IActionResult SearchDeveloper([FromQuery] SearchDeveloperDto searchDeveloperDto)
-        // bulamadı
-        {
-            var developers = _developers.Where(x =>
-                x.Name.Contains(searchDeveloperDto.Name, StringComparison.OrdinalIgnoreCase));
-            if (developers.Any())
-            {
-                return NotFound();
-            }
-
-            return Ok(developers);
-        }
+        // [HttpGet("SearchDeveloper")]
+        // public IActionResult SearchDeveloper([FromQuery] SearchDeveloperDto searchDeveloperDto)
+        // // bulamadı
+        // {
+        //     var developers = _developers.Where(x =>
+        //         x.Name.Contains(searchDeveloperDto.Name, StringComparison.OrdinalIgnoreCase));
+        //     if (developers.Any())
+        //     {
+        //         return NotFound();
+        //     }
+        //
+        //     return Ok(developers);
+        // }
 
         [HttpPut("developerId:guid")]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
-            var developer = _developers.FirstOrDefault(x => x.Id == developerId);
+            var developer = _repository.GetById(developerId);
             if (developer == null)
             {
                 return NotFound();
@@ -71,7 +73,7 @@ namespace DeveloperWepApi1.Controllers
             developer.Department = updateDeveloperDto.Department;
             developer.Name = updateDeveloperDto.Name;
             developer.Surname = updateDeveloperDto.Surname;
-
+            developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
             return Ok();
         }
         //--------------------------------------------------------------------------------------
@@ -79,34 +81,29 @@ namespace DeveloperWepApi1.Controllers
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
-            var getId = _developers.FirstOrDefault(x => x.Id == developerId);
-            return Ok(getId);
+            var findOne = _repository.GetById(developerId);
+            return Ok(findOne);
         }
 
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            var getAll = _developers;
+            var getAll = _repository.GetAll();
             return Ok(getAll);
         }
 
-        /// <summary>
-        /// Delete Developer
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("delete")]
-        public IActionResult Delete(Guid id)
-        {
-            //  var developer  = _developers.Remove(_developers.FirstOrDefault(x => x.Id == id));
-            var developer = _developers.FirstOrDefault(x => x.Id == id);
-            if (developer == null)
-            {
-                return NotFound();
-            }
-
-            _developers.Remove(developer);
-            return Ok(developer);
-        }
+       // [HttpDelete("delete")]
+        // public IActionResult Delete(Guid id)
+        // {
+        //     //  var developer  = _developers.Remove(_developers.FirstOrDefault(x => x.Id == id));
+        //     var developer = _developers.FirstOrDefault(x => x.Id == id);
+        //     if (developer == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //
+        //     _developers.Remove(developer);
+        //     return Ok(developer);
+        // }
     }
 }

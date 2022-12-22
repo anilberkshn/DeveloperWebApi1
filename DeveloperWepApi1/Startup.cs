@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Mongo.Context;
+using DeveloperWepApi1.Mongo.Interface;
+using DeveloperWepApi1.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 
 namespace DeveloperWepApi1
 {
@@ -33,19 +37,22 @@ namespace DeveloperWepApi1
             { 
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
-            services.AddSingleton
-            (
-                new List<Developer>()
-                {
-                    new() { Id = Guid.NewGuid(), Name = "Anıl", Surname = "Berk", Department = "backend" },
-                    new() { Id = Guid.NewGuid(), Name = "Gökhan", Surname = "Kocamaz", Department = "backend" },
-                    new() { Id = Guid.NewGuid(), Name = "Tekin", Surname = "eke", Department = "backend" }
-                }
-                
-            );
+            // services.AddSingleton
+            // (
+            //     new List<Developer>()
+            //     {
+            //         new() { Id = Guid.NewGuid(), Name = "Anıl", Surname = "Berk", Department = "backend" },
+            //         new() { Id = Guid.NewGuid(), Name = "Gökhan", Surname = "Kocamaz", Department = "backend" },
+            //         new() { Id = Guid.NewGuid(), Name = "Tekin", Surname = "eke", Department = "backend" }
+            //     }
+            //     
+            // );
             /*-------------------------------------------------------------------*/
-            var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
-
+          //  var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
+            var mongoClient = new MongoClient("mongodb://localhost:27017");
+            var context = new Context(mongoClient, "DeveloperDB");
+            services.AddSingleton<IContext, Context>(provider => context);
+            services.AddSingleton<IRepository, Repository.Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP requ   est pipeline.
