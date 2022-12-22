@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo.Interface;
@@ -30,6 +31,7 @@ namespace DeveloperWepApi1.Mongo
             record.UpdatedTime = DateTime.Now;
             
             _collection.InsertOne(record);
+            //
             return record.Id;
         }
 
@@ -39,6 +41,18 @@ namespace DeveloperWepApi1.Mongo
             return record;
         }
 
+        public T FindOne(Expression<Func<T, bool>> expression)
+        {
+            var records = _collection.Find(expression);
+            var record = records.FirstOrDefault();
+            return record;
+        }
 
+        public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
+        {
+            var filter = Builders<T>.Filter.Where(expression);
+            updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
+            _collection.FindOneAndUpdate<T>(filter, updateDefinition);
+        }
     }
 }
