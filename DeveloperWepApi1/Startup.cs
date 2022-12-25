@@ -49,8 +49,8 @@ namespace DeveloperWepApi1
             // );
             /*-------------------------------------------------------------------*/
           //  var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
-            var mongoClient = new MongoClient("mongodb://localhost:27017");
-            var context = new Context(mongoClient, "DeveloperDB");
+            var client = new MongoClient("mongodb+srv://deneme:<67890>@cluster0.ubxhznl.mongodb.net/test");
+            var context = new Context(client, "DeveloperDb");
             services.AddSingleton<IContext, Context>(provider => context);
             services.AddSingleton<IRepository, Repository.Repository>();
         }
