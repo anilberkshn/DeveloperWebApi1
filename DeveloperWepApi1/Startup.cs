@@ -43,14 +43,16 @@ namespace DeveloperWepApi1
             //     {
             //         new() { Id = Guid.NewGuid(), Name = "Anıl", Surname = "Berk", Department = "backend" },
             //         new() { Id = Guid.NewGuid(), Name = "Gökhan", Surname = "Kocamaz", Department = "backend" },
-            //         new() { Id = Guid.NewGuid(), Name = "Tekin", Surname = "eke", Department = "backend" }
+            //         new() { Id = Guid.NewGuid(), Name = "Tekin"  , Surname = "eke", Department = "backend" }
             //     }
             //     
             // );
             /*-------------------------------------------------------------------*/
-          //  var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
-            var client = new MongoClient("mongodb+srv://deneme:<67890>@cluster0.ubxhznl.mongodb.net/test");
+            //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
+            //var collection = new DbMongo
+            var client = new MongoClient("mongodb://localhost:27017");
             var context = new Context(client, "DeveloperDb");
+            
             services.AddSingleton<IContext, Context>(provider => context);
             services.AddSingleton<IRepository, Repository.Repository>();
         }

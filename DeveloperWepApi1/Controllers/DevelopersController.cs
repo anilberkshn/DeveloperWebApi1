@@ -23,14 +23,15 @@ namespace DeveloperWepApi1.Controllers
         }
 
         //------------------------------------------------------------------------
-        [HttpPost("CreateDeveloper")]
+        [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
             var developer = new Developer()
             {
                 Id = Guid.NewGuid(),
                 Name = createDeveloperDto.Name,
-                Surname = createDeveloperDto.Surname
+                Surname = createDeveloperDto.Surname,
+                Department = createDeveloperDto.Department
             };
             _repository.InsertDeveloper(developer);
  
