@@ -7,6 +7,7 @@ using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
 using DeveloperWepApi1.Repository;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -20,7 +21,7 @@ using MongoDB.Driver;
 
 namespace DeveloperWepApi1
 {
-    public class  Startup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -31,10 +32,11 @@ namespace DeveloperWepApi1
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        { // fluent  validation deneme aşağıda. 
+          //  services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddControllers();
             services.AddSwaggerGen(c =>
-            { 
+            {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
             // services.AddSingleton
@@ -49,10 +51,9 @@ namespace DeveloperWepApi1
             // );
             /*-------------------------------------------------------------------*/
             //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
-            //var collection = new DbMongo
             var client = new MongoClient("mongodb://localhost:27017");
             var context = new Context(client, "DeveloperDb");
-            
+
             services.AddSingleton<IContext, Context>(provider => context);
             services.AddSingleton<IRepository, Repository.Repository>();
         }

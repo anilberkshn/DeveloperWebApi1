@@ -26,6 +26,10 @@ namespace DeveloperWepApi1.Controllers
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.ToList();
+            }
             var developer = new Developer()
             {
                 Id = Guid.NewGuid(),
@@ -41,28 +45,8 @@ namespace DeveloperWepApi1.Controllers
             };
             return Ok(response);
         }
-        // [HttpPost("AddDeveloper")]
-        // public IActionResult AddDeveloper(Developer developer)
-        // {
-        //     _developers.Add(developer);
-        //     return Ok(developer.Id);
-        // }
 
-        // [HttpGet("SearchDeveloper")]
-        // public IActionResult SearchDeveloper([FromQuery] SearchDeveloperDto searchDeveloperDto)
-        // // bulamadı
-        // {
-        //     var developers = _developers.Where(x =>
-        //         x.Name.Contains(searchDeveloperDto.Name, StringComparison.OrdinalIgnoreCase));
-        //     if (developers.Any())
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     return Ok(developers);
-        // }
-
-        [HttpPut("developerId:guid")]
+        [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
             var developer = _repository.GetById(developerId);
