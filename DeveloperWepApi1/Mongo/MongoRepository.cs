@@ -54,5 +54,11 @@ namespace DeveloperWepApi1.Mongo
             updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
             _collection.FindOneAndUpdate<T>(filter, updateDefinition);
         }
+
+        public Guid Delete(Expression<Func<T, bool>> expression)
+        {
+            var record = _collection.FindOneAndDelete(expression);
+            return record.Id;
+        }
     }
 }

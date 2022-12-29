@@ -12,8 +12,8 @@ namespace DeveloperWepApi1.Mongo.Interface
         public Guid Create (T record);
         public List<T> FindAll();
         public T FindOne(Expression<Func<T, bool>> expression);
-
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition);
     
+        public Guid Delete(Expression<Func<T, bool>> expression);
     }
 }
