@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Model.Entities
 {
-    [ModelMetadataType(typeof(CreateDeveloperDto))]
+    // [ModelMetadataType(typeof(CreateDeveloperDto))]
     public class Developer: Document
     {
         public string Name { get; set; }

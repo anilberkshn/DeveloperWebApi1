@@ -31,26 +31,20 @@ namespace DeveloperWepApi1
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [Obsolete("Obsolete")]
         public void ConfigureServices(IServiceCollection services)
-        { // fluent  validation deneme aşağıda. 
-          //  services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
+        {               // fluent  validation denemesi aşağıda.
+            services.AddControllersWithViews().AddFluentValidation
+                (x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
+                //  validator sınıflarını buldurmak için kullanılan 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
-            // services.AddSingleton
-            // (
-            //     new List<Developer>()
-            //     {
-            //         new() { Id = Guid.NewGuid(), Name = "Anıl", Surname = "Berk", Department = "backend" },
-            //         new() { Id = Guid.NewGuid(), Name = "Gökhan", Surname = "Kocamaz", Department = "backend" },
-            //         new() { Id = Guid.NewGuid(), Name = "Tekin"  , Surname = "eke", Department = "backend" }
-            //     }
-            //     
-            // );
-            /*-------------------------------------------------------------------*/
+          
             //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
+           
             var client = new MongoClient("mongodb://localhost:27017");
             var context = new Context(client, "DeveloperDb");
 

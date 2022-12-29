@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace DeveloperWepApi1.Validation
 {
-    public class DeveloperValidator : AbstractValidator<Developer>
+    public class DeveloperValidator : AbstractValidator<CreateDeveloperDto>
     {
         public DeveloperValidator()
         {
