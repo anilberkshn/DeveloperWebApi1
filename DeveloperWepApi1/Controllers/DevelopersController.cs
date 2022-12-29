@@ -77,18 +77,11 @@ namespace DeveloperWepApi1.Controllers
             return Ok(getAll);
         }
 
-       // [HttpDelete("delete")]
-        // public IActionResult Delete(Guid id)
-        // {
-        //     //  var developer  = _developers.Remove(_developers.FirstOrDefault(x => x.Id == id));
-        //     var developer = _developers.FirstOrDefault(x => x.Id == id);
-        //     if (developer == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     _developers.Remove(developer);
-        //     return Ok(developer);
-        // }
+       [HttpDelete("delete")]
+        public IActionResult Delete(Guid id)
+        {
+                _repository.Delete(id);
+            return Ok(id);
+        }
     }
 }
