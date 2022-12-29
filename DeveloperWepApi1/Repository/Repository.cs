@@ -41,5 +41,10 @@ namespace DeveloperWepApi1.Repository
             Update(x=> x.Id == developerId,update);
 
         }
+
+        public Guid Delete(Guid guid)
+        {
+            return Delete(x => x.Id == guid);
+        }
     }
 }

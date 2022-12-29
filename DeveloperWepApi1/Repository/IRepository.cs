@@ -10,8 +10,8 @@ namespace DeveloperWepApi1.Repository
         public Developer GetById(Guid id);
         public List<Developer> GetAll();
         public Guid InsertDeveloper(Developer developer);
-        
-        
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto);
+
+        public Guid Delete(Guid guid);
     }
 }
