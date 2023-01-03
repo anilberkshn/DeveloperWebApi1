@@ -87,6 +87,19 @@ namespace DeveloperWepApi1.Controllers
         [HttpDelete("softDelete")]
         public IActionResult SoftDelete(Guid id,UpdateDeveloperDto updateDeveloperDto) // soft delete
         {
+            var developer = _repository.GetById(id);
+            if (developer == null)
+            {
+                return NotFound();
+            }
+
+            developer.Department = updateDeveloperDto.Department;
+            developer.Name = updateDeveloperDto.Name;
+            developer.Surname = updateDeveloperDto.Surname;
+            developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
+            developer.DeleteTime = updateDeveloperDto.DeletedTime;
+            developer.IsDeleted = updateDeveloperDto.IsDeleted;
+            
             _repository.SoftDelete(id,updateDeveloperDto);
             return Ok(id);
         }
