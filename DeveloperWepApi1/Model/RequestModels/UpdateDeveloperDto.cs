@@ -17,5 +17,8 @@ namespace DeveloperWepApi1.Model.RequestModels
 
         // [Required]
         public DateTime UpdatedTime { get; set; }
+        
+        public DateTime DeletedTime { get; set; }
+        public bool IsDeleted{ get; set; }
     }
 }

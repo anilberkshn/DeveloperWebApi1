@@ -45,7 +45,7 @@ namespace DeveloperWepApi1.Controllers
             };
             return Ok(response);
         }
-
+        
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
@@ -78,10 +78,20 @@ namespace DeveloperWepApi1.Controllers
         }
 
        [HttpDelete("delete")]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(Guid id) // hard delete
         {
                 _repository.Delete(id);
             return Ok(id);
         }
+        
+        [HttpDelete("softDelete")]
+        public IActionResult SoftDelete(Guid id,UpdateDeveloperDto updateDeveloperDto) // soft delete
+        {
+            _repository.SoftDelete(id,updateDeveloperDto);
+            return Ok(id);
+        }
+        
+        // soft delete 
+        // 
     }
 }

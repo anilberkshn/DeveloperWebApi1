@@ -19,7 +19,11 @@ namespace DeveloperWepApi1.Mongo.Context
             return _mongoDatabase.GetCollection<T>(collection);
         }
         // Collectionumuzu da repositoryinin içine ekledik.
-        
+
+        // public override int SaveChanges()
+        // {
+        //     
+        // }
         
     }
 }

@@ -43,13 +43,14 @@ namespace DeveloperWepApi1
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
           
-            //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
+           // var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
            
             var client = new MongoClient("mongodb://localhost:27017");
             var context = new Context(client, "DeveloperDb");
 
             services.AddSingleton<IContext, Context>(provider => context);
             services.AddSingleton<IRepository, Repository.Repository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP requ   est pipeline.

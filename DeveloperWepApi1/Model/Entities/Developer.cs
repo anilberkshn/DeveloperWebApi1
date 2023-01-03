@@ -13,5 +13,7 @@ namespace DeveloperWepApi1.Model.Entities
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Department { get; set; }
+        
+        
     }
 }

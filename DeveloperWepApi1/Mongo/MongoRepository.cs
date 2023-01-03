@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
@@ -58,7 +59,24 @@ namespace DeveloperWepApi1.Mongo
         public Guid Delete(Expression<Func<T, bool>> expression)
         {
             var record = _collection.FindOneAndDelete(expression);
-            return record.Id;
+           return record.Id;
+        }
+        
+        public void SoftDelete(Expression<Func<T, bool>> expression,UpdateDefinition<T> updateDefinition)
+        {
+            //IQueryable<T>
+            //INotifyPropertyChanged
+           // var record = _collection.FindOneAndDelete(expression);
+           // record.DeleteTime = DateTime.Now;
+           // record.IsDeleted = true;
+           // return record.Id;
+           
+           var filter = Builders<T>.Filter.Where(expression);
+           updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
+               .Set(x =>x.IsDeleted,true);
+           _collection.FindOneAndUpdate<T>(filter, updateDefinition);
+           
+           
         }
     }
 }
