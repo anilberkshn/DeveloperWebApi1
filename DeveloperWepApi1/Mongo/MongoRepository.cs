@@ -13,7 +13,7 @@ namespace DeveloperWepApi1.Mongo
     {
         private readonly IMongoCollection<T> _collection;
 
-        public MongoRepository(IContext context,string collectionName)
+        public MongoRepository(IContext context, string collectionName)
         {
             if (string.IsNullOrEmpty(collectionName))
             {
@@ -22,15 +22,14 @@ namespace DeveloperWepApi1.Mongo
 
             _collection = context.DbMongoCollectionSet<T>(collectionName);
             //Contexti kullanarak collectionumuzu almış olduk. 
-
         }
 
-        public Guid Create(T record )
+        public Guid Create(T record)
         {
             record.Id = Guid.NewGuid();
             record.CreatedTime = DateTime.Now;
             record.UpdatedTime = DateTime.Now;
-            
+
             _collection.InsertOne(record);
             //
             return record.Id;
@@ -52,41 +51,42 @@ namespace DeveloperWepApi1.Mongo
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {
             var filter = Builders<T>.Filter.Where(expression);
-            var update =  updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
+            var update = updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
             _collection.FindOneAndUpdate<T>(filter, update);
-            
-            //      ÇALIŞMIYOR ALTTAKİ
-            // var update = Builders<T>.Update.Set(x=> x.UpdatedTime,DateTime.Now);
-            // _collection.UpdateOne(filter, update);
         }
 
         public Guid Delete(Expression<Func<T, bool>> expression)
         {
             var record = _collection.FindOneAndDelete(expression);
-           return record.Id;
+            return record.Id;
         }
-        
-        public void SoftDelete(Expression<Func<T, bool>> expression,UpdateDefinition<T> updateDefinition)
-        {
-            //IQueryable<T>
-            //INotifyPropertyChanged
-           // var record = _collection.FindOneAndDelete(expression);
-           // record.DeleteTime = DateTime.Now;
-           // record.IsDeleted = true;
-           // return record.Id;
-           
-           // var filter = Builders<T>.Filter.Where(expression);
-           // updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
-           //     .Set(x =>x.IsDeleted,true);
-           // _collection.FindOneAndUpdate<T>(filter, updateDefinition);
-           
-         
-           var filter = Builders<T>.Filter.Where(expression);
-           var update =  updateDefinition
-               .Set(x => x.DeleteTime, DateTime.Now)
-               .Set(x => x.IsDeleted,true);
-           _collection.FindOneAndUpdate<T>(filter, update);
 
+        public void SoftDelete(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
+        {
+            var filter = Builders<T>.Filter.Where(expression);
+            
+            var update = updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
+                .Set(x => x.IsDeleted, true);
+            _collection.FindOneAndUpdate<T>(filter, update);
         }
     }
 }
+
+
+// Update çalışmayan kodu
+//      ÇALIŞMIYOR ALTTAKİ
+// var update = Builders<T>.Update.Set(x=> x.UpdatedTime,DateTime.Now);
+// _collection.UpdateOne(filter, update);
+//---------------------------------------
+// softdelete eski denemeler
+//IQueryable<T>
+//INotifyPropertyChanged
+// var record = _collection.FindOneAndDelete(expression);
+// record.DeleteTime = DateTime.Now;
+// record.IsDeleted = true;
+// return record.Id;
+
+// var filter = Builders<T>.Filter.Where(expression);
+// updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
+//     .Set(x =>x.IsDeleted,true);
+// _collection.FindOneAndUpdate<T>(filter, updateDefinition);

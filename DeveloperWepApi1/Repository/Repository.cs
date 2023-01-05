@@ -36,8 +36,11 @@ namespace DeveloperWepApi1.Repository
                 .Set(x => x.Name, updateDeveloperDto.Name)
                 .Set(x => x.Surname, updateDeveloperDto.Surname)
                 .Set(x => x.Department, updateDeveloperDto.Department)
-                .Set(x => x.UpdatedTime, updateDeveloperDto.UpdatedTime);
-            
+                .Set(x => x.UpdatedTime, updateDeveloperDto.UpdatedTime)
+                .Set(x => x.IsDeleted, updateDeveloperDto.IsDeleted)
+                .Set(x => x.DeleteTime, updateDeveloperDto.DeletedTime)
+                ;
+
             Update(x=> x.Id == developerId,update);
 
         }
@@ -51,7 +54,7 @@ namespace DeveloperWepApi1.Repository
         {
             var softdelete = Builders<Developer>.Update
                 .Set(x => x.DeleteTime, softDeleteDto.DeletedTime)
-                .Set(x => x.IsDeleted == true , softDeleteDto.IsDeleted);
+                .Set(x => x.IsDeleted , softDeleteDto.IsDeleted);
 
              SoftDelete(x => x.Id == guid,softdelete);
         }

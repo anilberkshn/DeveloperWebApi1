@@ -54,17 +54,10 @@ namespace DeveloperWepApi1.Controllers
             {
                 return NotFound();
             }
-
-            // developer.Department = updateDeveloperDto.Department;
-            // developer.Name = updateDeveloperDto.Name;
-            // developer.Surname = updateDeveloperDto.Surname;
-            // developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-            
             _repository.UpdateDeveloper(developerId,updateDeveloperDto);
             return Ok(developer);
         }
-        //--------------------------------------------------------------------------------------
-
+        
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
@@ -94,14 +87,10 @@ namespace DeveloperWepApi1.Controllers
             {
                 return NotFound();
             }
-
-            // developer.Department = updateDeveloperDto.Department;
-            // developer.Name = updateDeveloperDto.Name;
-            // developer.Surname = updateDeveloperDto.Surname;
-            // developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-            /*-----SoftDeleteDto-----*/
-            // developer.DeleteTime = softDeleteDto.DeletedTime;
-            // developer.IsDeleted = softDeleteDto.IsDeleted;
+            else if (softDeleteDto.IsDeleted)
+            {
+                return NotFound();
+            }
             
             _repository.SoftDelete(id,softDeleteDto);
             return Ok(id);
@@ -109,3 +98,23 @@ namespace DeveloperWepApi1.Controllers
         // soft delete 
     }
 }
+
+
+
+
+// softDelete Denemeler
+// developer.Department = updateDeveloperDto.Department;
+// developer.Name = updateDeveloperDto.Name;
+// developer.Surname = updateDeveloperDto.Surname;
+// developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
+/*-----SoftDeleteDto-----*/
+// developer.DeleteTime = softDeleteDto.DeletedTime;
+// developer.IsDeleted = softDeleteDto.IsDeleted;
+//--------------------------
+
+// eski developerUpdate
+// developer.Department = updateDeveloperDto.Department;
+// developer.Name = updateDeveloperDto.Name;
+// developer.Surname = updateDeveloperDto.Surname;
+// developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
+
