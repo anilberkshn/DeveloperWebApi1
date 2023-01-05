@@ -86,7 +86,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(id);
         }
         
-        [HttpDelete("softDelete")]
+        [HttpPatch("softDelete")]
         public IActionResult SoftDelete(Guid id,UpdateDeveloperDto updateDeveloperDto) // soft delete
         {
             var developer = _repository.GetById(id);
@@ -95,18 +95,16 @@ namespace DeveloperWepApi1.Controllers
                 return NotFound();
             }
 
-            developer.Department = updateDeveloperDto.Department;
-            developer.Name = updateDeveloperDto.Name;
-            developer.Surname = updateDeveloperDto.Surname;
-            developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-            developer.DeleteTime = updateDeveloperDto.DeletedTime;
-            developer.IsDeleted = updateDeveloperDto.IsDeleted;
+            // developer.Department = updateDeveloperDto.Department;
+            // developer.Name = updateDeveloperDto.Name;
+            // developer.Surname = updateDeveloperDto.Surname;
+            // developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
+            // developer.DeleteTime = updateDeveloperDto.DeletedTime;
+            // developer.IsDeleted = updateDeveloperDto.IsDeleted;
             
             _repository.SoftDelete(id,updateDeveloperDto);
             return Ok(id);
         }
-        
         // soft delete 
-        // 
     }
 }

@@ -75,12 +75,18 @@ namespace DeveloperWepApi1.Mongo
            // record.IsDeleted = true;
            // return record.Id;
            
+           // var filter = Builders<T>.Filter.Where(expression);
+           // updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
+           //     .Set(x =>x.IsDeleted,true);
+           // _collection.FindOneAndUpdate<T>(filter, updateDefinition);
+           
+         
            var filter = Builders<T>.Filter.Where(expression);
-           updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
-               .Set(x =>x.IsDeleted,true);
-           _collection.FindOneAndUpdate<T>(filter, updateDefinition);
-           
-           
+           var update =  updateDefinition
+              // .Set(x => x.DeleteTime, DateTime.Now)
+               .Set(x => x.IsDeleted,true);
+           _collection.FindOneAndUpdate<T>(filter, update);
+
         }
     }
 }
