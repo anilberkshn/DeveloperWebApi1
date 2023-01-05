@@ -83,7 +83,7 @@ namespace DeveloperWepApi1.Mongo
          
            var filter = Builders<T>.Filter.Where(expression);
            var update =  updateDefinition
-              // .Set(x => x.DeleteTime, DateTime.Now)
+               .Set(x => x.DeleteTime, DateTime.Now)
                .Set(x => x.IsDeleted,true);
            _collection.FindOneAndUpdate<T>(filter, update);
 

@@ -9,6 +9,8 @@ namespace DeveloperWepApi1.Model.RequestModels
         public string Surname { get; set; }
         public string Department { get; set; }
         public DateTime UpdatedTime { get; set; }
+        
+        
         public DateTime DeletedTime { get; set; }
         public bool IsDeleted{ get; set; }
     }

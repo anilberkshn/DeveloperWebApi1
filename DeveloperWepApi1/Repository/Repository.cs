@@ -47,11 +47,11 @@ namespace DeveloperWepApi1.Repository
             return Delete(x => x.Id == guid);
         }
         
-        public void SoftDelete(Guid guid,UpdateDeveloperDto updateDeveloperDto)
+        public void SoftDelete(Guid guid,SoftDeleteDto softDeleteDto)
         {
             var softdelete = Builders<Developer>.Update
-                .Set(x => x.DeleteTime, updateDeveloperDto.DeletedTime)
-                .Set(x => x.IsDeleted == true , updateDeveloperDto.IsDeleted);
+                .Set(x => x.DeleteTime, softDeleteDto.DeletedTime)
+                .Set(x => x.IsDeleted == true , softDeleteDto.IsDeleted);
 
              SoftDelete(x => x.Id == guid,softdelete);
         }

@@ -13,6 +13,6 @@ namespace DeveloperWepApi1.Repository
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto);
 
         public Guid Delete(Guid guid);
-        public void SoftDelete(Guid guid, UpdateDeveloperDto updateDeveloperDto);
+        public void SoftDelete(Guid guid, SoftDeleteDto softDeleteDto);
     }
 }
