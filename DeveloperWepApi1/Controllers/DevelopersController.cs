@@ -55,11 +55,13 @@ namespace DeveloperWepApi1.Controllers
                 return NotFound();
             }
 
-            developer.Department = updateDeveloperDto.Department;
-            developer.Name = updateDeveloperDto.Name;
-            developer.Surname = updateDeveloperDto.Surname;
-            developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-            return Ok();
+            // developer.Department = updateDeveloperDto.Department;
+            // developer.Name = updateDeveloperDto.Name;
+            // developer.Surname = updateDeveloperDto.Surname;
+            // developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
+            
+            _repository.UpdateDeveloper(developerId,updateDeveloperDto);
+            return Ok(developer);
         }
         //--------------------------------------------------------------------------------------
 

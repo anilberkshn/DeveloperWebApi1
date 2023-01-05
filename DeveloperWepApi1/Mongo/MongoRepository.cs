@@ -52,8 +52,12 @@ namespace DeveloperWepApi1.Mongo
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {
             var filter = Builders<T>.Filter.Where(expression);
-            updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
-            _collection.FindOneAndUpdate<T>(filter, updateDefinition);
+            var update =  updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
+            _collection.FindOneAndUpdate<T>(filter, update);
+            
+            //      ÇALIŞMIYOR ALTTAKİ
+            // var update = Builders<T>.Update.Set(x=> x.UpdatedTime,DateTime.Now);
+            // _collection.UpdateOne(filter, update);
         }
 
         public Guid Delete(Expression<Func<T, bool>> expression)
