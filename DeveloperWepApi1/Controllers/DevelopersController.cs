@@ -62,6 +62,11 @@ namespace DeveloperWepApi1.Controllers
         public IActionResult GetById(Guid developerId)
         {
             var findOne = _repository.GetById(developerId);
+            if (findOne.IsDeleted)
+            {
+                return NotFound();
+            }
+
             return Ok(findOne);
         }
 
@@ -79,7 +84,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(id);
         }
         
-        [HttpPatch("softDelete")]
+        [HttpPut ("softDelete")]
         public IActionResult SoftDelete(Guid id,[FromBody]SoftDeleteDto softDeleteDto) // soft delete
         {
             var developer = _repository.GetById(id);
@@ -87,12 +92,12 @@ namespace DeveloperWepApi1.Controllers
             {
                 return NotFound();
             }
-            else if (softDeleteDto.IsDeleted)
+            if (softDeleteDto.IsDeleted)
             {
                 return NotFound();
             }
-            
-            _repository.SoftDelete(id,softDeleteDto);
+
+            _repository.SoftDelete(id, softDeleteDto);
             return Ok(id);
         }
         // soft delete 
