@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DeveloperWepApi1.Model;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Model.ResponseModels;
 using DeveloperWepApi1.Repository;
@@ -73,8 +74,11 @@ namespace DeveloperWepApi1.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
+            Console.WriteLine("getAll");
+            throw new DeveloperNotFoundException("developer bulunamadı.");
             var getAll = _repository.GetAll();
             return Ok(getAll);
+            
         }
 
        [HttpDelete("delete")]

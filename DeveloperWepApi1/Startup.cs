@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Config;
+using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
@@ -58,15 +59,18 @@ namespace DeveloperWepApi1
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
+              //  app.UseDeveloperExceptionPage();
+                app.UseSwagger();   
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DeveloperWepApi1 v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+           
+            app.UseMiddleware<NumberOneMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
+            app.UseMiddleware<NumberTwoMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
