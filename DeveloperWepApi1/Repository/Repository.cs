@@ -16,7 +16,7 @@ namespace DeveloperWepApi1.Repository
 
         public Developer GetById(Guid id)
         {
-            return FindOne(x => x.Id == id);
+            return FindOne(x => x.Id == id);        
         }
 
         public List<Developer> GetAll()
@@ -52,11 +52,11 @@ namespace DeveloperWepApi1.Repository
         
         public void SoftDelete(Guid guid,SoftDeleteDto softDeleteDto)
         {
-            var softdelete = Builders<Developer>.Update
+            var softDelete = Builders<Developer>.Update
                 .Set(x => x.DeleteTime, softDeleteDto.DeletedTime)
                 .Set(x => x.IsDeleted , softDeleteDto.IsDeleted);
 
-             SoftDelete(x => x.Id == guid,softdelete);
+             SoftDelete(x => x.Id == guid,softDelete);
         }
     }
 }

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using DeveloperWepApi1.Model;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
@@ -27,10 +25,10 @@ namespace DeveloperWepApi1.Controllers
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
-            if (!ModelState.IsValid)
-            {
-                var messages = ModelState.ToList();
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     var messages = ModelState.ToList();
+            // }
             var developer = new Developer()
             {
                 Id = Guid.NewGuid(),

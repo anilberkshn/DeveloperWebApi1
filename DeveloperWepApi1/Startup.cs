@@ -1,22 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
-using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
 using DeveloperWepApi1.Repository;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 
@@ -43,13 +36,13 @@ namespace DeveloperWepApi1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
-          
-           // var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
-           
-            var client = new MongoClient("mongodb://localhost:27017");
-            var context = new Context(client, "DeveloperDb");
+            
+            var dbSettings =  Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
+            //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
+            var client = new MongoClient(dbSettings.ConnectionString);
+            var context = new Context(client, dbSettings.DatabaseName);
 
-            services.AddSingleton<IContext, Context>(provider => context);
+            services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
             
         }
@@ -67,7 +60,7 @@ namespace DeveloperWepApi1
             app.UseHttpsRedirection();
 
             app.UseRouting();
-           
+            // log, exception, yetki
             app.UseMiddleware<NumberOneMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
             app.UseMiddleware<NumberTwoMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
             app.UseMiddleware<ErrorHandlingMiddleware>();

@@ -11,7 +11,6 @@ namespace DeveloperWepApi1.Repository
         public List<Developer> GetAll();
         public Guid InsertDeveloper(Developer developer);
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto);
-
         public Guid Delete(Guid guid);
         public void SoftDelete(Guid guid, SoftDeleteDto softDeleteDto);
     }

@@ -37,7 +37,8 @@ namespace DeveloperWepApi1.Mongo
 
         public List<T> FindAll()
         {
-            var record = _collection.AsQueryable().ToList();
+            var record = _collection.AsQueryable().ToList(); // asQueryable  creates a queryable source of documents
+            // ofset limit skkip ve take
             return record;
         }
 
@@ -50,7 +51,7 @@ namespace DeveloperWepApi1.Mongo
 
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {
-            var filter = Builders<T>.Filter.Where(expression);
+            var filter = Builders<T>.Filter.Where(expression);  // builder a static helper class containing various builders
             var update = updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
             _collection.FindOneAndUpdate<T>(filter, update);
         }
@@ -64,7 +65,7 @@ namespace DeveloperWepApi1.Mongo
         public void SoftDelete(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {
             var filter = Builders<T>.Filter.Where(expression);
-            
+
             var update = updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
                 .Set(x => x.IsDeleted, true);
             _collection.FindOneAndUpdate<T>(filter, update);
