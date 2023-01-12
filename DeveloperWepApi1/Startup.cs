@@ -40,9 +40,9 @@ namespace DeveloperWepApi1
             var dbSettings =  Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
-            var context = new Context(client, dbSettings.DatabaseName);
+            var context = new Context(client,dbSettings.DatabaseName);
 
-            services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
+            services.AddSingleton<IContext, Context>(provider => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
             
         }
@@ -64,6 +64,8 @@ namespace DeveloperWepApi1
             app.UseMiddleware<NumberOneMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
             app.UseMiddleware<NumberTwoMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
             app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

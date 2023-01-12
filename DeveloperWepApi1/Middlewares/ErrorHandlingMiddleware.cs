@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.ErrorModels;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +29,7 @@ namespace DeveloperWepApi1.Middlewares
                 httpContext.Response.ContentType = "application/json";
                 httpContext.Response.StatusCode = e.StatusCode;
                 await httpContext.Response.WriteAsync(e.ToString());
-                _logger.LogInformation(e, "bilinen bir hata oluştu");
+               _logger.LogInformation(e, "bilinen bir hata oluştu");
             }
             catch (Exception e)
             {
@@ -36,5 +37,6 @@ namespace DeveloperWepApi1.Middlewares
                 throw;
             }
         }
-    }
+
+      }
 }
