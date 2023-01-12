@@ -21,7 +21,6 @@ namespace DeveloperWepApi1.Controllers
             _repository = repository;
         }
 
-        //------------------------------------------------------------------------
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
@@ -33,35 +32,26 @@ namespace DeveloperWepApi1.Controllers
                 Department = createDeveloperDto.Department
             };
             _repository.InsertDeveloper(developer);
- 
+
             var response = new DeveloperCreateResponse()
             {
                 Id = developer.Id
             };
             return Ok(response);
         }
-        
+
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
-            // var developer = 
-            _repository.GetById(developerId);
-            // if (developer == null)
-            // {
-            //     return NotFound();
-            // }
-            _repository.UpdateDeveloper(developerId,updateDeveloperDto);
-            return Ok(_repository.GetById(developerId));
+            var developer = _repository.GetById(developerId);
+            _repository.UpdateDeveloper(developerId, updateDeveloperDto);
+            return Ok(developer);
         }
-        
+
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
             var findOne = _repository.GetById(developerId);
-            // if (findOne.IsDeleted)
-            // {
-            //     throw new DeveloperNotFoundException("developer bulunamadı.");
-            // }
             return Ok(findOne);
         }
 
@@ -69,41 +59,28 @@ namespace DeveloperWepApi1.Controllers
         public IActionResult GetAll()
         {
             Console.WriteLine("getAll");
-           var getAll = _repository.GetAll();
+            var getAll = _repository.GetAll();
             return Ok(getAll);
-            
         }
 
-       [HttpDelete("delete")]
+        [HttpDelete("delete")]
         public IActionResult Delete(Guid id) // hard delete
         {
-            _repository.GetById(id);
-            _repository.Delete(id);
+            var developer = _repository.GetById(id);
+            _repository.Delete(developer.Id);
             return Ok(id);
         }
-        
-        [HttpPut ("softDelete")]
-        public IActionResult SoftDelete(Guid id,[FromBody]SoftDeleteDto softDeleteDto) // soft delete
+
+        [HttpPut("softDelete")]
+        public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
         {
             var developer = _repository.GetById(id);
-            // if (developer == null)
-            // {
-            //     throw new DeveloperNotFoundException("developer bulunamadı.");
-            // }
-            // if (softDeleteDto.IsDeleted)
-            // {
-            //     throw new DeveloperNotFoundException("developer bulunamadı.");
-            // }
-
-            _repository.GetById(id);
-            _repository.SoftDelete(id, softDeleteDto);
+            _repository.SoftDelete(developer.Id, softDeleteDto);
             return Ok(id);
         }
         // soft delete 
     }
 }
-
-
 
 
 // softDelete Denemeler
@@ -121,4 +98,3 @@ namespace DeveloperWepApi1.Controllers
 // developer.Name = updateDeveloperDto.Name;
 // developer.Surname = updateDeveloperDto.Surname;
 // developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-
