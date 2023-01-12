@@ -25,10 +25,6 @@ namespace DeveloperWepApi1.Controllers
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
-            // if (!ModelState.IsValid)
-            // {
-            //     var messages = ModelState.ToList();
-            // }
             var developer = new Developer()
             {
                 Id = Guid.NewGuid(),
@@ -48,24 +44,24 @@ namespace DeveloperWepApi1.Controllers
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
-            var developer = _repository.GetById(developerId);
-            if (developer == null)
-            {
-                return NotFound();
-            }
+            // var developer = 
+            _repository.GetById(developerId);
+            // if (developer == null)
+            // {
+            //     return NotFound();
+            // }
             _repository.UpdateDeveloper(developerId,updateDeveloperDto);
-            return Ok(developer);
+            return Ok(_repository.GetById(developerId));
         }
         
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
             var findOne = _repository.GetById(developerId);
-            if (findOne.IsDeleted)
-            {
-                return NotFound();
-            }
-
+            // if (findOne.IsDeleted)
+            // {
+            //     throw new DeveloperNotFoundException("developer bulunamadı.");
+            // }
             return Ok(findOne);
         }
 
@@ -73,8 +69,7 @@ namespace DeveloperWepApi1.Controllers
         public IActionResult GetAll()
         {
             Console.WriteLine("getAll");
-            throw new DeveloperNotFoundException("developer bulunamadı.");
-            var getAll = _repository.GetAll();
+           var getAll = _repository.GetAll();
             return Ok(getAll);
             
         }
@@ -82,7 +77,8 @@ namespace DeveloperWepApi1.Controllers
        [HttpDelete("delete")]
         public IActionResult Delete(Guid id) // hard delete
         {
-                _repository.Delete(id);
+            _repository.GetById(id);
+            _repository.Delete(id);
             return Ok(id);
         }
         
@@ -90,15 +86,16 @@ namespace DeveloperWepApi1.Controllers
         public IActionResult SoftDelete(Guid id,[FromBody]SoftDeleteDto softDeleteDto) // soft delete
         {
             var developer = _repository.GetById(id);
-            if (developer == null)
-            {
-                return NotFound();
-            }
-            if (softDeleteDto.IsDeleted)
-            {
-                return NotFound();
-            }
+            // if (developer == null)
+            // {
+            //     throw new DeveloperNotFoundException("developer bulunamadı.");
+            // }
+            // if (softDeleteDto.IsDeleted)
+            // {
+            //     throw new DeveloperNotFoundException("developer bulunamadı.");
+            // }
 
+            _repository.GetById(id);
             _repository.SoftDelete(id, softDeleteDto);
             return Ok(id);
         }

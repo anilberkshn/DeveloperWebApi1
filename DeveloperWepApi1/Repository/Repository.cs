@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo;
 using DeveloperWepApi1.Mongo.Interface;
@@ -16,7 +17,18 @@ namespace DeveloperWepApi1.Repository
 
         public Developer GetById(Guid id)
         {
-            return FindOne(x => x.Id == id);        
+            var developer = FindOne(x => x.Id == id);
+
+            if (developer == null)
+            {
+                throw new DeveloperNotFoundException("developer bulunamadı.");
+            }
+            if (developer.IsDeleted)
+            {
+                throw new DeveloperNotFoundException("developer bulunamadı.");
+            }
+
+            return developer;
         }
 
         public List<Developer> GetAll()
