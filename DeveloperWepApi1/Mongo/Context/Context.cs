@@ -6,7 +6,7 @@ namespace DeveloperWepApi1.Mongo.Context
 {
     public class Context : IContext
     {
-        private IMongoDatabase _mongoDatabase;
+        private readonly IMongoDatabase _mongoDatabase;
         //Bize bir mongo client geliyor, gelen mongoclienti ile database ile alıyoruz
         //hangi databasede çalışacaksa..
         public Context(IMongoClient mongoClient,string database)

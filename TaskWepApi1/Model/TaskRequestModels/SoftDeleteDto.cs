@@ -1,8 +1,8 @@
 using System;
 
-namespace TaskWepApi1.TaskModel.TaskRequestModels
+namespace TaskWepApi1.Model.TaskRequestModels
 {
-    public class UpdateTaskDto
+    public class SoftDeleteDto
     {
        // public string Title { get; set; }   title değişmez mantığı ile Create kısmından farklı olması için
 

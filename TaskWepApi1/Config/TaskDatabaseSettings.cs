@@ -1,8 +1,9 @@
-namespace DeveloperWepApi1.Config
+namespace TaskWepApi1.Config
 {
-    public class DeveloperDatabaseSettings
+    public class TaskDatabaseSettings
     {
         public string ConnectionString { get; set; }
+        
         public string DatabaseName { get; set; }
     }
 }

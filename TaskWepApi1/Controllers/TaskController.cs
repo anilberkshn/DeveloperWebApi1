@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TaskWepApi1.TaskModel.TaskRequestModels;
+using TaskWepApi1.Model.TaskRequestModels;
 using TaskWepApi1.TaskModel.TaskResponseModels;
-using Microsoft.AspNetCore.Mvc;
 using Task = TaskWepApi1.TaskModel.TaskEntities.Task;
 
 namespace TaskWepApi1.Controllers

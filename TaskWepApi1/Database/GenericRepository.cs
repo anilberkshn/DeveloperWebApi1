@@ -1,28 +1,25 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq.Expressions;
-using DeveloperWepApi1.Model.Entities;
-using DeveloperWepApi1.Model.RequestModels;
-using DeveloperWepApi1.Mongo.Interface;
 using MongoDB.Driver;
+using TaskWepApi1.Database.Interface;
+using TaskWepApi1.Model.Entities;
 
-namespace DeveloperWepApi1.Mongo
+namespace TaskWepApi1.Database
 {
-    public class MongoRepository<T> : IMongoRepository<T> where T : Document
+    public class GenericRepository<T> : IGenericRepository<T> where T : Document
     {
         private readonly IMongoCollection<T> _collection;
 
-        public MongoRepository(IContext context, string collectionName)
+        public GenericRepository(IContext context,string collectionName)
         {
             if (string.IsNullOrEmpty(collectionName))
             {
                 collectionName = typeof(T).Name;
             }
-
             _collection = context.DbMongoCollectionSet<T>(collectionName);
-            //Contexti kullanarak collectionumuzu almış olduk. 
         }
+
         public Guid Create(T record)
         {
             record.Id = Guid.NewGuid();
@@ -71,22 +68,3 @@ namespace DeveloperWepApi1.Mongo
         }
     }
 }
-
-
-// Update çalışmayan kodu
-//      ÇALIŞMIYOR ALTTAKİ
-// var update = Builders<T>.Update.Set(x=> x.UpdatedTime,DateTime.Now);
-// _collection.UpdateOne(filter, update);
-//---------------------------------------
-// softdelete eski denemeler
-//IQueryable<T>
-//INotifyPropertyChanged
-// var record = _collection.FindOneAndDelete(expression);
-// record.DeleteTime = DateTime.Now;
-// record.IsDeleted = true;
-// return record.Id;
-
-// var filter = Builders<T>.Filter.Where(expression);
-// updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
-//     .Set(x =>x.IsDeleted,true);
-// _collection.FindOneAndUpdate<T>(filter, updateDefinition);

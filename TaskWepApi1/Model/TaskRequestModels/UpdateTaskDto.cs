@@ -1,10 +1,10 @@
 using System;
 
-namespace TaskWepApi1.TaskModel.TaskRequestModels
+namespace TaskWepApi1.Model.TaskRequestModels
 {
-    public class CreateTaskDto
+    public class UpdateTaskDto
     {
-        public string Title { get; set; }
+       // public string Title { get; set; }   title değişmez mantığı ile Create kısmından farklı olması için
 
         public string Description { get; set; }
 

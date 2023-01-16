@@ -1,4 +1,4 @@
-namespace TaskWepApi1.TaskModel.TaskRequestModels
+namespace TaskWepApi1.Model.TaskRequestModels
 {
     public class SearchTaskDto
     {

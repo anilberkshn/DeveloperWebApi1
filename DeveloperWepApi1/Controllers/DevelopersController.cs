@@ -55,7 +55,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(findOne);
         }
 
-        [HttpGet("getAll")]
+        [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
             Console.WriteLine("getAll");
