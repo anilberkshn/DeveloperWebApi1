@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using TaskWepApi1.Model.Entities;
+using TaskWepApi1.Model.ResponseModel;
 using TaskWepApi1.Model.TaskRequestModels;
-using TaskWepApi1.TaskModel.TaskResponseModels;
-using Task = TaskWepApi1.TaskModel.TaskEntities.Task;
+using TaskWepApi1.Repository;
 
 namespace TaskWepApi1.Controllers
 {
@@ -13,17 +12,19 @@ namespace TaskWepApi1.Controllers
 
     public class TaskController : Controller
     {
-        public List<TaskModel.TaskEntities.Task> _tasks { get; set; } /*List<Task> yaparken farklı bir task a gidiyor. Entities içindekine dikkat et*/ 
-        public TaskController(List<Task> tasks)
+     //   public List<TaskModel.TaskEntities.Task> _tasks { get; set; } /*List<Task> yaparken farklı bir task a gidiyor. Entities içindekine dikkat et*/ 
+     private readonly IRepository _repository;
+        
+        public TaskController(IRepository repository)
         {
-            _tasks = tasks;
+            _repository = repository;
         }
         
        // [Route("[createTask]")]       Hata aldırıyor.
         [HttpPost("CreateTask")]
         public IActionResult CreateTask([FromBody] CreateTaskDto createTaskDto)
         {
-           var task = new TaskModel.TaskEntities.Task()
+            var task = new TaskProperties()
             {
                 TaskId = new Guid(),
                 Title = createTaskDto.Title,
@@ -33,27 +34,53 @@ namespace TaskWepApi1.Controllers
                 Status =   createTaskDto.Status
             };
             
-            _tasks.Add(task);
+            _repository.Insert(task);
 
-            var response = new TaskCreateResponse()
+            var response = new CreateResponse()
             {
                 Id = task.TaskId
             };
             return Ok(response);
         }
 
-        [HttpGet ("SearchTask")]
-        public IActionResult SearchTask([FromQuery] SearchTaskDto searchTaskDto)
+        [HttpGet("{taskId}", Name = "taskId")]
+        //[HttpGet ("SearchTask")]
+        public IActionResult GetById(Guid guid)
         {
-            var tasks = _tasks.Where(x =>
-                x.Title.Contains(searchTaskDto.Title, StringComparison.OrdinalIgnoreCase));
-            if (tasks.Any())
-            {
-                return NotFound();
-            }
+            var findOne = _repository.GetById(guid);
+            return Ok(findOne);
+        }
 
-            return Ok(tasks);
+        [HttpGet("GetAllTask")]
+        public IActionResult GetAll()
+        {
+            var getAllTask = _repository.GetAll();
+            return Ok(getAllTask);
+        }
+
+        [HttpDelete("HardDelete")]
+        public IActionResult HardDelete(Guid guid)
+        {
+            var task = _repository.GetById(guid);
+            _repository.Delete(task.TaskId);
+            return Ok(guid);
         }
         
+        [HttpPut]
+        public IActionResult UpdateDeveloper(Guid taskId, [FromBody] UpdateTaskDto updateTaskDto)
+        {
+            var developer = _repository.GetById(taskId);
+            _repository.Update(taskId, updateTaskDto);
+            return Ok(developer);
+        }
+
+        
+        [HttpPut("SoftDelete")]
+        public IActionResult SoftDelete(Guid guid, [FromBody] SoftDeleteDto softDeleteDto)
+        {
+            var taskProperties = _repository.GetById(guid);
+            _repository.SoftDelete(taskProperties.Id, softDeleteDto);
+            return Ok(guid);
+        }
     }
 }

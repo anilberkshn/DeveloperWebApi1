@@ -15,6 +15,7 @@ using MongoDB.Driver;
 using TaskWepApi1.Config;
 using TaskWepApi1.Database.Context;
 using TaskWepApi1.Database.Interface;
+using TaskWepApi1.Repository;
 
 namespace TaskWepApi1
 {
@@ -39,8 +40,10 @@ namespace TaskWepApi1
 
             var dbSettings = Configuration.GetSection("TaskDatabaseSettings").Get<TaskDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
-            var context = new Context(client, dbSettings.DatabaseName);
+            var context = new Context(client,dbSettings.DatabaseName);
+            
             services.AddSingleton<IContext, Context>(_ => context);
+            services.AddSingleton<IRepository, Repository.Repository>();
 
 
         }

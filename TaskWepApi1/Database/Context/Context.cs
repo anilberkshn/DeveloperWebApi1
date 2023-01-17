@@ -5,7 +5,7 @@ namespace TaskWepApi1.Database.Context
 {
     public class Context : IContext
     {
-        private IMongoDatabase _mongoDatabase { get; set; }
+        private IMongoDatabase _mongoDatabase;
         
         public Context(IMongoClient mongoClient,string database)
         {
