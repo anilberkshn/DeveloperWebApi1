@@ -36,16 +36,17 @@ namespace DeveloperWepApi1.Mongo
            return record.Id;
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync()
-        {
-            var  record = _collection.AsQueryable().ToListAsync();
-            return await record;
-        }
-        // public async Task<IEnumerable<T>> FindAllAsync()
+        // public async Task<IQueryable<T>> FindAllAsync()
         // {
         //     var  record = _collection.AsQueryable().ToListAsync();
-        //     return await record;
+        //    return await record;
         // }
+        public async Task<IEnumerable<T>> FindAllAsync()
+        {
+            var  record = _collection.AsQueryable().AsEnumerable();
+            return record;
+          //  return record.Take(10); ilk 10 kayıt alıyor. 
+        }
         // public async Task<List<T>> FindAllAsync()
         // {
         //     var  record = _collection.AsQueryable().ToListAsync();
