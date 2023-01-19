@@ -33,9 +33,9 @@ namespace DeveloperWepApi1.Repository
             return developer;
         }
 
-        public IQueryable<Developer> GetAll()
-        {
-            return  FindAllAsync();
+        public async Task<List<Developer>> GetAll()
+        { 
+           return await FindAllAsync();
         }
 
         public async Task<Guid> InsertDeveloper(Developer developer)

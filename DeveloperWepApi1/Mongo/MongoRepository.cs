@@ -37,10 +37,10 @@ namespace DeveloperWepApi1.Mongo
         }
 
 
-        public IQueryable<T> FindAllAsync()
+        public async Task<List<T>> FindAllAsync()
         {
-            var  record = _collection.AsQueryable();
-            return record;
+            var  record = _collection.AsQueryable().ToListAsync();
+            return await record;
         }
         // public async Task<List<T>> FindAllAsync()
         // {
