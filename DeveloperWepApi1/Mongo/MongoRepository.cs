@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
@@ -24,7 +25,7 @@ namespace DeveloperWepApi1.Mongo
             _collection = context.DbMongoCollectionSet<T>(collectionName);
             //Contexti kullanarak collectionumuzu almış olduk. 
         }
-        public async Task<Guid> Create(T record)
+        public async Task<Guid> CreateAsync(T record)
         {
             record.Id = Guid.NewGuid();
             record.CreatedTime = DateTime.Now;
@@ -35,19 +36,27 @@ namespace DeveloperWepApi1.Mongo
            return record.Id;
         }
 
-        public List<T> FindAll()
+
+        public IQueryable<T> FindAllAsync()
         {
-            var record = _collection.AsQueryable().ToList(); // asQueryable  creates a queryable source of documents
-            // ofset limit skkip ve take
+            var  record = _collection.AsQueryable();
             return record;
         }
+        // public async Task<List<T>> FindAllAsync()
+        // {
+        //     var  record = _collection.AsQueryable().ToListAsync();
+        //     return await record;
+        //     // var record = _collection.AsQueryable().ToList(); // asQueryable  creates a queryable source of documents
+        //     // // ofset limit skkip ve take
+        //     // return record;
+        // }
 
         public T FindOne(Expression<Func<T, bool>> expression)
         {
             var records = _collection.Find(expression);
             var record = records.FirstOrDefault();
             return record;
-        }
+        } 
 
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {

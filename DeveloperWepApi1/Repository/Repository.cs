@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.ErrorModels;
@@ -32,14 +33,14 @@ namespace DeveloperWepApi1.Repository
             return developer;
         }
 
-        public List<Developer> GetAll()
+        public IQueryable<Developer> GetAll()
         {
-            return FindAll();
+            return  FindAllAsync();
         }
 
-        public Task<Guid> InsertDeveloper(Developer developer)
+        public async Task<Guid> InsertDeveloper(Developer developer)
         {
-            return Create(developer);
+          return await CreateAsync(developer);
         }
 
       
