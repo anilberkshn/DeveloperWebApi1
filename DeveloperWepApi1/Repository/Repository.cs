@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
@@ -36,7 +37,7 @@ namespace DeveloperWepApi1.Repository
             return FindAll();
         }
 
-        public Guid InsertDeveloper(Developer developer)
+        public Task<Guid> InsertDeveloper(Developer developer)
         {
             return Create(developer);
         }

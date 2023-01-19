@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo.Interface;
@@ -23,15 +24,15 @@ namespace DeveloperWepApi1.Mongo
             _collection = context.DbMongoCollectionSet<T>(collectionName);
             //Contexti kullanarak collectionumuzu almış olduk. 
         }
-        public Guid Create(T record)
+        public async Task<Guid> Create(T record)
         {
             record.Id = Guid.NewGuid();
             record.CreatedTime = DateTime.Now;
             record.UpdatedTime = DateTime.Now;
     
-            _collection.InsertOne(record);
+            await _collection.InsertOneAsync(record);
             //
-            return record.Id;
+           return record.Id;
         }
 
         public List<T> FindAll()
