@@ -33,7 +33,7 @@ namespace DeveloperWepApi1.Repository
             return developer;
         }
 
-        public async Task<List<Developer>> GetAll()
+        public async Task<IEnumerable<Developer>> GetAll()
         { 
            return await FindAllAsync();
         }
