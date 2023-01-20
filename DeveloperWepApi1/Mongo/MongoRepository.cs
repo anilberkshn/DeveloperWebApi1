@@ -56,7 +56,7 @@ namespace DeveloperWepApi1.Mongo
         //     // return record;
         // }
 
-        public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)
+        public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression) // çalıştı.
         {
             var record = await _collection.Find(expression).FirstOrDefaultAsync();
           
