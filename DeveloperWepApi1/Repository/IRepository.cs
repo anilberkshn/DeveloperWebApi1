@@ -9,7 +9,7 @@ namespace DeveloperWepApi1.Repository
 {
     public interface IRepository
     {
-        public Task<Developer> GetById(Guid id);
+        public Developer GetById(Guid id);
         public Task<IEnumerable<Developer>>GetAll();
         public Task<Guid> InsertDeveloper(Developer developer);
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto);

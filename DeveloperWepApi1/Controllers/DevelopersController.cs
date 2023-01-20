@@ -63,7 +63,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(getAll);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("{developerId}", Name = "developerId")]
         public IActionResult Delete(Guid id) // hard delete
         {
             var developer = _repository.GetById(id);
