@@ -17,9 +17,10 @@ namespace DeveloperWepApi1.Repository
         {
         }
 
-        public Developer GetById(Guid id)
+        public Task<Developer> GetById(Guid id)
         {
-            var developer = FindOne(x => x.Id == id);
+           // var developer = FindOneAsync(x => x.Id == id);
+            var developer = FindOneAsync(x => x.Id == id);
 
             if (developer == null)
             {

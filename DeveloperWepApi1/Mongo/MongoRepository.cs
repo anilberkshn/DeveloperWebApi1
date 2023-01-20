@@ -14,7 +14,7 @@ namespace DeveloperWepApi1.Mongo
     public class MongoRepository<T> : IMongoRepository<T> where T : Document
     {
         private readonly IMongoCollection<T> _collection;
-
+        
         public MongoRepository(IContext context, string collectionName)
         {
             if (string.IsNullOrEmpty(collectionName))
@@ -56,11 +56,15 @@ namespace DeveloperWepApi1.Mongo
         //     // return record;
         // }
 
-        public T FindOne(Expression<Func<T, bool>> expression)
+        public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)
         {
-            var records = _collection.Find(expression);
-            var record = records.FirstOrDefault();
-            return record;
+            var findOnes=   Task.Run(() => _collection.Find(expression));
+            var findOne = _collection.Find(expression).FirstOrDefaultAsync();
+            return await findOne;
+            //---------------
+            // var records = _collection.Find(expression);
+            // var record = records.FirstOrDefault();
+            // return record;
         } 
 
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
