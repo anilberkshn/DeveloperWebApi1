@@ -5,15 +5,16 @@ using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Model.ResponseModels;
 using DeveloperWepApi1.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
+    // [Authorize]      
     [ApiController]
     [Route("api/developer")]
     public class DevelopersController : ControllerBase
     {
-        //public List<Developer> _developers { get; set; }
         private readonly IRepository _repository;
 
         public DevelopersController(IRepository repository)

@@ -1,9 +1,11 @@
 using System;
+using System.Web.Http;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
 using DeveloperWepApi1.Repository;
+using DeveloperWepApi1.Token;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +13,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.Owin;
+using Microsoft.Owin.Builder;
+using Microsoft.Owin.Security.OAuth;
 using MongoDB.Driver;
+using Owin;
 
 namespace DeveloperWepApi1
 {
@@ -36,6 +42,7 @@ namespace DeveloperWepApi1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
+            //services.AddAuthentication("BasicAuthentication");  // deneme için konuldu. 
             
             var dbSettings =  Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
@@ -44,7 +51,6 @@ namespace DeveloperWepApi1
 
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP requ   est pipeline.
@@ -66,9 +72,30 @@ namespace DeveloperWepApi1
             app.UseMiddleware<ErrorHandlingMiddleware>();
           
             
+            // HttpConfiguration httpConfiguration = new HttpConfiguration();// token için
+            // ConfigureOAuth(app);
+            // WebApiConfig.Register(httpConfiguration);
+            // app.UseWebApi(httpConfiguration);
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+          
         }
+
+       // public void ConfigureOAuth(IApplicationBuilder app)
+       //  {
+       //      OAuthAuthorizationServerOptions oAuthAuthorizationServerOptions = new OAuthAuthorizationServerOptions()
+       //      {
+       //          TokenEndpointPath = new PathString("/token"),
+       //          AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+       //          AllowInsecureHttp = true, 
+       //          Provider = new ProviderAuthorization() 
+       //      };
+       //   
+       //      // app.UseOAuthAuthorizationServer(oAuthAuthorizationServerOptions);
+       //      // app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+       //  }
     }
 }
