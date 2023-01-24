@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
-    // [Authorize]      
+    [Authorize]      
     [ApiController]
     [Route("api/developer")]
     public class DevelopersController : ControllerBase
@@ -21,7 +22,21 @@ namespace DeveloperWepApi1.Controllers
         {
             _repository = repository;
         }
+       
+        
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        {
+            var user = await _repository.Authenticate(model);
 
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(user);
+        }
+        
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
@@ -30,7 +45,9 @@ namespace DeveloperWepApi1.Controllers
                 Id = Guid.NewGuid(),
                 Name = createDeveloperDto.Name,
                 Surname = createDeveloperDto.Surname,
-                Department = createDeveloperDto.Department
+                Department = createDeveloperDto.Department,
+                Username = createDeveloperDto.Username,
+                Password = createDeveloperDto.Password
             };
             _repository.InsertDeveloper(developer);
 
@@ -55,7 +72,9 @@ namespace DeveloperWepApi1.Controllers
             var findOne = _repository.GetById(developerId);
             return Ok(findOne);
         }
-
+        
+        
+        [AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {

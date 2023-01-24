@@ -72,5 +72,15 @@ namespace DeveloperWepApi1.Repository
 
              SoftDelete(x => x.Id == guid,softDelete);
         }
+        
+        public async Task<Developer> Authenticate(AuthenticateModel dev)
+        {
+           var developer = await Task.Run(() =>FindOneAsync(x => x.Username == dev.Username && x.Password == dev.Password));
+            
+            if (developer == null)
+                return null;
+            
+            return developer;
+        }
     }
 }

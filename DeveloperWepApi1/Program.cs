@@ -22,4 +22,4 @@ namespace DeveloperWepApi1
                 webBuilder.UseStartup<Startup>();
             });
     }
-}
+}   

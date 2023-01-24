@@ -7,6 +7,7 @@ using DeveloperWepApi1.Mongo.Interface;
 using DeveloperWepApi1.Repository;
 using DeveloperWepApi1.Token;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,10 +31,9 @@ namespace DeveloperWepApi1
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         [Obsolete("Obsolete")]
         public void ConfigureServices(IServiceCollection services)
-        {               // fluent  validation denemesi aşağıda.
+        {              
             services.AddControllersWithViews().AddFluentValidation
                 (x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
                 //  validator sınıflarını buldurmak için kullanılan 
@@ -42,19 +42,21 @@ namespace DeveloperWepApi1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
             });
-            //services.AddAuthentication("BasicAuthentication");  // deneme için konuldu. 
-            
+        
             var dbSettings =  Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
-            //var dbSettings = services.BuildServiceProvider().GetService<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client,dbSettings.DatabaseName);
 
+            
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicToken>("BasicAuthentication", null);
+
+            
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP requ   est pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+       public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -66,36 +68,21 @@ namespace DeveloperWepApi1
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            // log, exception, yetki
+            
             app.UseMiddleware<NumberOneMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
-            app.UseMiddleware<NumberTwoMiddleware>();   // yukarıdan aşağı aşağıdan da yukarı.
+            app.UseMiddleware<NumberTwoMiddleware>();
             app.UseMiddleware<ErrorHandlingMiddleware>();
           
+          
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             
-            // HttpConfiguration httpConfiguration = new HttpConfiguration();// token için
-            // ConfigureOAuth(app);
-            // WebApiConfig.Register(httpConfiguration);
-            // app.UseWebApi(httpConfiguration);
-            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
-          
         }
-
-       // public void ConfigureOAuth(IApplicationBuilder app)
-       //  {
-       //      OAuthAuthorizationServerOptions oAuthAuthorizationServerOptions = new OAuthAuthorizationServerOptions()
-       //      {
-       //          TokenEndpointPath = new PathString("/token"),
-       //          AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-       //          AllowInsecureHttp = true, 
-       //          Provider = new ProviderAuthorization() 
-       //      };
-       //   
-       //      // app.UseOAuthAuthorizationServer(oAuthAuthorizationServerOptions);
-       //      // app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-       //  }
     }
 }

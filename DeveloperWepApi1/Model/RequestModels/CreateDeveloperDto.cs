@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DeveloperWepApi1.Model.RequestModels
 {
@@ -12,5 +13,9 @@ namespace DeveloperWepApi1.Model.RequestModels
         public string Surname { get; set; }
         // [Required]
         public string Department { get; set; }
+        
+        public string Username { get; set; }
+        
+        public string Password { get; set; }
     }
 }
