@@ -26,7 +26,8 @@ namespace DeveloperWepApi1.Controllers
         
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model) 
+        //[FromHeader]
         {
             var user = await _repository.Authenticate(model);
 
@@ -36,7 +37,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(user);
         }
         
-        [AllowAnonymous]
+       // [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
@@ -74,7 +75,7 @@ namespace DeveloperWepApi1.Controllers
         }
         
         
-        [AllowAnonymous]
+       //8 [AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
