@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -18,8 +19,9 @@ namespace DeveloperWepApi1.Token
     public class BasicToken  : AuthenticationHandler<AuthenticationSchemeOptions>
     {
          private readonly IRepository _repository;
+         readonly Users _users;
 
-        public BasicToken(IOptionsMonitor<AuthenticationSchemeOptions> options,
+        public BasicToken(Users users,IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
@@ -27,10 +29,13 @@ namespace DeveloperWepApi1.Token
             : base(options, logger, encoder, clock)
         {
             _repository = repository;
+            _users = users;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            string usarname = null;
+            
             var endpoint = Context.GetEndpoint();
             if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
                 return AuthenticateResult.NoResult();
@@ -44,21 +49,28 @@ namespace DeveloperWepApi1.Token
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
-                var username = credentials[0];
-                var password = credentials[1];
-              //  developer = await _repository.Authenticate(null);
+
+                usarname = credentials.FirstOrDefault();
+                var password = credentials.LastOrDefault();
+                // var username = credentials[0];
+                // var password = credentials[1];
+                // //  developer = await _repository.Authenticate(null);
                 developer = await _repository.Authenticate(new AuthenticateModel());
+                if (!_users.ValidateCredentials(usarname,password))
+                {
+                    throw new ArgumentException("invalid credentials");
+                }
             }
-            catch
+            catch(Exception ex)  
             {
-                return AuthenticateResult.Fail("Invalid Authorization Header");
+                return AuthenticateResult.Fail($"Authentication failed: {ex.Message}");  
             }
 
-            if (developer == null)
-                return AuthenticateResult.Fail("Invalid Username or Password");
+            // if (developer == null)
+            //     return AuthenticateResult.Fail("Invalid Username or Password");
 
             var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, developer.Id.ToString()),
+               // new Claim(ClaimTypes.NameIdentifier, developer.Id.ToString()),
                 new Claim(ClaimTypes.Name, developer.Username),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
