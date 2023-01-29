@@ -61,9 +61,9 @@ namespace DeveloperWepApi1.Token
                     throw new ArgumentException("invalid credentials");
                 }
             }
-            catch(Exception ex)  
+            catch 
             {
-                return AuthenticateResult.Fail($"Authentication failed: {ex.Message}");  
+                return AuthenticateResult.Fail($"Authentication failed");  
             }
 
             // if (developer == null)
