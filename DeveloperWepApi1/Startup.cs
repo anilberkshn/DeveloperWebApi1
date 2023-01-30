@@ -1,4 +1,5 @@
 using System;
+using System.Web.Http;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Mongo.Context;
@@ -13,10 +14,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using MongoDB.Driver;
+using Owin;
 
 
+[assembly: OwinStartup(typeof(DeveloperWepApi1.Startup))]
 namespace DeveloperWepApi1
 {
     public class Startup
@@ -34,6 +38,7 @@ namespace DeveloperWepApi1
             services.AddControllersWithViews().AddFluentValidation
                 (x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
             //  validator sınıflarını buldurmak için kullanılan 
+           
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -101,6 +106,8 @@ namespace DeveloperWepApi1
             //     AllowInsecureHttp = true,
             //     Provider = new AuthorizationServerProvider()
             // };        
+          
+            //ConfigureOAuth();
 
             app.UseCors(x => x
                 .AllowAnyOrigin()
@@ -112,5 +119,32 @@ namespace DeveloperWepApi1
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+        
+        //---------------------------Çalıştırılamadı owin kullanan örnek uygulama
+        // public void ConfigurationExample(IAppBuilder app)
+        // {
+        //     HttpConfiguration config = new HttpConfiguration();
+        //
+        //     ConfigureOAuth(app);            
+        //     WebApiConfig.Register(config);
+        //     app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+        //     app.UseWebApi(config);
+        // }
+        //
+        // private void ConfigureOAuth(IAppBuilder app)
+        // {
+        //     OAuthAuthorizationServerOptions oAuthAuthorizationServerOptions = new OAuthAuthorizationServerOptions()
+        //     {
+        //         TokenEndpointPath = new Microsoft.Owin.PathString("/token"), // token adresi
+        //         AccessTokenExpireTimeSpan = TimeSpan.FromHours(10),//10 Saat geçerli
+        //         AllowInsecureHttp = true,
+        //         Provider = new ProviderToken() // Burada hata alırsanızz saglayıcı klasınızız doğru ayarladığınızdan emin olun.
+        //     };
+        //
+        //     
+        //     app.UseOAuthAuthorizationServer(oAuthAuthorizationServerOptions); // Ayarladığımız config dosyasının server'a kullanması için gönderiyoruz.
+        //     app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());// Bearer Authentication'ı kullanacağımızı belirttik.
+        // }
+        //
     }
 }

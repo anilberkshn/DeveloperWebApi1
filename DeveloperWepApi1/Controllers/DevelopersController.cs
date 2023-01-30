@@ -6,12 +6,14 @@ using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Model.ResponseModels;
 using DeveloperWepApi1.Repository;
+using DeveloperWepApi1.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
-    [Authorize]      
+    [Authorize]    
+    [BasicAuthentication]
     [ApiController]
     [Route("api/developer")]
     public class DevelopersController : ControllerBase
@@ -75,7 +77,7 @@ namespace DeveloperWepApi1.Controllers
         }
         
         
-       //8 [AllowAnonymous]
+        [BasicAuthentication]  
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
