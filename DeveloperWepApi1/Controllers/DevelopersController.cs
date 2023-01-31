@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DeveloperWepApi1.Controllers
 {
     [Authorize]    
-    [BasicAuthentication]
+    //[BasicAuthentication]
     [ApiController]
     [Route("api/developer")]
     public class DevelopersController : ControllerBase
@@ -77,7 +77,7 @@ namespace DeveloperWepApi1.Controllers
         }
         
         
-        [BasicAuthentication]  
+       // [BasicAuthentication]  
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {

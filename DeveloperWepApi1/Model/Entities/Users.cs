@@ -1,8 +1,13 @@
 using Newtonsoft.Json;
+using System;  
+using System.Collections.Generic;  
+using System.Linq;  
+using System.Threading.Tasks;
+
 
 namespace DeveloperWepApi1.Model.Entities
 {
-    public class Users
+    public class Users : IUserService
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

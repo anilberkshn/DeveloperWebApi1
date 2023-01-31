@@ -2,6 +2,7 @@ using System;
 using System.Web.Http;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
+using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
 using DeveloperWepApi1.Repository;
@@ -69,14 +70,17 @@ namespace DeveloperWepApi1
                 
                 
             });
+            services.AddAuthentication("BasicAuthentication")  
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);  
 
+            services.AddScoped<IUserService, Users>(); 
             var dbSettings = Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
             
-            services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicToken>("BasicAuthentication", null);
-
+            // services.AddAuthentication("BasicAuthentication")
+            //     .AddScheme<AuthenticationSchemeOptions, BasicToken>("BasicAuthentication", null);
+            // şurayı bir daha kontrol edeceğim. basicToken kısmını
 
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
@@ -109,10 +113,10 @@ namespace DeveloperWepApi1
           
             //ConfigureOAuth();
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            // app.UseCors(x => x
+            //     .AllowAnyOrigin()
+            //     .AllowAnyMethod()
+            //     .AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();
