@@ -1,5 +1,4 @@
 using System;
-using System.Web.Http;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Model.Entities;
@@ -15,13 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.OAuth;
 using MongoDB.Driver;
-using Owin;
 
-
-[assembly: OwinStartup(typeof(DeveloperWepApi1.Startup))]
 namespace DeveloperWepApi1
 {
     public class Startup

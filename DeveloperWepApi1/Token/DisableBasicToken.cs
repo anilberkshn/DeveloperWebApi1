@@ -55,7 +55,7 @@
 //                 var password = credentials[1];
 //                 developer = await _repository.Authenticate(null);
 //                 //developer = await _repository.Authenticate(new AuthenticateModel());
-//                 // if (!_users.ValidateCredentials(usarname,password))
+//                 // if (!_users.ValidateCredentials(usarname,password))   // bu kısımda eşleştirmeyı yanlış yapmışım.
 //                 // {
 //                 //     throw new ArgumentException("invalid credentials");
 //                 // }
