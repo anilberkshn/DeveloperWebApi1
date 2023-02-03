@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Model.Entities;
@@ -8,11 +9,13 @@ using DeveloperWepApi1.Repository;
 using DeveloperWepApi1.Token;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 
@@ -64,17 +67,30 @@ namespace DeveloperWepApi1
                 
                 
             });
-            services.AddAuthentication("BasicAuthentication")  
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);  
-
-            services.AddScoped<IUserService, Users>(); 
+            // services.AddAuthentication("BasicAuthentication")  
+            //     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);  
+            services.AddAuthentication(x =>
+            {
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString())),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            
+            services.AddScoped<IUserService, Users>();
+            
             var dbSettings = Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
-            
-            // services.AddAuthentication("BasicAuthentication")
-            //     .AddScheme<AuthenticationSchemeOptions, BasicToken>("BasicAuthentication", null);
-            // şurayı bir daha kontrol edeceğim. basicToken kısmını
 
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
@@ -97,52 +113,11 @@ namespace DeveloperWepApi1
             app.UseMiddleware<NumberTwoMiddleware>();
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            // OAuthAuthorizationServerOptions options = new OAuthAuthorizationServerOptions()
-            // {
-            //     TokenEndpointPath = new Microsoft.Owin.PathString("/token"), // token alacağımız path'i belirtiyoruz
-            //     AccessTokenExpireTimeSpan = TimeSpan.FromHours(1), //token expire süresini ayarlıyoruz Örn : 1 saat
-            //     AllowInsecureHttp = true,
-            //     Provider = new AuthorizationServerProvider()
-            // };        
-          
-            //ConfigureOAuth();
-
-            // app.UseCors(x => x
-            //     .AllowAnyOrigin()
-            //     .AllowAnyMethod()
-            //     .AllowAnyHeader());
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
         
-        //---------------------------Çalıştırılamadı owin kullanan örnek uygulama
-        // public void ConfigurationExample(IAppBuilder app)
-        // {
-        //     HttpConfiguration config = new HttpConfiguration();
-        //
-        //     ConfigureOAuth(app);            
-        //     WebApiConfig.Register(config);
-        //     app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-        //     app.UseWebApi(config);
-        // }
-        //
-        // private void ConfigureOAuth(IAppBuilder app)
-        // {
-        //     OAuthAuthorizationServerOptions oAuthAuthorizationServerOptions = new OAuthAuthorizationServerOptions()
-        //     {
-        //         TokenEndpointPath = new Microsoft.Owin.PathString("/token"), // token adresi
-        //         AccessTokenExpireTimeSpan = TimeSpan.FromHours(10),//10 Saat geçerli
-        //         AllowInsecureHttp = true,
-        //         Provider = new ProviderToken() // Burada hata alırsanızz saglayıcı klasınızız doğru ayarladığınızdan emin olun.
-        //     };
-        //
-        //     
-        //     app.UseOAuthAuthorizationServer(oAuthAuthorizationServerOptions); // Ayarladığımız config dosyasının server'a kullanması için gönderiyoruz.
-        //     app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());// Bearer Authentication'ı kullanacağımızı belirttik.
-        // }
-        //
     }
 }

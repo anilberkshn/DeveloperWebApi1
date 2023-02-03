@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 using DeveloperWepApi1.Model.RequestModels;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.Serialization.Attributes;
 
 
 namespace DeveloperWepApi1.Model.Entities

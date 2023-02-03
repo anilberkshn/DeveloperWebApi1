@@ -24,20 +24,24 @@ namespace DeveloperWepApi1.Controllers
         {
             _repository = repository;
         }
-       
-        
+
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model) 
-        //[FromHeader]
+        public IActionResult Authenticate([FromBody] AuthenticateModel model)
+            //[FromHeader]
         {
-            var user = await _repository.Authenticate(model);
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            var token = _repository.Authenticate(model);
 
-            return Ok(user);
-        }
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(token);
+           // return Ok(new {user, model });
+    }
         
        // [AllowAnonymous]
         [HttpPost]

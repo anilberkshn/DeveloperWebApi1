@@ -1,15 +1,14 @@
-using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace DeveloperWepApi1.Model.RequestModels
+namespace DeveloperWepApi1.Model.Entities
 {
-    public class AuthenticateModel
+    public class User
     {
-        [Required]
+        public string Id { get; set; }
+        
         [BsonElement("Username")]
         public string Username { get; set; }
 
-        [Required]
         [BsonElement("Password")]
         public string Password { get; set; }
     }
