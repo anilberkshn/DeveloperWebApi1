@@ -10,6 +10,7 @@ using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo;
 using DeveloperWepApi1.Mongo.Interface;
+using DeveloperWepApi1.Token;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
@@ -18,8 +19,10 @@ namespace DeveloperWepApi1.Repository
 {
     public class Repository : MongoRepository<Developer>,IRepository
     {
+       
         public Repository(IContext context, string collectionName = "Developers") : base(context, collectionName)
         {
+           
         }
 
         public Developer GetById(Guid id)
@@ -78,29 +81,10 @@ namespace DeveloperWepApi1.Repository
              SoftDelete(x => x.Id == guid,softDelete);
         }
         
-        public string Authenticate(AuthenticateModel dev)
+        public string Authenticate(User dev)
         {
-            var developer = FindOneAsync(x => x.Username == dev.Username&& x.Password ==dev.Password)
-                .GetAwaiter().GetResult().ToString();
-            
-           if (developer == null)
-               return null;
-
-           var tokenHandler = new JwtSecurityTokenHandler();
-           var tokenKey = Encoding.ASCII.GetBytes("key");
-           var tokenDescriptor = new SecurityTokenDescriptor()
-           {
-               Subject = new ClaimsIdentity(new Claim[]
-               {
-                   new Claim(ClaimTypes.UserData, dev.Username)
-               }),
-               Expires = DateTime.UtcNow.AddHours(1),
-               SigningCredentials = new SigningCredentials(
-                   new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-           };
-           var token = tokenHandler.CreateToken(tokenDescriptor);
-            
-            return tokenHandler.WriteToken(token);
+          
+            return null;
         }
     }
 }

@@ -19,28 +19,30 @@ namespace DeveloperWepApi1.Controllers
     public class DevelopersController : ControllerBase
     {
         private readonly IRepository _repository;
+        private readonly UserServiceJwt _userServiceJwt;
 
-        public DevelopersController(IRepository repository)
+        public DevelopersController(IRepository repository, UserServiceJwt userServiceJwt)
         {
             _repository = repository;
+            _userServiceJwt = userServiceJwt;
         }
 
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] AuthenticateModel model)
+        public IActionResult Authenticate([FromBody] User user)
             //[FromHeader]
         {
 
-            var token = _repository.Authenticate(model);
+            var token = _userServiceJwt.AuthenticateService(user);
 
             if (token == null)
             {
                 return Unauthorized();
             }
 
-            return Ok(token);
-           // return Ok(new {user, model });
+            return Ok(new {token,user});
+           // return Ok(new {user, user });
     }
         
        // [AllowAnonymous]
@@ -73,6 +75,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(developer);
         }
 
+        [AllowAnonymous]
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
@@ -82,6 +85,7 @@ namespace DeveloperWepApi1.Controllers
         
         
        // [BasicAuthentication]  
+        [AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
