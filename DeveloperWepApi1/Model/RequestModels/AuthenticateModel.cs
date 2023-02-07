@@ -6,7 +6,7 @@ namespace DeveloperWepApi1.Model.RequestModels
     public class AuthenticateModel
     {
         [Required]
-        //[BsonElement("Username")]
+        //[BsonElement("username")]
         public string Username { get; set; }
 
         [Required]

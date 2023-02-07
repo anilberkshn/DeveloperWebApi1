@@ -41,50 +41,26 @@ namespace DeveloperWepApi1
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
-                // basic authenticationu katapttım.
-                // c.AddSecurityDefinition("basic", new OpenApiSecurityScheme  
-                // {  
-                //     Name = "Authorization",  
-                //     Type = SecuritySchemeType.Http,  
-                //     Scheme = "basic",  
-                //     In = ParameterLocation.Header,  
-                //     Description = "Basic Authorization header using the Bearer scheme."  
-                // });  
-                // c.AddSecurityRequirement(new OpenApiSecurityRequirement  
-                // {  
-                //     {  
-                //         new OpenApiSecurityScheme  
-                //         {  
-                //             Reference = new OpenApiReference  
-                //             {  
-                //                 Type = ReferenceType.SecurityScheme,  
-                //                 Id = "basic"  
-                //             }  
-                //         },  
-                //         new string[] {}  
-                //     }  
-                // });
+               
             });
-            // services.AddAuthentication("BasicAuthentication")  
-            //     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);  
-            services.AddAuthentication(x =>
-            {
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
+            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                
+                x.TokenValidationParameters = new TokenValidationParameters()
                 {
+                    ValidIssuer = "https://localhost",
+                    ValidAudience = "https://localhost", //         ValidAudience = "https://localhost:5001",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtKeyTokenKodu")), // token kodu
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString() ?? throw new InvalidOperationException())),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
             
-            services.AddScoped<IUserService, Users>();
+            //services.AddScoped<IUserService, Users>();
             
             var dbSettings = Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
@@ -100,17 +76,13 @@ namespace DeveloperWepApi1
             {
                 //  app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DeveloperWepApi1 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint(
+                    "/swagger/v1/swagger.json", "DeveloperWepApi1 v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseMiddleware<NumberOneMiddleware>();
-            app.UseMiddleware<NumberTwoMiddleware>();
-            app.UseMiddleware<ErrorHandlingMiddleware>();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -119,3 +91,55 @@ namespace DeveloperWepApi1
         
     }
 }
+
+
+//___________________Basic________________________________
+// services.AddAuthentication("BasicAuthentication")  
+//     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);  
+//------------------JWT test1-------------------
+// services.AddAuthentication(x =>
+// {
+//     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+//     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+// }).AddJwtBearer(x =>
+// {
+//     x.RequireHttpsMetadata = false;
+//     x.SaveToken = true;
+//     x.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidateIssuerSigningKey = true,
+//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString() ?? throw new InvalidOperationException())),
+//         ValidateIssuer = false,
+//         ValidateAudience = false
+//     };
+// });
+//----------------------------------
+
+// app.UseMiddleware<NumberOneMiddleware>();
+// app.UseMiddleware<NumberTwoMiddleware>();
+// app.UseMiddleware<ErrorHandlingMiddleware>();
+
+/////////*************
+// basic authenticationu katapttım. // swagger.gen içinde idi
+// c.AddSecurityDefinition("basic", new OpenApiSecurityScheme  
+// {  
+//     Name = "Authorization",  
+//     Type = SecuritySchemeType.Http,  
+//     Scheme = "basic",  
+//     In = ParameterLocation.Header,  
+//     Description = "Basic Authorization header using the Bearer scheme."  
+// });  
+// c.AddSecurityRequirement(new OpenApiSecurityRequirement  
+// {  
+//     {  
+//         new OpenApiSecurityScheme  
+//         {  
+//             Reference = new OpenApiReference  
+//             {  
+//                 Type = ReferenceType.SecurityScheme,  
+//                 Id = "basic"  
+//             }  
+//         },  
+//         new string[] {}  
+//     }  
+// });

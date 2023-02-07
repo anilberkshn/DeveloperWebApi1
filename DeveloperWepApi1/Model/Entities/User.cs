@@ -6,7 +6,7 @@ namespace DeveloperWepApi1.Model.Entities
     {
         // public string Id { get; set; }
         
-        [BsonElement("Username")]
+        [BsonElement("username")]
         public string Username { get; set; }
 
         [BsonElement("Password")]

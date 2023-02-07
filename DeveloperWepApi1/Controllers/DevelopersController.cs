@@ -12,38 +12,51 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
-    [Authorize]    
+      
     //[BasicAuthentication]
-    [ApiController]
     [Route("api/developer")]
+    [ApiController]
+    [Authorize]
     public class DevelopersController : ControllerBase
     {
         private readonly IRepository _repository;
-        private readonly UserServiceJwt _userServiceJwt;
+        //private readonly UserServiceJwt _userServiceJwt;
 
-        public DevelopersController(IRepository repository, UserServiceJwt userServiceJwt)
+        public DevelopersController(IRepository repository)// , UserServiceJwt userServiceJwt
         {
             _repository = repository;
-            _userServiceJwt = userServiceJwt;
+          // _userServiceJwt = userServiceJwt;
+        } 
+        
+        [AllowAnonymous]
+       [HttpGet("[action]")]       
+        public IActionResult Login()
+        {
+            return Created("", new BuildToken().CreateToken());
         }
 
-
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] User user)
-            //[FromHeader]
+    
+        [HttpGet("[action]")]
+        public IActionResult LoginSuccess()
         {
-
-            var token = _userServiceJwt.AuthenticateService(user);
-
-            if (token == null)
-            {
-                return Unauthorized();
-            }
-
-            return Ok(new {token,user});
-           // return Ok(new {user, user });
-    }
+            return Ok("Login Success");
+        }
+        //[AllowAnonymous]
+        // [HttpPost("authenticate")]
+        // public IActionResult Authenticate([FromBody] Developer user)
+        //     //[FromHeader]
+        // {
+        //
+        //     var token = _userServiceJwt.AuthenticateService(user);
+        //
+        //     if (token == null)
+        //     {
+        //         return Unauthorized();
+        //     }
+        //
+        //     return Ok(new {token,user});
+        //    // return Ok(new {user, user });
+        // }
         
        // [AllowAnonymous]
         [HttpPost]
@@ -109,9 +122,10 @@ namespace DeveloperWepApi1.Controllers
             _repository.SoftDelete(developer.Id, softDeleteDto);
             return Ok(id);
         }
-        // soft delete 
+        
     }
 }
+
 
 
 // softDelete Denemeler

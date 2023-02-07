@@ -66,11 +66,11 @@
 //             }
 //
 //             if (developer == null)
-//                 return AuthenticateResult.Fail("Invalid Username or Password");
+//                 return AuthenticateResult.Fail("Invalid username or Password");
 //
 //             var claims = new[] {
 //                 new Claim(ClaimTypes.NameIdentifier, developer.Id.ToString()),
-//                 new Claim(ClaimTypes.Name, developer.Username),
+//                 new Claim(ClaimTypes.Name, developer.username),
 //             };
 //            
 //             var identity = new ClaimsIdentity(claims, Scheme.Name);
