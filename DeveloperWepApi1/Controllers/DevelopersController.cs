@@ -35,7 +35,7 @@ namespace DeveloperWepApi1.Controllers
             return Created("", new BuildToken().CreateToken());
         }
 
-    
+        //[AllowAnonymous]
         [HttpGet("[action]")]
         public IActionResult LoginSuccess()
         {
@@ -58,7 +58,7 @@ namespace DeveloperWepApi1.Controllers
         //    // return Ok(new {user, user });
         // }
         
-       // [AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
@@ -79,7 +79,7 @@ namespace DeveloperWepApi1.Controllers
             };
             return Ok(response);
         }
-
+        [AllowAnonymous]
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
@@ -106,7 +106,8 @@ namespace DeveloperWepApi1.Controllers
             var getAll = _repository.GetAll();
             return Ok(getAll);
         }
-
+        
+        [AllowAnonymous]
         [HttpDelete("{developerId}", Name = "developerId")]
         public IActionResult Delete(Guid id) // hard delete
         {
@@ -114,7 +115,7 @@ namespace DeveloperWepApi1.Controllers
             _repository.Delete(developer.Id);
             return Ok(id);
         }
-
+        [AllowAnonymous]
         [HttpPut("softDelete")]
         public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
         {
