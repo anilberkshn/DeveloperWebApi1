@@ -57,7 +57,7 @@ namespace DeveloperWepApi1
                     ValidateLifetime = true,
                     ValidIssuer = Configuration["Token:Issuer"], //"https://localhost",
                     ValidAudience =  Configuration["Token:Audience"], // "https://localhost", //         ValidAudience = "https://localhost:5001",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtKeyTokenKodu")), // token kodu
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:SecurityKey"])), // token kodu "JwtKeyTokenKodu"
                     ClockSkew = TimeSpan.Zero
                 };
                 services.AddControllers();

@@ -15,7 +15,7 @@ using TokenHandler = DeveloperWepApi1.Token.TokenHandler;
 
 namespace DeveloperWepApi1.Controllers
 {
-      
+    [Authorize]
     //[BasicAuthentication]
     [ApiController]
     [Route("api/developer")]
@@ -75,7 +75,7 @@ namespace DeveloperWepApi1.Controllers
         
         
        // [BasicAuthentication]  
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
