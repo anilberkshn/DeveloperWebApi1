@@ -9,55 +9,32 @@ using DeveloperWepApi1.Repository;
 using DeveloperWepApi1.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using TokenHandler = DeveloperWepApi1.Token.TokenHandler;
 
 namespace DeveloperWepApi1.Controllers
 {
       
     //[BasicAuthentication]
-    [Route("api/developer")]
     [ApiController]
-    [Authorize]
+    [Route("api/developer")]
+    //[Obsolete("Obsolete")]
     public class DevelopersController : ControllerBase
     {
+       // readonly TokenContext _context;         // burası farklı 
+        readonly IConfiguration _configuration;
         private readonly IRepository _repository;
         //private readonly UserServiceJwt _userServiceJwt;
 
-        public DevelopersController(IRepository repository)// , UserServiceJwt userServiceJwt
+        public DevelopersController(IRepository repository, IConfiguration configuration)// , UserServiceJwt userServiceJwt
         {
             _repository = repository;
-          // _userServiceJwt = userServiceJwt;
+            _configuration = configuration;
+            // _userServiceJwt = userServiceJwt;
         } 
         
-        [AllowAnonymous]
-       [HttpGet("[action]")]       
-        public IActionResult Login()
-        {
-            return Created("", new BuildToken().CreateToken());
-        }
-
-        //[AllowAnonymous]
-        [HttpGet("[action]")]
-        public IActionResult LoginSuccess()
-        {
-            return Ok("Login Success");
-        }
-        //[AllowAnonymous]
-        // [HttpPost("authenticate")]
-        // public IActionResult Authenticate([FromBody] Developer user)
-        //     //[FromHeader]
-        // {
-        //
-        //     var token = _userServiceJwt.AuthenticateService(user);
-        //
-        //     if (token == null)
-        //     {
-        //         return Unauthorized();
-        //     }
-        //
-        //     return Ok(new {token,user});
-        //    // return Ok(new {user, user });
-        // }
-        
+     //---------------------------------------------------------------
         [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
@@ -144,3 +121,37 @@ namespace DeveloperWepApi1.Controllers
 // developer.Name = updateDeveloperDto.Name;
 // developer.Surname = updateDeveloperDto.Surname;
 // developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
+
+
+//////----------------------------------------------------
+// //  [AllowAnonymous]
+// [HttpGet("[action]")]       
+//  public IActionResult Login()
+//  {
+//      return Created("", new BuildToken().CreateToken());
+//      //"JwtKeyTokenKodu"
+//  }
+//
+//  //[AllowAnonymous]
+//  [Authorize]
+//  [HttpGet("[action]")]
+//  public IActionResult LoginSuccess()
+//  {
+//      return Ok("Login Success");
+//  }
+//[AllowAnonymous]
+// [HttpPost("authenticate")]
+// public IActionResult Authenticate([FromBody] Developer user)
+//     //[FromHeader]
+// {
+//
+//     var token = _userServiceJwt.AuthenticateService(user);
+//
+//     if (token == null)
+//     {
+//         return Unauthorized();
+//     }
+//
+//     return Ok(new {token,user});
+//    // return Ok(new {user, user });
+// }

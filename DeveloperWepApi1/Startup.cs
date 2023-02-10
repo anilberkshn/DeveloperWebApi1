@@ -47,17 +47,20 @@ namespace DeveloperWepApi1
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
             {
-                x.RequireHttpsMetadata = false;
+              // x.RequireHttpsMetadata = false;
                 
                 x.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = "https://localhost",
-                    ValidAudience = "https://localhost", //         ValidAudience = "https://localhost:5001",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtKeyTokenKodu")), // token kodu
+                    ValidateAudience = true,
+                    ValidateIssuer = true,  //sonradan 
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
+                    ValidIssuer = Configuration["Token:Issuer"], //"https://localhost",
+                    ValidAudience =  Configuration["Token:Audience"], // "https://localhost", //         ValidAudience = "https://localhost:5001",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtKeyTokenKodu")), // token kodu
                     ClockSkew = TimeSpan.Zero
                 };
+                services.AddControllers();
             });
             
             //services.AddScoped<IUserService, Users>();
@@ -80,6 +83,7 @@ namespace DeveloperWepApi1
                     "/swagger/v1/swagger.json", "DeveloperWepApi1 v1"));
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -117,7 +121,7 @@ namespace DeveloperWepApi1
 
 // app.UseMiddleware<NumberOneMiddleware>();
 // app.UseMiddleware<NumberTwoMiddleware>();
-// app.UseMiddleware<ErrorHandlingMiddleware>();
+
 
 /////////*************
 // basic authenticationu katapttım. // swagger.gen içinde idi

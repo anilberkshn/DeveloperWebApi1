@@ -15,13 +15,6 @@ namespace DeveloperWepApi1.Token
             SymmetricSecurityKey key = new SymmetricSecurityKey(bytes);
             SigningCredentials credentials =
                 new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            // var claims = new[]
-            // {
-            //     new Claim(ClaimTypes.Name, developer.Username),
-            //     new Claim(ClaimTypes.NameIdentifier, developer.Id.ToString()),
-            //    // new Claim(ClaimTypes.Authentication, developer.Password.ToString())
-            // };
             
             JwtSecurityToken token = new JwtSecurityToken(
                // claims: claims,

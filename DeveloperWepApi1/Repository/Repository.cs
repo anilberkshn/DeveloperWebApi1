@@ -61,6 +61,8 @@ namespace DeveloperWepApi1.Repository
                 .Set(x => x.UpdatedTime, updateDeveloperDto.UpdatedTime)
                 .Set(x => x.IsDeleted, updateDeveloperDto.IsDeleted)
                 .Set(x => x.DeleteTime, updateDeveloperDto.DeletedTime)
+                .Set(x => x.RefreshToken, updateDeveloperDto.RefreshToken)
+                .Set(x => x.RefreshTokenEndDate, updateDeveloperDto.RefreshTokenEndDate)
                 ;
 
             Update(x=> x.Id == developerId,update);
@@ -81,10 +83,9 @@ namespace DeveloperWepApi1.Repository
              SoftDelete(x => x.Id == guid,softDelete);
         }
         
-        public string Authenticate(User dev)
+        public string Authenticate(Developer dev)
         {
-          
-            return null;
+           return null;
         }
     }
 }

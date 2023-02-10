@@ -16,11 +16,11 @@ namespace DeveloperWepApi1.Model.Entities
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Department { get; set; }
-       
         public string Username { get; set; }
-
-        [JsonIgnore]
         public string Password { get; set; }
+        
+        public string RefreshToken { get; set; }
+        public DateTime? RefreshTokenEndDate { get; set; }
         
     }
 }

@@ -6,10 +6,10 @@ namespace DeveloperWepApi1.Model.Entities
     {
         // public string Id { get; set; }
         
-        [BsonElement("username")]
+        
         public string Username { get; set; }
 
-        [BsonElement("Password")]
+    
         public string Password { get; set; }
     }
 }
