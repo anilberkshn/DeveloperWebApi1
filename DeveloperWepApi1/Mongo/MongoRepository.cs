@@ -67,7 +67,7 @@ namespace DeveloperWepApi1.Mongo
         {
             var filter = Builders<T>.Filter.Where(expression);  // builder a static helper class containing various builders
             var update = updateDefinition.Set(x => x.UpdatedTime, DateTime.Now);
-            _collection.FindOneAndUpdate<T>(filter, update);
+            _collection.FindOneAndUpdate<T>(filter, update); 
         }
 
         public Guid Delete(Expression<Func<T, bool>> expression)
