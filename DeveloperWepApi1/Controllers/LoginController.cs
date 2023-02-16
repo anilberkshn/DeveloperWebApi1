@@ -23,7 +23,7 @@ namespace DeveloperWepApi1.Controllers
         [HttpPost("action")]
         public async Task<DeveloperWepApi1.Model.Entities.Token> Login([FromForm]UpdateDeveloperDto developerLogin)
         {
-            var developers = _repository.GetAll().GetAwaiter().GetResult();
+            var developers = await _repository.GetAll();  // .GetAwaiter().GetResult();
             Developer developer = developers.FirstOrDefault(x => x.Username == developerLogin.Username && x.Password == developerLogin.Password);
             if (developer != null)
             {

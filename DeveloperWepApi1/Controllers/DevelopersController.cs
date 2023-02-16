@@ -35,7 +35,7 @@ namespace DeveloperWepApi1.Controllers
         } 
         
      //---------------------------------------------------------------
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
@@ -56,7 +56,7 @@ namespace DeveloperWepApi1.Controllers
             };
             return Ok(response);
         }
-        [AllowAnonymous]
+       //[AllowAnonymous]
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
@@ -64,7 +64,7 @@ namespace DeveloperWepApi1.Controllers
             _repository.UpdateDeveloper(developerId, updateDeveloperDto);
             return Ok(developer);
         }
-
+        
         [AllowAnonymous]
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
@@ -75,7 +75,7 @@ namespace DeveloperWepApi1.Controllers
         
         
        // [BasicAuthentication]  
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
@@ -84,7 +84,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(getAll);
         }
         
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpDelete("{developerId}", Name = "developerId")]
         public IActionResult Delete(Guid id) // hard delete
         {
@@ -92,7 +92,7 @@ namespace DeveloperWepApi1.Controllers
             _repository.Delete(developer.Id);
             return Ok(id);
         }
-        [AllowAnonymous]
+       //[AllowAnonymous]
         [HttpPut("softDelete")]
         public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
         {
