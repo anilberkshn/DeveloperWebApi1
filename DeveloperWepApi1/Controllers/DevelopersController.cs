@@ -15,7 +15,7 @@ using TokenHandler = DeveloperWepApi1.Token.TokenHandler;
 
 namespace DeveloperWepApi1.Controllers
 {
-    [Authorize]
+    //[Authorize]   // mongo atlasta deneme yapmak için kaldırdım. 
     //[BasicAuthentication]
     [ApiController]
     [Route("api/developer")]
@@ -65,7 +65,7 @@ namespace DeveloperWepApi1.Controllers
             return Ok(developer);
         }
         
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
@@ -75,7 +75,7 @@ namespace DeveloperWepApi1.Controllers
         
         
        // [BasicAuthentication]  
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {

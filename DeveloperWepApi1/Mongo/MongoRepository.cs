@@ -43,10 +43,12 @@ namespace DeveloperWepApi1.Mongo
         // }
         public async Task<IEnumerable<T>> FindAllAsync()
         {
-            var record = await _collection.AsQueryable().ToListAsync();  //.AsEnumerable();
+            var record =  _collection.AsQueryable().AsEnumerable();  //.AsEnumerable();ToListAsync();
             return record;
           //  return record.Take(10); ilk 10 kayıt alıyor. 
         }
+        
+        
         // public async Task<List<T>> FindAllAsync()
         // {
         //     var  record = _collection.AsQueryable().ToListAsync();
