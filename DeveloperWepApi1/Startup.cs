@@ -2,17 +2,14 @@ using System;
 using System.Text;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Middlewares;
-using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
 using DeveloperWepApi1.Repository;
-using DeveloperWepApi1.Token;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;    
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
@@ -125,7 +122,7 @@ namespace DeveloperWepApi1
 
 
 /////////*************
-// basic authenticationu katapttım. // swagger.gen içinde idi
+// basic authenticationu kapattım. // swagger.gen içinde idi
 // c.AddSecurityDefinition("basic", new OpenApiSecurityScheme  
 // {  
 //     Name = "Authorization",  
