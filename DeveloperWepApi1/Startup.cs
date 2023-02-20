@@ -69,6 +69,7 @@ namespace DeveloperWepApi1
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
 
+            
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IRepository, Repository.Repository>();
         }

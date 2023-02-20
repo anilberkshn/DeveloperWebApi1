@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
-using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo.Interface;
 using MongoDB.Driver;
 
@@ -80,7 +78,7 @@ namespace DeveloperWepApi1.Mongo
 
         public void SoftDelete(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {
-            var filter = Builders<T>.Filter.Where(expression);
+            var filter  = Builders<T>.Filter.Where(expression);
 
             var update = updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
                 .Set(x => x.IsDeleted, true);
