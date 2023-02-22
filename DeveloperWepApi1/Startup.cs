@@ -49,7 +49,7 @@ namespace DeveloperWepApi1
                 x.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = true,
-                    ValidateIssuer = true,  //sonradan test
+                    ValidateIssuer = true,  //sonradan
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
                     ValidIssuer = Configuration["Token:Issuer"], //"https://localhost",
