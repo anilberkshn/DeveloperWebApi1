@@ -7,7 +7,7 @@ using DeveloperWepApi1.Model.RequestModels;
 
 namespace DeveloperWepApi1.Repository
 {
-    public interface IRepository
+    public interface IDeveloperRepository
     {
         public Developer GetById(Guid id);
         public Task<IEnumerable<Developer>>GetAll();

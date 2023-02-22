@@ -10,7 +10,7 @@
 // using Microsoft.Extensions.Options;
 // using Microsoft.IdentityModel.Tokens;
 //
-// namespace DeveloperWepApi1.Token
+// namespace DeveloperWepApi1.LoginResponseModel
 // {
 //     public class BearerTokenTest1 : AuthenticationHandler<AuthenticationSchemeOptions>
 //     {
@@ -25,7 +25,7 @@
 //             var username = "user1";
 //             var userId = 123;
 //
-//             // Token oluşturma ayarları
+//             // LoginResponseModel oluşturma ayarları
 //             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret_key_for_signing"));
 //             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 //             var claims = new[]
@@ -34,7 +34,7 @@
 //                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
 //             };
 //
-//             // Token oluşturma
+//             // LoginResponseModel oluşturma
 //             var token = new JwtSecurityToken(
 //                 issuer: "issuer_name",
 //                 audience: "audience_name",

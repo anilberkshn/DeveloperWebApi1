@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using DeveloperWepApi1.Config;
+using DeveloperWepApi1.DeveloperRepository;
+using DeveloperWepApi1.Extensions;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
@@ -35,12 +38,8 @@ namespace DeveloperWepApi1
             //  validator sınıflarını buldurmak için kullanılan 
            
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperWepApi1", Version = "v1" });
-               
-            });
-            
+            services.AddMySwagger();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
             {
@@ -65,10 +64,9 @@ namespace DeveloperWepApi1
             var dbSettings = Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
-
             
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
-            services.AddSingleton<IRepository, Repository.Repository>();
+            services.AddSingleton<IDeveloperRepository, DeveloperRepository.DeveloperRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

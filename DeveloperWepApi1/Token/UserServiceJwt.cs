@@ -7,7 +7,7 @@
 // using Microsoft.IdentityModel.Tokens;
 // using MongoDB.Driver;
 //
-// namespace DeveloperWepApi1.Token
+// namespace DeveloperWepApi1.LoginResponseModel
 // {
 //     public class UserServiceJwt
 //     {

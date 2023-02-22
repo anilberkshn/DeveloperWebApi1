@@ -24,10 +24,10 @@ namespace DeveloperWepApi1.Middlewares
             {
                 await _next.Invoke(httpContext);
             }
-            catch (DeveloperNotFoundException e)
+            catch (DeveloperException e)
             {
                 httpContext.Response.ContentType = "application/json";
-                httpContext.Response.StatusCode = e.StatusCode;
+                httpContext.Response.StatusCode = (int) e.StatusCode;
                 await httpContext.Response.WriteAsync(e.ToString());
                _logger.LogInformation(e, "bilinen bir hata oluştu");
             }

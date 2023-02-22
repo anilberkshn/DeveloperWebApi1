@@ -7,28 +7,28 @@
 // using System.Threading.Tasks;
 // using DeveloperWepApi1.Model.Entities;
 // using DeveloperWepApi1.Model.RequestModels;
-// using DeveloperWepApi1.Repository;
+// using DeveloperWepApi1.DeveloperRepository;
 // using Microsoft.AspNetCore.Authentication;
 // using Microsoft.AspNetCore.Authorization;
 // using Microsoft.AspNetCore.Http;
 // using Microsoft.Extensions.Logging;
 // using Microsoft.Extensions.Options;
 //
-// namespace DeveloperWepApi1.Token
+// namespace DeveloperWepApi1.LoginResponseModel
 // {
 //     public class BasicToken  : AuthenticationHandler<AuthenticationSchemeOptions>
 //     {
-//          private readonly IRepository _repository;
+//          private readonly IDeveloperRepository _developerRepository;
 //         // readonly Users _users;
 //
 //         public BasicToken(IOptionsMonitor<AuthenticationSchemeOptions> options,
 //             ILoggerFactory logger,
 //             UrlEncoder encoder,
 //             ISystemClock clock,
-//             IRepository repository)
+//             IDeveloperRepository developerRepository)
 //             : base(options, logger, encoder, clock)
 //         {
-//             _repository = repository;
+//             _developerRepository = developerRepository;
 //          //   _users = users;
 //         }
 //
@@ -53,8 +53,8 @@
 //                 // var password = credentials.LastOrDefault();
 //                 var username = credentials[0];
 //                 var password = credentials[1];
-//                 developer = await _repository.Authenticate(null);
-//                 //developer = await _repository.Authenticate(new AuthenticateModel());
+//                 developer = await _developerRepository.Authenticate(null);
+//                 //developer = await _developerRepository.Authenticate(new AuthenticateModel());
 //                 // if (!_users.ValidateCredentials(usarname,password))   // bu kısımda eşleştirmeyı yanlış yapmışım.
 //                 // {
 //                 //     throw new ArgumentException("invalid credentials");

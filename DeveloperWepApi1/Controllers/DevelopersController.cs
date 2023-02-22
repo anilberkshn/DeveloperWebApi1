@@ -24,12 +24,12 @@ namespace DeveloperWepApi1.Controllers
     {
        // readonly TokenContext _context;         // burası farklı 
         readonly IConfiguration _configuration;
-        private readonly IRepository _repository;
+        private readonly IDeveloperRepository _developerRepository;
         //private readonly UserServiceJwt _userServiceJwt;
 
-        public DevelopersController(IRepository repository, IConfiguration configuration)// , UserServiceJwt userServiceJwt
+        public DevelopersController(IDeveloperRepository developerRepository, IConfiguration configuration)// , UserServiceJwt userServiceJwt
         {
-            _repository = repository;
+            _developerRepository = developerRepository;
             _configuration = configuration;
             // _userServiceJwt = userServiceJwt;
         } 
@@ -48,7 +48,7 @@ namespace DeveloperWepApi1.Controllers
                 Username = createDeveloperDto.Username,
                 Password = createDeveloperDto.Password
             };
-            _repository.InsertDeveloper(developer);
+            _developerRepository.InsertDeveloper(developer);
 
             var response = new DeveloperCreateResponse()
             {
@@ -60,8 +60,8 @@ namespace DeveloperWepApi1.Controllers
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
-            var developer = _repository.GetById(developerId);
-            _repository.UpdateDeveloper(developerId, updateDeveloperDto);
+            var developer = _developerRepository.GetById(developerId);
+            _developerRepository.UpdateDeveloper(developerId, updateDeveloperDto);
             return Ok(developer);
         }
         
@@ -69,7 +69,7 @@ namespace DeveloperWepApi1.Controllers
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
-            var findOne = _repository.GetById(developerId);
+            var findOne = _developerRepository.GetById(developerId);
             return Ok(findOne);
         }
         
@@ -80,7 +80,7 @@ namespace DeveloperWepApi1.Controllers
         public IActionResult GetAll()
         {
             Console.WriteLine("getAll");
-            var getAll = _repository.GetAll();
+            var getAll = _developerRepository.GetAll();
             return Ok(getAll);
         }
         
@@ -88,16 +88,16 @@ namespace DeveloperWepApi1.Controllers
         [HttpDelete("{developerId}", Name = "developerId")]
         public IActionResult Delete(Guid id) // hard delete
         {
-            var developer = _repository.GetById(id);
-            _repository.Delete(developer.Id);
+            var developer = _developerRepository.GetById(id);
+            _developerRepository.Delete(developer.Id);
             return Ok(id);
         }
        //[AllowAnonymous]
         [HttpPut("softDelete")]
         public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
         {
-            var developer = _repository.GetById(id);
-            _repository.SoftDelete(developer.Id, softDeleteDto);
+            var developer = _developerRepository.GetById(id);
+            _developerRepository.SoftDelete(developer.Id, softDeleteDto);
             return Ok(id);
         }
         

@@ -1,18 +1,20 @@
    using System;
-using Newtonsoft.Json;
+   using System.Net;
+   using Newtonsoft.Json;
 
 namespace DeveloperWepApi1.Model.ErrorModels
 {
     [JsonObject (MemberSerialization.OptIn)]
-    public class DeveloperNotFoundException : SystemException
+    public class DeveloperException : SystemException
     {   
         [JsonProperty]
-        public int StatusCode = 404;
+        public HttpStatusCode StatusCode;
         [JsonProperty]
         public string ErrorMessage;
 
-        public DeveloperNotFoundException(string errorMessage)
-        { 
+        public DeveloperException(HttpStatusCode statusCode, string errorMessage)
+        {
+            StatusCode = statusCode;
             ErrorMessage = errorMessage;
         }
 

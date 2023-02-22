@@ -1,26 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo;
 using DeveloperWepApi1.Mongo.Interface;
-using DeveloperWepApi1.Token;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
+using DeveloperWepApi1.Repository;
 using MongoDB.Driver;
 
-namespace DeveloperWepApi1.Repository
+namespace DeveloperWepApi1.DeveloperRepository
 {
-    public class Repository : MongoRepository<Developer>,IRepository
+    public class DeveloperRepository : MongoRepository<Developer>,IDeveloperRepository
     {
        
-        public Repository(IContext context, string collectionName = "Developers") : base(context, collectionName)
+        public DeveloperRepository(IContext context, string collectionName = "Developers") : base(context, collectionName)
         {
            
         }
@@ -31,11 +26,11 @@ namespace DeveloperWepApi1.Repository
 
             if (developer == null)
             {
-                throw new DeveloperNotFoundException("developer bulunamadı.");
+                throw new DeveloperException(HttpStatusCode.NotFound,"developer bulunamadı.");
             }
             if (developer.IsDeleted)
             {
-                throw new DeveloperNotFoundException("developer bulunamadı.");
+                throw new DeveloperException(HttpStatusCode.NotFound, "developer bulunamadı.");
             }
 
             return developer;

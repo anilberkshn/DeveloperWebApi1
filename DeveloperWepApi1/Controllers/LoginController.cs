@@ -1,6 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Repository;
 using DeveloperWepApi1.Token;
@@ -12,33 +16,35 @@ namespace DeveloperWepApi1.Controllers
     public class LoginController : ControllerBase
     {
         readonly IConfiguration _configuration;
-        private readonly IRepository _repository;
-        
-        public LoginController(IRepository repository, IConfiguration configuration)
+        private readonly IDeveloperRepository _developerRepository;
+
+        public LoginController(IDeveloperRepository developerRepository, IConfiguration configuration)
         {
-            _repository = repository;
+            _developerRepository = developerRepository;
             _configuration = configuration;
         }
-        
+
         [HttpPost("action")]
-        public async Task<DeveloperWepApi1.Model.Entities.Token> Login([FromForm]UpdateDeveloperDto developerLogin)
+        public ActionResult Login([FromBody] LoginRequestModel model)
         {
-            var developers = await _repository.GetAll();  // .GetAwaiter().GetResult();
-            Developer developer = developers.FirstOrDefault(x => x.Username == developerLogin.Username && x.Password == developerLogin.Password);
-            if (developer != null)
+            var userList = _configuration.GetSection("Users").Get<List<UserSettings>>();
+
+            foreach (var user in userList)
             {
-                //Token üretiliyor.
-                TokenHandler tokenHandler = new TokenHandler(_configuration);
-                DeveloperWepApi1.Model.Entities.Token token = tokenHandler.CreateAccessToken(developer);
- 
-                //Refresh token Users tablosuna işleniyor.
-                developer.RefreshToken = token.RefreshToken;
-                developer.RefreshTokenEndDate = token.Expiration.AddMinutes(3);
-                _repository.UpdateDeveloper(developer.Id,developerLogin);
- 
-                return token;
+                if (model.Username == user.Username && model.Password == user.Password)
+                {
+                    TokenHandler tokenHandler = new TokenHandler(_configuration);
+                    string token = tokenHandler.CreateAccessToken(model.Username);
+
+                    return Ok(new LoginResponseModel
+                    {
+                        Success = true,
+                        JwtToken = token
+                    });
+                }   
             }
-            return null;
+
+            throw new DeveloperException(HttpStatusCode.Unauthorized,"Kullanci adi veya sifre hatali");
         }
     }
 }

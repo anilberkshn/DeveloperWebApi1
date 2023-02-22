@@ -14,7 +14,7 @@
 // using DeveloperWepApi1.Model.Entities;
 //
 //
-// namespace DeveloperWepApi1.Token
+// namespace DeveloperWepApi1.LoginResponseModel
 // {
 //     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 //     {
