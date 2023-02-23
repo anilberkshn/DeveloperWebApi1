@@ -27,8 +27,8 @@ namespace DeveloperWepApi1.Token
  
             //Oluşturulacak loginResponseModel ayarlarını veriyoruz.
             JwtSecurityToken securityToken = new JwtSecurityToken(
-                issuer: Configuration["LoginResponseModel:Issuer"],
-                audience: Configuration["LoginResponseModel:Audience"],
+                issuer: Configuration["Token:Issuer"],
+                audience: Configuration["Token:Audience"],
                 expires: DateTime.Now.AddMinutes(5),//LoginResponseModel süresini 5 dk olarak belirliyorum
                 notBefore: DateTime.Now,//LoginResponseModel üretildikten ne kadar süre sonra devreye girsin ayarlıyouz.
                 claims: new []

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.DeveloperRepository;
@@ -7,7 +6,7 @@ using DeveloperWepApi1.Extensions;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
-using DeveloperWepApi1.Repository;
+using DeveloperWepApi1.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,7 +15,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 
 namespace DeveloperWepApi1
@@ -65,6 +63,7 @@ namespace DeveloperWepApi1
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
             
+            services.AddSingleton<IDeveloperService, DeveloperService>();
             services.AddSingleton<IContext, Context>(_ => context); // provider kullanılmaması
             services.AddSingleton<IDeveloperRepository, DeveloperRepository.DeveloperRepository>();
         }

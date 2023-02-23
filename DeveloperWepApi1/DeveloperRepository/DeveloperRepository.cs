@@ -7,7 +7,6 @@ using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo;
 using DeveloperWepApi1.Mongo.Interface;
-using DeveloperWepApi1.Repository;
 using MongoDB.Driver;
 
 namespace DeveloperWepApi1.DeveloperRepository
@@ -36,17 +35,15 @@ namespace DeveloperWepApi1.DeveloperRepository
             return developer;
         }
 
-        public async Task<IEnumerable<Developer>> GetAll()
+        public async Task<IEnumerable<Developer>> GetAllAsync()
         { 
            return await FindAllAsync();
         }
 
-        public async Task<Guid> InsertDeveloper(Developer developer)
+        public async Task<Guid> InsertDeveloperAsync(Developer developer)
         {
           return await CreateAsync(developer);
         }
-
-      
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto)
         {
             var update = Builders<Developer>.Update
@@ -63,12 +60,10 @@ namespace DeveloperWepApi1.DeveloperRepository
             Update(x=> x.Id == developerId,update);
 
         }
-
         public Guid Delete(Guid guid)
         {
             return Delete(x => x.Id == guid);
         }
-        
         public void SoftDelete(Guid guid,SoftDeleteDto softDeleteDto)
         {
             var softDelete = Builders<Developer>.Update
@@ -76,11 +71,6 @@ namespace DeveloperWepApi1.DeveloperRepository
                 .Set(x => x.IsDeleted , softDeleteDto.IsDeleted);
 
              SoftDelete(x => x.Id == guid,softDelete);
-        }
-        
-        public string Authenticate(Developer dev)
-        {
-           return null;
         }
     }
 }

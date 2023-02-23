@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
 
-namespace DeveloperWepApi1.DeveloperRepository
+namespace DeveloperWepApi1.Services
 {
-    public interface IDeveloperRepository
+    public interface IDeveloperService
     {
         public Developer GetById(Guid id);
         public Task<IEnumerable<Developer>>GetAllAsync();

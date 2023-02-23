@@ -1,37 +1,25 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
-using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Model.ResponseModels;
-using DeveloperWepApi1.Repository;
-using DeveloperWepApi1.Token;
+using DeveloperWepApi1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using TokenHandler = DeveloperWepApi1.Token.TokenHandler;
 
 namespace DeveloperWepApi1.Controllers
 {
-    //[Authorize]   // mongo atlasta deneme yapmak için kaldırdım. 
-    //[BasicAuthentication]
+    [Authorize]
     [ApiController]
     [Route("api/developer")]
-    //[Obsolete("Obsolete")]
+    
     public class DevelopersController : ControllerBase
     {
-       // readonly TokenContext _context;         // burası farklı 
-        readonly IConfiguration _configuration;
-        private readonly IDeveloperRepository _developerRepository;
-        //private readonly UserServiceJwt _userServiceJwt;
-
-        public DevelopersController(IDeveloperRepository developerRepository, IConfiguration configuration)// , UserServiceJwt userServiceJwt
+      
+        private readonly IDeveloperService _developerService;
+        
+        public DevelopersController(IDeveloperService developerService)
         {
-            _developerRepository = developerRepository;
-            _configuration = configuration;
-            // _userServiceJwt = userServiceJwt;
+            _developerService = developerService;
         } 
         
      //---------------------------------------------------------------
@@ -48,7 +36,7 @@ namespace DeveloperWepApi1.Controllers
                 Username = createDeveloperDto.Username,
                 Password = createDeveloperDto.Password
             };
-            _developerRepository.InsertDeveloper(developer);
+            _developerService.InsertDeveloperAsync(developer);
 
             var response = new DeveloperCreateResponse()
             {
@@ -56,12 +44,12 @@ namespace DeveloperWepApi1.Controllers
             };
             return Ok(response);
         }
-       //[AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
-            var developer = _developerRepository.GetById(developerId);
-            _developerRepository.UpdateDeveloper(developerId, updateDeveloperDto);
+            var developer = _developerService.GetById(developerId);
+            _developerService.UpdateDeveloper(developerId, updateDeveloperDto);
             return Ok(developer);
         }
         
@@ -69,18 +57,16 @@ namespace DeveloperWepApi1.Controllers
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
-            var findOne = _developerRepository.GetById(developerId);
+            var findOne = _developerService.GetById(developerId);
             return Ok(findOne);
         }
-        
-        
-       // [BasicAuthentication]  
-        // [AllowAnonymous]
+
+      //   [AllowAnonymous]
         [HttpGet("getAll")]  
         public IActionResult GetAll()
         {
             Console.WriteLine("getAll");
-            var getAll = _developerRepository.GetAll();
+            var getAll = _developerService.GetAllAsync();
             return Ok(getAll);
         }
         
@@ -88,16 +74,16 @@ namespace DeveloperWepApi1.Controllers
         [HttpDelete("{developerId}", Name = "developerId")]
         public IActionResult Delete(Guid id) // hard delete
         {
-            var developer = _developerRepository.GetById(id);
-            _developerRepository.Delete(developer.Id);
+            var developer = _developerService.GetById(id);
+            _developerService.Delete(developer.Id);
             return Ok(id);
         }
        //[AllowAnonymous]
         [HttpPut("softDelete")]
         public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
         {
-            var developer = _developerRepository.GetById(id);
-            _developerRepository.SoftDelete(developer.Id, softDeleteDto);
+            var developer = _developerService.GetById(id);
+            _developerService.SoftDelete(developer.Id, softDeleteDto);
             return Ok(id);
         }
         
