@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using TaskWepApi1.Database;
 using TaskWepApi1.Database.Interface;
@@ -16,7 +17,7 @@ namespace TaskWepApi1.Repository
 
         public TaskProperties GetById(Guid id)
         {
-            var taskProperties = FindOne(x => x.Id == id);
+            var taskProperties = FindOneAsync(x => x.Id == id).GetAwaiter().GetResult();
 
             if (taskProperties == null)
             {
@@ -31,14 +32,14 @@ namespace TaskWepApi1.Repository
             return taskProperties;
         }
 
-        public List<TaskProperties> GetAll()
+        public async Task<IEnumerable<TaskProperties>> GetAllAsync()
         {
-            return FindAll();
+            return await FindAllAsync();
         }
 
-        public Guid Insert(TaskProperties taskProperties)
+        public async Task<Guid> InsertTaskAsync(TaskProperties taskProperties)
         {
-            return Create(taskProperties);
+            return await CreateAsync(taskProperties);
         }
 
         public void Update(Guid taskId, UpdateTaskDto updateTaskDto)

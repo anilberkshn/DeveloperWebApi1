@@ -22,16 +22,6 @@ namespace DeveloperWepApi1.DeveloperRepository
         public Developer GetById(Guid id)
         {
             var developer = FindOneAsync(x => x.Id == id).GetAwaiter().GetResult();
-
-            if (developer == null)
-            {
-                throw new DeveloperException(HttpStatusCode.NotFound,"developer bulunamadı.");
-            }
-            if (developer.IsDeleted)
-            {
-                throw new DeveloperException(HttpStatusCode.NotFound, "developer bulunamadı.");
-            }
-
             return developer;
         }
 
@@ -53,8 +43,8 @@ namespace DeveloperWepApi1.DeveloperRepository
                 .Set(x => x.UpdatedTime, updateDeveloperDto.UpdatedTime)
                 .Set(x => x.IsDeleted, updateDeveloperDto.IsDeleted)
                 .Set(x => x.DeleteTime, updateDeveloperDto.DeletedTime)
-                .Set(x => x.RefreshToken, updateDeveloperDto.RefreshToken)
-                .Set(x => x.RefreshTokenEndDate, updateDeveloperDto.RefreshTokenEndDate)
+                // .Set(x => x.RefreshToken, updateDeveloperDto.RefreshToken)
+                // .Set(x => x.RefreshTokenEndDate, updateDeveloperDto.RefreshTokenEndDate)
                 ;
 
             Update(x=> x.Id == developerId,update);

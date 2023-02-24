@@ -30,37 +30,20 @@ namespace DeveloperWepApi1.Mongo
             record.UpdatedTime = DateTime.Now;
     
             await _collection.InsertOneAsync(record);
-            //
-           return record.Id;
+            return record.Id;
         }
-
-        // public async Task<IQueryable<T>> FindAllAsync()
-        // {
-        //     var  record = _collection.AsQueryable().ToListAsync();
-        //    return await record;
-        // }
         public async Task<IEnumerable<T>> FindAllAsync()
         {
-            var record =  _collection.AsQueryable().AsEnumerable();  //.AsEnumerable();ToListAsync();
-            return record;
-          //  return record.Take(10); ilk 10 kayıt alıyor. 
+           // var record = _collection.Find(document =>true ).Skip(5).Limit(5);
+           // var record = await _collection.Find(expression).Skip(5).Limit(5).ToListAsync();
+           var record = _collection.AsQueryable().AsEnumerable(); //.Take(5);
+           return record;
         }
         
-        
-        // public async Task<List<T>> FindAllAsync()
-        // {
-        //     var  record = _collection.AsQueryable().ToListAsync();
-        //     return await record;
-        //     // var record = _collection.AsQueryable().ToList(); // asQueryable  creates a queryable source of documents
-        //     // // ofset limit skkip ve take
-        //     // return record;
-        // }
-
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)
-        {
-            var record = await _collection.Find(expression).FirstOrDefaultAsync();
-          
-            return record;
+        { 
+           var record = await _collection.Find(expression).FirstOrDefaultAsync();
+           return record;
         } 
 
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)

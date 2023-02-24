@@ -8,21 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
-    [Authorize]
+   // [Authorize] // denemeler sırasında her seferinde giriş yapmamak için.
     [ApiController]
     [Route("api/developer")]
-    
     public class DevelopersController : ControllerBase
     {
-      
         private readonly IDeveloperService _developerService;
-        
         public DevelopersController(IDeveloperService developerService)
         {
             _developerService = developerService;
-        } 
-        
-     //---------------------------------------------------------------
+        }
         //[AllowAnonymous]
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
@@ -33,8 +28,8 @@ namespace DeveloperWepApi1.Controllers
                 Name = createDeveloperDto.Name,
                 Surname = createDeveloperDto.Surname,
                 Department = createDeveloperDto.Department,
-                Username = createDeveloperDto.Username,
-                Password = createDeveloperDto.Password
+                // Username = createDeveloperDto.Username,
+                // Password = createDeveloperDto.Password
             };
             _developerService.InsertDeveloperAsync(developer);
 

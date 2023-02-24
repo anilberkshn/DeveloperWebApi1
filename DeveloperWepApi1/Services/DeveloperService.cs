@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.DeveloperRepository;
+using DeveloperWepApi1.Model.ErrorModels;
 
 namespace DeveloperWepApi1.Services
 {
@@ -18,7 +21,18 @@ namespace DeveloperWepApi1.Services
 
         public Developer GetById(Guid id)
         {
-            return _developerRepository.GetById(id);
+            var developer = _developerRepository.GetById(id);
+            
+            if (developer == null)
+            {
+                throw new DeveloperException(HttpStatusCode.NotFound,"developer bulunamadı.");
+            }
+            if (developer.IsDeleted)
+            {
+                throw new DeveloperException(HttpStatusCode.NotFound, "developer bulunamadı.");
+            }
+            
+            return developer;
         }
 
         public Task<IEnumerable<Developer>> GetAllAsync()

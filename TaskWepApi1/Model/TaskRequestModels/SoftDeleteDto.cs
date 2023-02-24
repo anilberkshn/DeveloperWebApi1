@@ -5,7 +5,6 @@ namespace TaskWepApi1.Model.TaskRequestModels
     public class SoftDeleteDto
     {
         // public string Title { get; set; }   title değişmez mantığı ile Create kısmından farklı olması için
-
         public DateTime DeletedTime { get; set; }
         public bool IsDeleted { get; set; }
         
