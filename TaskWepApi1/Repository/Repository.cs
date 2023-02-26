@@ -51,12 +51,12 @@ namespace TaskWepApi1.Repository
                 .Set(x => x.DeveloperId, updateTaskDto.DeveloperId)
                 .Set(x => x.Status, updateTaskDto.Status);
 
-            Update(x => x.TaskId == taskId, update);
+            Update(x => x.Id == taskId, update);
         }
 
         public Guid Delete(Guid guid)
         {
-            return Delete(x => x.TaskId == guid);
+            return Delete(x => x.Id == guid);
         }
 
         public void SoftDelete(Guid guid, SoftDeleteDto softDeleteDto)
@@ -66,7 +66,7 @@ namespace TaskWepApi1.Repository
                     .Set(x => x.IsDeleted, softDeleteDto.IsDeleted)
                 ;
 
-            SoftDelete(x => x.TaskId == guid, softDelete);
+            SoftDelete(x => x.Id == guid, softDelete);
         }
     }
 }

@@ -11,12 +11,6 @@ namespace DeveloperWepApi1.Model.RequestModels
         public DateTime UpdatedTime { get; set; }
         public DateTime DeletedTime { get; set; }
         public bool IsDeleted{ get; set; }
-        
-        public string Username { get; set; }
-        public string Password { get; set; }
-        
-        public string RefreshToken { get; set; }
-        public DateTime? RefreshTokenEndDate { get; set; }
     }
 }
 

@@ -4,73 +4,74 @@ using TaskWepApi1.Model.Entities;
 using TaskWepApi1.Model.ResponseModel;
 using TaskWepApi1.Model.TaskRequestModels;
 using TaskWepApi1.Repository;
+using TaskWepApi1.Services;
 
 namespace TaskWepApi1.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/task")]
 
-    public class TaskController : Controller
+    public class TaskController : ControllerBase
     {
      //   public List<TaskModel.TaskEntities.Task> _tasks { get; set; } /*List<Task> yaparken farklı bir task a gidiyor. Entities içindekine dikkat et*/ 
-     private readonly IRepository _repository;
+     private readonly ITaskService _taskService;
         
-        public TaskController(IRepository repository)
+        public TaskController(ITaskService taskService)
         {
-            _repository = repository;
+            _taskService = taskService;
         }
         
        // [Route("[createTask]")]       Hata aldırıyor.
-        [HttpPost("CreateTask")]
+        [HttpPost]
         public IActionResult CreateTask([FromBody] CreateTaskDto createTaskDto)
         {
             var task = new TaskProperties()
             {
-                TaskId = new Guid(),
+                Id = new Guid(),
                 Title = createTaskDto.Title,
                 Description = createTaskDto.Description,
                 Department = createTaskDto.Department,
                 DeveloperId = createTaskDto.DeveloperId,
                 Status =   createTaskDto.Status
             };
-            
-            _repository.Insert(task);
+
+            _taskService.InsertTaskAsync(task);
 
             var response = new CreateResponse()
             {
-                Id = task.TaskId
+                Id = task.Id
             };
             return Ok(response);
         }
 
         [HttpGet("{taskId}", Name = "taskId")]
-        //[HttpGet ("SearchTask")]
+       
         public IActionResult GetById(Guid guid)
         {
-            var findOne = _repository.GetById(guid);
+            var findOne = _taskService.GetById(guid);
             return Ok(findOne);
         }
 
         [HttpGet("GetAllTask")]
         public IActionResult GetAll()
         {
-            var getAllTask = _repository.GetAll();
+            var getAllTask = _taskService.GetAllAsync();
             return Ok(getAllTask);
         }
 
         [HttpDelete("HardDelete")]
         public IActionResult HardDelete(Guid guid)
         {
-            var task = _repository.GetById(guid);
-            _repository.Delete(task.TaskId);
+            var task = _taskService.GetById(guid);
+            _taskService.Delete(task.Id);
             return Ok(guid);
         }
         
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid taskId, [FromBody] UpdateTaskDto updateTaskDto)
         {
-            var developer = _repository.GetById(taskId);
-            _repository.Update(taskId, updateTaskDto);
+            var developer = _taskService.GetById(taskId);
+            _taskService.Update(taskId, updateTaskDto);
             return Ok(developer);
         }
 
@@ -78,8 +79,8 @@ namespace TaskWepApi1.Controllers
         [HttpPut("SoftDelete")]
         public IActionResult SoftDelete(Guid guid, [FromBody] SoftDeleteDto softDeleteDto)
         {
-            var taskProperties = _repository.GetById(guid);
-            _repository.SoftDelete(taskProperties.Id, softDeleteDto);
+            var taskProperties = _taskService.GetById(guid);
+            _taskService.SoftDelete(taskProperties.Id, softDeleteDto);
             return Ok(guid);
         }
     }
