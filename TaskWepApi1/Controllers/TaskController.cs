@@ -44,7 +44,8 @@ namespace TaskWepApi1.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{taskId}", Name = "taskId")]
+      //  [HttpGet("{taskId}", Name = "taskId")]
+        [HttpGet("taskId")]
        
         public IActionResult GetById(Guid guid)
         {

@@ -4,7 +4,7 @@ namespace TaskWepApi1.Model.Entities
 {
     public class TaskProperties : Document
     {
-        public Guid TaskId { get; set; }
+      //  public Guid TaskId { get; set; }
         
         public string Title { get; set; }
         

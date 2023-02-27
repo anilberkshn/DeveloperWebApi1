@@ -57,12 +57,13 @@ namespace DeveloperWepApi1.Controllers
         }
 
       //   [AllowAnonymous]
-        [HttpGet("getAll")]  
+        [HttpGet("GetAllDevelope")]  
         public IActionResult GetAll()
         {
             Console.WriteLine("getAll");
-            var getAll = _developerService.GetAllAsync();
-            return Ok(getAll);
+            var getAllDeveloper = _developerService.GetAllAsync();
+            // var getAll = _developerService.GetAllAsync();
+            return Ok(getAllDeveloper);
         }
         
         //[AllowAnonymous]

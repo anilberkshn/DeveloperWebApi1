@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,8 +16,10 @@ using MongoDB.Driver;
 using TaskWepApi1.Config;
 using TaskWepApi1.Database.Context;
 using TaskWepApi1.Database.Interface;
+using TaskWepApi1.Middlewares;
 using TaskWepApi1.Repository;
 using TaskWepApi1.Services;
+using TaskWepApi1.Validation;
 
 namespace TaskWepApi1
 {
@@ -30,8 +33,12 @@ namespace TaskWepApi1
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [Obsolete("Obsolete")]
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddFluentValidation(
+                fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+               // fv => fv.RegisterValidatorsFromAssemblyContaining<TaskValidator>());
             services.AddControllers();
           
             services.AddSwaggerGen(c =>
@@ -59,7 +66,8 @@ namespace TaskWepApi1
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskWepApi1 v1"));
             }
-           // app.UseMiddleware>()
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();

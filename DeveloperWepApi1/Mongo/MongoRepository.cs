@@ -36,8 +36,8 @@ namespace DeveloperWepApi1.Mongo
         {
            // var record = _collection.Find(document =>true ).Skip(5).Limit(5);
            // var record = await _collection.Find(expression).Skip(5).Limit(5).ToListAsync();
-           var record = _collection.AsQueryable().AsEnumerable(); //.Take(5);
-           return record;
+           var record = _collection.AsQueryable().AsEnumerable();
+           return record.Take(15 );
         }
         
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)

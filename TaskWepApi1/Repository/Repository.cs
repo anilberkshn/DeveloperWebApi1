@@ -18,17 +18,6 @@ namespace TaskWepApi1.Repository
         public TaskProperties GetById(Guid id)
         {
             var taskProperties = FindOneAsync(x => x.Id == id).GetAwaiter().GetResult();
-
-            if (taskProperties == null)
-            {
-                throw new Exception(); // todo: TaskNotFoundException
-            }
-
-            if (taskProperties.IsDeleted)
-            {
-                throw new Exception(); // todo: TaskNotFoundException
-            }
-
             return taskProperties;
         }
 

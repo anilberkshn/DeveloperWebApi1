@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using DeveloperWepApi1.Model.ErrorModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using TaskWepApi1.Model.ErrorModels;
 
-namespace DeveloperWepApi1.Middlewares
+namespace TaskWepApi1.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
@@ -23,12 +23,12 @@ namespace DeveloperWepApi1.Middlewares
             {
                 await _next.Invoke(httpContext);
             }
-            catch (DeveloperException e)
+            catch (TaskException e)
             {
                 httpContext.Response.ContentType = "application/json";
                 httpContext.Response.StatusCode = (int) e.StatusCode;
                 await httpContext.Response.WriteAsync(e.ToString());
-               _logger.LogInformation(e, "bilinen bir hata oluştu");
+                _logger.LogInformation(e, "A known error has occurred");
             }
             catch (Exception e)
             {
@@ -36,6 +36,5 @@ namespace DeveloperWepApi1.Middlewares
                 throw;
             }
         }
-
-      }
+    }
 }
