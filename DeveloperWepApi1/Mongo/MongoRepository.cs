@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Interface;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
 namespace DeveloperWepApi1.Mongo
@@ -32,12 +33,37 @@ namespace DeveloperWepApi1.Mongo
             await _collection.InsertOneAsync(record);
             return record.Id;
         }
-        public async Task<IEnumerable<T>> FindAllAsync()
+        // public async Task<IEnumerable<T>> FindAllAsync()
+        // {
+        //    // var record = _collection.Find(document =>true ).Skip(5).Limit(5);
+        //    // var record = await _collection.Find(expression).Skip(5).Limit(5).ToListAsync();
+        //    var record = _collection.AsQueryable().AsEnumerable();
+        //    return record;
+        //} 
+    
+        public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> expression)
         {
-           // var record = _collection.Find(document =>true ).Skip(5).Limit(5);
+            var record2 = _collection.Find(expression)
+                .Sort(expression.Name)
+                .Skip(5).Limit(5)
+                .ToEnumerable()
+                ;
+            
+            var record4 = await _collection.Find(expression)
+                .Sort(expression.Name)
+                .Skip(5).Limit(5).ToListAsync();
+
+            
+            var record3 =  _collection.Find(expression)
+                .Sort(expression.Name)
+                .Skip(5).Limit(5).
+                ToEnumerable().
+                AsEnumerable().
+                AsQueryable().
+                ToList(); 
+            //var record = _collection.Find( ).Sort(s).Limit(5);
            // var record = await _collection.Find(expression).Skip(5).Limit(5).ToListAsync();
-           var record = _collection.AsQueryable().AsEnumerable();
-           return record.Take(15 );
+           return record2;
         }
         
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)

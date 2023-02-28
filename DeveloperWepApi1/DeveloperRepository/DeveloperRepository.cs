@@ -25,9 +25,10 @@ namespace DeveloperWepApi1.DeveloperRepository
             return developer;
         }
 
-        public async Task<IEnumerable<Developer>> GetAllAsync()
+        public async Task<IEnumerable<Developer>> GetAllAsync(string name)
         { 
-           return await FindAllAsync();
+           var a = await FindAllAsync(x => x.Name.ToLower() == name.ToLower());
+           return a ;
         }
 
         public async Task<Guid> InsertDeveloperAsync(Developer developer)

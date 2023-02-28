@@ -12,7 +12,7 @@ namespace DeveloperWepApi1.Mongo.Interface
     public interface IMongoRepository<T>
     {
         public Task<Guid> CreateAsync (T record);
-        public Task<IEnumerable<T>> FindAllAsync();
+        public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> expression);
         // public Task<List<T>> FindAllAsync();
         public  Task<T> FindOneAsync(Expression<Func<T, bool>> expression);
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition);

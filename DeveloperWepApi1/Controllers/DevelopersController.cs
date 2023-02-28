@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
-   // [Authorize] // denemeler sırasında her seferinde giriş yapmamak için.
+    // [Authorize] // denemeler sırasında her seferinde giriş yapmamak için.
     [ApiController]
     [Route("api/developer")]
     public class DevelopersController : ControllerBase
@@ -57,11 +57,10 @@ namespace DeveloperWepApi1.Controllers
         }
 
       //   [AllowAnonymous]
-        [HttpGet("GetAllDevelope")]  
-        public IActionResult GetAll()
+        [HttpGet("GetAllDeveloper")]  
+        public IActionResult GetAll(string name)
         {
-            Console.WriteLine("getAll");
-            var getAllDeveloper = _developerService.GetAllAsync();
+            var getAllDeveloper = _developerService.GetAllAsync(name);
             // var getAll = _developerService.GetAllAsync();
             return Ok(getAllDeveloper);
         }
