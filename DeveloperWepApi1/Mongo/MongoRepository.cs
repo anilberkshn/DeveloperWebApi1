@@ -43,9 +43,17 @@ namespace DeveloperWepApi1.Mongo
     
         public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> expression)
         {
+            // var record5 =await _collection.FindAsync(Builders<Expression>.Filter.Text("search");
+            // var results = await record5.;
+            //---------------
+            //var record6 = _collection.Find( {$"text": {$"search": "expression" } } )
+            //---------------
+        
+
+
             var record2 = _collection.Find(expression)
                 .Sort(expression.Name)
-                .Skip(5).Limit(5)
+                .Limit(5) // skip i kaldırıp dene
                 .ToEnumerable()
                 ;
             
