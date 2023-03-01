@@ -5,7 +5,9 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Mongo.Interface;
+using FluentValidation.Internal;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace DeveloperWepApi1.Mongo
@@ -48,9 +50,14 @@ namespace DeveloperWepApi1.Mongo
             //---------------
             //var record6 = _collection.Find( {$"text": {$"search": "expression" } } )
             //---------------
-        
-
-
+            // var record7 = _collection.Find(expression).CountDocuments(expression.Name);
+            var record8 = _collection.Find(expression)
+                .ToEnumerable()
+                .AsEnumerable().
+                AsQueryable().
+                ToList();
+            
+            
             var record2 = _collection.Find(expression)
                 .Sort(expression.Name)
                 .Limit(5) // skip i kaldırıp dene
@@ -71,7 +78,7 @@ namespace DeveloperWepApi1.Mongo
                 ToList(); 
             //var record = _collection.Find( ).Sort(s).Limit(5);
            // var record = await _collection.Find(expression).Skip(5).Limit(5).ToListAsync();
-           return record2;
+           return record8;
         }
         
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)

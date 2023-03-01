@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
@@ -8,6 +9,7 @@ using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo;
 using DeveloperWepApi1.Mongo.Interface;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 
 namespace DeveloperWepApi1.DeveloperRepository
 {
