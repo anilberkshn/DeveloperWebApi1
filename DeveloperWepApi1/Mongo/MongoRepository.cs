@@ -43,42 +43,10 @@ namespace DeveloperWepApi1.Mongo
         //    return record;
         //} 
     
-        public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> expression)
+        public async Task<IEnumerable<T>> FindAllAsync(int skip,int take)
         {
-            // var record5 =await _collection.FindAsync(Builders<Expression>.Filter.Text("search");
-            // var results = await record5.;
-            //---------------
-            //var record6 = _collection.Find( {$"text": {$"search": "expression" } } )
-            //---------------
-            // var record7 = _collection.Find(expression).CountDocuments(expression.Name);
-            var record8 = _collection.Find(expression)
-                .ToEnumerable()
-                .AsEnumerable().
-                AsQueryable().
-                ToList();
-            
-            
-            var record2 = _collection.Find(expression)
-                .Sort(expression.Name)
-                .Limit(5) // skip i kaldırıp dene
-                .ToEnumerable()
-                ;
-            
-            var record4 = await _collection.Find(expression)
-                .Sort(expression.Name)
-                .Skip(5).Limit(5).ToListAsync();
-
-            
-            var record3 =  _collection.Find(expression)
-                .Sort(expression.Name)
-                .Skip(5).Limit(5).
-                ToEnumerable().
-                AsEnumerable().
-                AsQueryable().
-                ToList(); 
-            //var record = _collection.Find( ).Sort(s).Limit(5);
-           // var record = await _collection.Find(expression).Skip(5).Limit(5).ToListAsync();
-           return record8;
+            var record = _collection.AsQueryable().AsEnumerable();
+            return record.Skip(skip).Take(take);
         }
         
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)

@@ -8,6 +8,7 @@ using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo;
 using DeveloperWepApi1.Mongo.Interface;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 
@@ -27,10 +28,10 @@ namespace DeveloperWepApi1.DeveloperRepository
             return developer;
         }
 
-        public async Task<IEnumerable<Developer>> GetAllAsync(string name)
-        { 
-           var a = await FindAllAsync(x => x.Name.ToLower() == name.ToLower());
-           return a ;
+        public async Task<IEnumerable<Developer>> GetAllAsync(int skip,int take)
+        {
+           var developerList = await FindAllAsync(skip,take);
+           return developerList ;
         }
 
         public async Task<Guid> InsertDeveloperAsync(Developer developer)

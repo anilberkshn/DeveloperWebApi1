@@ -58,9 +58,9 @@ namespace DeveloperWepApi1.Controllers
 
       //   [AllowAnonymous]
         [HttpGet("GetAllDeveloper")]  
-        public IActionResult GetAll(string name)
+        public IActionResult GetAll(int skip,int take)
         {
-            var getAllDeveloper = _developerService.GetAllAsync(name);
+            var getAllDeveloper = _developerService.GetAllAsync(skip,take);
             // var getAll = _developerService.GetAllAsync();
             return Ok(getAllDeveloper);
         }
