@@ -37,6 +37,15 @@ namespace DeveloperWepApi1.Services
 
         public Task<IEnumerable<Developer>> GetAllAsync(int skip,int take)
         {
+            if (skip <0 )
+            {
+                throw new ValidationErrorException(HttpStatusCode.BadRequest, "Skip cannot negative");
+            }
+
+            if (take is > 100 or < 0)
+            {
+                throw new ValidationErrorException(HttpStatusCode.TooManyRequests, "TooManyRequest");
+            }
             return _developerRepository.GetAllAsync(skip,take);
         }
 
