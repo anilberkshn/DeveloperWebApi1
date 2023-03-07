@@ -56,7 +56,14 @@ namespace DeveloperWepApi1
                 };
                 services.AddControllers();
             });
+            // // KAFKA
+            // var producerSettings = Configuration.GetSection("ProducerConfig").Get<ProducerConfig>();
+            // // var producerConfig = new ProducerConfig(producerSettings);
+            // // Configuration.Bind("ProducerConfig", producerSettings);
+            // // var producerBuild = new Confluent.Kafka.ProducerConfig(producerSettings);
+            // services.AddSingleton<ProducerConfig>();
             
+            services.AddControllers();
             //services.AddScoped<IUserService, Users>();
             
             var dbSettings = Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
