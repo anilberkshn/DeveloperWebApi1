@@ -61,7 +61,7 @@ namespace DeveloperWepApi1.Services
             {
                 throw new DeveloperException(HttpStatusCode.NotFound,"developer eklenemedi.");
             }
-            var producer = new MyProducerBuilder(new MyProducerConfig());
+            var producer = new MyProducerBuilder();
 
             return addedDeveloper ;
         }

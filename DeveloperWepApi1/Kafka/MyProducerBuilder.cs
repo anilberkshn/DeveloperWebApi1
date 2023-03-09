@@ -13,18 +13,23 @@ namespace DeveloperWepApi1.Kafka
     public class MyProducerBuilder
     {
         private MyProducerConfig _myProducerConfig;
-        
-        public MyProducerBuilder(MyProducerConfig myProducerConfig)
+        public MyProducerBuilder()
         {
-            _myProducerConfig = myProducerConfig;
+            // _myProducerConfig = myProducerConfig;
+            
+            var topicName = "topic_0";
+            var kafkaBootStrapServers = "pkc-lzvrd.us-west4.gcp.confluent.cloud:9092";
+            var username = "B2GUYKSUAYO56XE2";
+            var password = "dqBOlwAkb+/nkzLOGDkk/hTQsERKWCNbFrtP7P/hgBYFmvhzg7WjCnmFZvga5wPm";
 
+            
             var kafkaConfig = new ProducerConfig()
             {
-                BootstrapServers = _myProducerConfig.KafkaBootStrapServers,
+                BootstrapServers = kafkaBootStrapServers,
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.Plain,
-                SaslUsername = _myProducerConfig.Username,
-                SaslPassword = _myProducerConfig.Password
+                SaslUsername = username,
+                SaslPassword = password
             };
 
             using var producer = new ProducerBuilder<string, string>(kafkaConfig).Build();
@@ -44,7 +49,7 @@ namespace DeveloperWepApi1.Kafka
                 Value = jstr
             };
 
-            var result =  producer.ProduceAsync(_myProducerConfig.TopicName, kafkaMessage).GetAwaiter().GetResult();
+            var result =  producer.ProduceAsync(topicName, kafkaMessage).GetAwaiter().GetResult();
 
             Console.WriteLine($"Status: {result.Status}");
         }
