@@ -1,8 +1,10 @@
 using System;
 using System.Text;
+using Confluent.Kafka;
 using DeveloperWepApi1.Config;
 using DeveloperWepApi1.DeveloperRepository;
 using DeveloperWepApi1.Extensions;
+using DeveloperWepApi1.Kafka;
 using DeveloperWepApi1.Middlewares;
 using DeveloperWepApi1.Mongo.Context;
 using DeveloperWepApi1.Mongo.Interface;
@@ -56,12 +58,12 @@ namespace DeveloperWepApi1
                 };
                 services.AddControllers();
             });
-            // // KAFKA
-            // var producerSettings = Configuration.GetSection("ProducerConfig").Get<ProducerConfig>();
-            // // var producerConfig = new ProducerConfig(producerSettings);
-            // // Configuration.Bind("ProducerConfig", producerSettings);
-            // // var producerBuild = new Confluent.Kafka.ProducerConfig(producerSettings);
-            // services.AddSingleton<ProducerConfig>();
+            // KAFKA
+            // var producerSettings = Configuration.GetSection("MyProducerConfig").Get<MyProducerConfig>();
+            // var producerConfig = new MyProducerBuilder(producerSettings);
+            // Configuration.Bind("MyProducerConfig", producerConfig);
+            // var producerBuild = new Confluent.Kafka.ProducerConfig();
+            // services.AddSingleton<MyProducerConfig>();
             
             services.AddControllers();
             //services.AddScoped<IUserService, Users>();

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
+using DeveloperWepApi1.Config;
 using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.DeveloperRepository;
+using DeveloperWepApi1.Kafka;
 using DeveloperWepApi1.Model.ErrorModels;
 
 namespace DeveloperWepApi1.Services
@@ -22,22 +24,23 @@ namespace DeveloperWepApi1.Services
         public Developer GetById(Guid id)
         {
             var developer = _developerRepository.GetById(id);
-            
+
             if (developer == null)
             {
-                throw new DeveloperException(HttpStatusCode.NotFound,"developer bulunamadı.");
+                throw new DeveloperException(HttpStatusCode.NotFound, "developer bulunamadı.");
             }
+
             if (developer.IsDeleted)
             {
                 throw new DeveloperException(HttpStatusCode.NotFound, "developer bulunamadı.");
             }
-            
+
             return developer;
         }
 
-        public Task<IEnumerable<Developer>> GetAllAsync(int skip,int take)
+        public Task<IEnumerable<Developer>> GetAllAsync(int skip, int take)
         {
-            if (skip <0 )
+            if (skip < 0)
             {
                 throw new ValidationErrorException(HttpStatusCode.BadRequest, "Skip cannot negative");
             }
@@ -46,17 +49,26 @@ namespace DeveloperWepApi1.Services
             {
                 throw new ValidationErrorException(HttpStatusCode.TooManyRequests, "TooManyRequest");
             }
-            return _developerRepository.GetAllAsync(skip,take);
+
+            return _developerRepository.GetAllAsync(skip, take);
         }
 
         public Task<Guid> InsertDeveloperAsync(Developer developer)
         {
-            return _developerRepository.InsertDeveloperAsync(developer);
+            var addedDeveloper =  _developerRepository.InsertDeveloperAsync(developer);
+
+            if (addedDeveloper == null)
+            {
+                throw new DeveloperException(HttpStatusCode.NotFound,"developer eklenemedi.");
+            }
+            var producer = new MyProducerBuilder(new MyProducerConfig());
+
+            return addedDeveloper ;
         }
 
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto)
         {
-           _developerRepository.UpdateDeveloper(developerId, updateDeveloperDto);
+            _developerRepository.UpdateDeveloper(developerId, updateDeveloperDto);
         }
 
         public Guid Delete(Guid developerId)
@@ -66,7 +78,7 @@ namespace DeveloperWepApi1.Services
 
         public void SoftDelete(Guid developerId, SoftDeleteDto softDeleteDto)
         {
-            _developerRepository.SoftDelete(developerId,softDeleteDto);  
+            _developerRepository.SoftDelete(developerId, softDeleteDto);
         }
     }
 }
