@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskWepApi1", "TaskWepApi1\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeveloperWepApi1", "DeveloperWepApi1", "{91818F8A-E51B-48F1-AEAA-A487AC49998C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{E4BE1066-0F5B-4B3D-8456-FB1ACC6D7C12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{C17CE1F1-CF79-4C3C-8FED-AC4389EAB5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C17CE1F1-CF79-4C3C-8FED-AC4389EAB5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C17CE1F1-CF79-4C3C-8FED-AC4389EAB5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4BE1066-0F5B-4B3D-8456-FB1ACC6D7C12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4BE1066-0F5B-4B3D-8456-FB1ACC6D7C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4BE1066-0F5B-4B3D-8456-FB1ACC6D7C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4BE1066-0F5B-4B3D-8456-FB1ACC6D7C12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C17CE1F1-CF79-4C3C-8FED-AC4389EAB5A7} = {7E8C7767-945B-4140-B704-FA856D813ACA}
