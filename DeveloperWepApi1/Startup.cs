@@ -58,15 +58,9 @@ namespace DeveloperWepApi1
                 };
                 services.AddControllers();
             });
-            // KAFKA
-            // var producerSettings = Configuration.GetSection("MyProducerConfig").Get<MyProducerConfig>();
-            // var producerConfig = new MyProducerBuilder(producerSettings);
-            // Configuration.Bind("MyProducerConfig", producerConfig);
-            // var producerBuild = new Confluent.Kafka.ProducerConfig();
-            // services.AddSingleton<MyProducerConfig>();
-            
+         
             services.AddControllers();
-            //services.AddScoped<IUserService, Users>();
+         
             
             var dbSettings = Configuration.GetSection("DeveloperDatabaseSettings").Get<DeveloperDatabaseSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
