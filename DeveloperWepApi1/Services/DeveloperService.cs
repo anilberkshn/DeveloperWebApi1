@@ -21,6 +21,11 @@ namespace DeveloperWepApi1.Services
             _developerRepository = developerRepository;
         }
 
+        public DeveloperService()
+        {
+        
+        }
+
         public Developer GetById(Guid id)
         {
             var developer = _developerRepository.GetById(id);
