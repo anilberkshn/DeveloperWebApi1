@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloperWepApi1", "DeveloperWepApi1\DeveloperWepApi1.csproj", "{560810DD-26C3-4FF0-B8EB-3CB55D5A04F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskWepApi1", "TaskWepApi1", "{7E8C7767-945B-4140-B704-FA856D813ACA}"
@@ -13,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest2", "UnitTest2\UnitTest2.csproj", "{9BC58281-4F02-4CB4-8B7C-8BE113EA806F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest3", "DeveloperWepApi1\UnitTest3\UnitTest3.csproj", "{8D3322FA-F63C-4625-BE3D-CB3F8E4A4DCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloperWebApi.Tests", "DeveloperWebApi.Tests\DeveloperWebApi.Tests.csproj", "{54C42BF7-7534-4AC2-969A-EDDC35E2FD0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +43,10 @@ Global
 		{8D3322FA-F63C-4625-BE3D-CB3F8E4A4DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D3322FA-F63C-4625-BE3D-CB3F8E4A4DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D3322FA-F63C-4625-BE3D-CB3F8E4A4DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54C42BF7-7534-4AC2-969A-EDDC35E2FD0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54C42BF7-7534-4AC2-969A-EDDC35E2FD0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54C42BF7-7534-4AC2-969A-EDDC35E2FD0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54C42BF7-7534-4AC2-969A-EDDC35E2FD0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C17CE1F1-CF79-4C3C-8FED-AC4389EAB5A7} = {7E8C7767-945B-4140-B704-FA856D813ACA}

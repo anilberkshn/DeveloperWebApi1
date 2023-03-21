@@ -1,16 +1,26 @@
 ﻿// using System;
-// //todo:  
+// //todo:  ---------------------- ESKİ 20.03.2023 --------------
 // using DeveloperWepApi1.DeveloperRepository;
 // using DeveloperWepApi1.Mongo.Context;
 // using DeveloperWepApi1.Services;
+// using Microsoft.VisualStudio.TestTools.UnitTesting;
+// using Moq;
 // using NUnit.Framework;
+// using Assert = NUnit.Framework.Assert;
 //
 // namespace UnitTest3
 // {
-//     [TestFixture]
+//     [TestClass]
 //     public class Tests
 //     {
-//         [Test]
+//         private Mock<DeveloperService> _mock;
+//
+//         [TestInitialize]
+//         public void StartMoq()
+//         {
+//             
+//         }
+//         [TestMethod]
 //         public void Test1()
 //         {
 //             //Arrange
@@ -21,4 +31,7 @@
 //             Assert.IsNotNull(dev);
 //         }
 //     }
-// }
+// } 
+
+
+//_____---------------------- ESKİ 20.03.2023 --------------
