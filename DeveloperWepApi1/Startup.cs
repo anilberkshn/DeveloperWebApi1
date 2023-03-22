@@ -81,7 +81,7 @@ namespace DeveloperWepApi1
                     "/swagger/v1/swagger.json", "DeveloperWepApi1 v1"));
             }
 
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>();//app.useErrorHandling yazımı Extension ile
             app.UseHttpsRedirection();
 
             app.UseRouting();

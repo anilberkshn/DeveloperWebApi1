@@ -20,12 +20,7 @@ namespace DeveloperWepApi1.Services
         {
             _developerRepository = developerRepository;
         }
-
-        public DeveloperService()
-        {
         
-        }
-
         public Developer GetById(Guid id)
         {
             var developer = _developerRepository.GetById(id);
@@ -55,7 +50,7 @@ namespace DeveloperWepApi1.Services
                 throw new ValidationErrorException(HttpStatusCode.TooManyRequests, "TooManyRequest");
             }
 
-            return _developerRepository.GetAllAsync(skip, take);
+            return _developerRepository.GetAllAsync(skip, take);// mock
         }
 
         public Task<Guid> InsertDeveloperAsync(Developer developer)
