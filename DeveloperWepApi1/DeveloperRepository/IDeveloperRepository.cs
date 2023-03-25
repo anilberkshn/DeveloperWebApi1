@@ -9,7 +9,7 @@ namespace DeveloperWepApi1.DeveloperRepository
     public interface IDeveloperRepository
     {
         public Developer GetById(Guid id);
-        public Task<IEnumerable<Developer>>GetAllAsync(int skip,int take);
+        public Task<IEnumerable<Developer>>GetAllAsync(GetAllDto getAllDto);
         public Task<Guid> InsertDeveloperAsync(Developer developer);
         public void UpdateDeveloper(Guid developerId, UpdateDeveloperDto updateDeveloperDto);
         public Guid Delete(Guid guid);

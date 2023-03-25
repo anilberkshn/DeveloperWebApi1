@@ -28,9 +28,9 @@ namespace DeveloperWepApi1.DeveloperRepository
             return developer;
         }
 
-        public async Task<IEnumerable<Developer>> GetAllAsync(int skip,int take)
+        public async Task<IEnumerable<Developer>> GetAllAsync(GetAllDto getAllDto)
         {
-           var developerList = await FindAllAsync(skip,take);
+           var developerList = await FindAllAsync(getAllDto.skip,getAllDto.take);
            return developerList ;
         }
 

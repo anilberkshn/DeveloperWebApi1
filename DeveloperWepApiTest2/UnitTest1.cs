@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using DeveloperWepApi1.DeveloperRepository;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,12 +14,58 @@ using Assert = NUnit.Framework.Assert;
 
 namespace DeveloperWepApiTest2
 {
-    [TestFixture]
+    [TestClass]
     public class DeveloperServiceUnitTest
     {
-        private Mock<DeveloperService> _mockDeveloperService;
-        private Mock<DeveloperRepository> _mockDeveloperRepository;
-  
+        public readonly IDeveloperRepository MockDeveloperRepository;
+        
+        // private Mock<DeveloperService> _mockDeveloperService;
+        // private Mock<DeveloperRepository> _mockDeveloperRepository;
+
+        public DeveloperServiceUnitTest()
+        {
+            var developerList = new List<Developer>
+            {
+                new Developer
+                {
+                    Name = "Furkan",
+                    Surname = "Aydın",
+                    Department = "backend developer",
+                    Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
+                    CreatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
+                    UpdatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
+                    DeleteTime = DateTime.Parse("0001-01-01T00:00:00Z"),
+                    IsDeleted = false
+                },
+                new Developer
+                {
+                    Name = "string",
+                    Surname = "string",
+                    Department = "string",
+                    Id = Guid.Parse("2721844c-8e9c-4bcb-8a92-eac4355e0c6c"),
+                    CreatedTime = DateTime.Parse("2023-01-12T13:01:19.923Z"),
+                    UpdatedTime = DateTime.Parse("2023-01-12T13:03:56.027Z"),
+                    DeleteTime = DateTime.Parse("2023-01-12T13:03:51.321Z"),
+                    IsDeleted = true
+                },
+                new Developer
+                {
+                    Name = "dneeme",
+                    Surname = "denememe",
+                    Department = "denemevalidator",
+                    Id = Guid.Parse("0491bb97-c1d1-465c-b250-5ee690b1751b"),
+                    CreatedTime = DateTime.Parse("2022-12-29T12:10:39.901Z"),
+                    UpdatedTime = DateTime.Parse("2022-12-29T12:10:39.901Z"),
+                    DeleteTime = DateTime.Parse("0001-01-01T00:00:00"),
+                    IsDeleted = false
+                }
+            };
+            var mockDeveloperRepository = new Mock<IDeveloperRepository>();
+
+            mockDeveloperRepository.Setup(x => x.GetAllAsync(new GetAllDto()));//.Returns(developerList);
+         
+        }
+
         [OneTimeSetUp]
         public void Setup()
         {

@@ -38,19 +38,19 @@ namespace DeveloperWepApi1.Services
             return developer;
         }
 
-        public Task<IEnumerable<Developer>> GetAllAsync(int skip, int take)
+        public Task<IEnumerable<Developer>> GetAllAsync(GetAllDto getAllDto)
         {
-            if (skip < 0)
+            if (getAllDto.skip < 0)
             {
                 throw new ValidationErrorException(HttpStatusCode.BadRequest, "Skip cannot negative");
             }
 
-            if (take is > 100 or < 0)
+            if (getAllDto.take is > 100 or < 0)
             {
                 throw new ValidationErrorException(HttpStatusCode.TooManyRequests, "TooManyRequest");
             }
 
-            return _developerRepository.GetAllAsync(skip, take);// mock
+            return _developerRepository.GetAllAsync(getAllDto);// mock
         }
 
         public Task<Guid> InsertDeveloperAsync(Developer developer)
