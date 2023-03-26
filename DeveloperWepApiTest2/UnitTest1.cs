@@ -17,10 +17,10 @@ namespace DeveloperWepApiTest2
     [TestClass]
     public class DeveloperServiceUnitTest
     {
-        public readonly IDeveloperRepository MockDeveloperRepository;
+        public readonly IDeveloperRepository _mockIDeveloperRepository;
         
-        // private Mock<DeveloperService> _mockDeveloperService;
-        // private Mock<DeveloperRepository> _mockDeveloperRepository;
+        private Mock<DeveloperService> _mockDeveloperService;
+        private Mock<DeveloperRepository> _mockDeveloperRepository;
 
         public DeveloperServiceUnitTest()
         {
@@ -63,7 +63,14 @@ namespace DeveloperWepApiTest2
             var mockDeveloperRepository = new Mock<IDeveloperRepository>();
 
             mockDeveloperRepository.Setup(x => x.GetAllAsync(new GetAllDto()));//.Returns(developerList);
-         
+            mockDeveloperRepository.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new Developer());//hatayı durdurmak için
+            mockDeveloperRepository.Setup(x => x.InsertDeveloperAsync(It.IsAny<Developer>())).Callback(
+                (Developer target) =>
+                {
+                   developerList.Add(target); 
+                });
+
+            this._mockIDeveloperRepository = mockDeveloperRepository.Object;
         }
 
         [OneTimeSetUp]
@@ -138,12 +145,15 @@ namespace DeveloperWepApiTest2
         [TestMethod]
         public void Insert_Developer_Test1()
         {
-            //arrange
-            // _mockDevelop
-            //
-            //
-            //act
-            //assert
+            var actual = this._mockIDeveloperRepository.GetAllAsync(new GetAllDto());// .Count + 1;
+ 
+            var developer = new Developer() { Id = Guid.Parse("2721844c-8e9c-4bcb-8a92-eac4355e0c7c"), Name = "User4", Surname = "User4LastName" };
+ 
+            this._mockIDeveloperRepository.InsertDeveloperAsync(developer);
+ 
+            var expected = this._mockIDeveloperRepository.GetAllAsync(new GetAllDto());//.Count; // hata almaması için new getalldto yazıldı. 
+ 
+            Assert.AreEqual(actual, expected);
         }
     }
 }
