@@ -16,14 +16,20 @@ using Assert = NUnit.Framework.Assert;
 namespace DeveloperWepApiTest2
 {
     [TestClass]
-    public class DeveloperServiceUnitTest
+    public class DeveloperServiceUnitTest2
     {
         public readonly IDeveloperRepository _mockIDeveloperRepository;
         
         private Mock<DeveloperService> _mockDeveloperService;
         private Mock<DeveloperRepository> _mockDeveloperRepository;
-       
-        public DeveloperServiceUnitTest()
+
+        protected GetAllDto _getAllDto;
+        protected CreateDeveloperDto _createDeveloperDto;
+        protected UpdateDeveloperDto _updateDeveloperDto;
+        protected SoftDeleteDto _softDeleteDto;
+        protected Developer _developer;
+        
+        public DeveloperServiceUnitTest2()
         {
             var developerList = new List<Developer>
             {
@@ -61,17 +67,7 @@ namespace DeveloperWepApiTest2
                     IsDeleted = false
                 }
             };
-            var mockDeveloperRepository = new Mock<IDeveloperRepository>();
-
-            mockDeveloperRepository.Setup(x => x.GetAllAsync(new GetAllDto()));//.Returns(developerList);
-            mockDeveloperRepository.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new Developer());//hatayı durdurmak için
-            mockDeveloperRepository.Setup(x => x.InsertDeveloperAsync(It.IsAny<Developer>())).Callback(
-                (Developer target) =>
-                {
-                   developerList.Add(target); 
-                });
-
-            this._mockIDeveloperRepository = mockDeveloperRepository.Object;
+        
         }
 
         [OneTimeSetUp]
@@ -89,24 +85,9 @@ namespace DeveloperWepApiTest2
                     x.GetById(It.IsAny<Guid>()))
                 //"It" methoda yollanması gereken parametreler yerine daha geniş bir
                 //parametre kullanımını sağlıyor. 
-                .Returns(new Developer
-                {
-                    Id = default,
-                    CreatedTime = default,
-                    UpdatedTime = default,
-                    DeleteTime = default,
-                    IsDeleted = false,
-                    Name = null,
-                    Surname = null,
-                    Department = null,
-                    Username = null,
-                    Password = null,
-                    RefreshToken = null,
-                    RefreshTokenEndDate = null
-                });
+                .Returns(_developer);
             
             var developer = new DeveloperService(_mockDeveloperRepository.Object);
-            
             
             //Act
             //var dev = developer.GetById(Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"));
@@ -119,6 +100,7 @@ namespace DeveloperWepApiTest2
         public void GetAll_Developer_Test1()
         {
             //arrange
+            _mockDeveloperRepository.Setup(x => x.GetAllAsync(_getAllDto));
             //act
             //assert
         } 
@@ -129,7 +111,7 @@ namespace DeveloperWepApiTest2
             var moqDeveloperRepository = new Mock<DeveloperRepository>();
             var service = new DeveloperService(moqDeveloperRepository.Object);
             //act
-            var exception = Record.Exception(() => service.Delete(Guid.Parse("0491bb97-c1d1-465c-b250-5ee690b1751b")));
+            var exception = Record.Exception(() => service.Delete(Guid.Parse(_developer.Id.ToString())));
             // xunit kütüphanesi eklendi record için.
             
             //assert
@@ -146,7 +128,7 @@ namespace DeveloperWepApiTest2
         [TestMethod]
         public void Insert_Developer_Test1()
         {
-            var actual = this._mockIDeveloperRepository.GetAllAsync(new GetAllDto());// .Count + 1;
+            var actual = this._mockIDeveloperRepository.GetAllAsync(_getAllDto);// .Count + 1;
  
             var developer = new Developer() { Id = Guid.Parse("2721844c-8e9c-4bcb-8a92-eac4355e0c7c"), Name = "User4", Surname = "User4LastName" };
  
@@ -156,7 +138,6 @@ namespace DeveloperWepApiTest2
  
             Assert.AreEqual(actual, expected);
         }
-
-    
+        
     }
 }
