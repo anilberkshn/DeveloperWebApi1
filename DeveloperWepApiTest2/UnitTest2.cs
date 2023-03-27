@@ -20,7 +20,7 @@ namespace DeveloperWepApiTest2
     {
         public readonly IDeveloperRepository _mockIDeveloperRepository;
         
-        private Mock<DeveloperService> _mockDeveloperService;
+        private DeveloperService _developerService;
         private Mock<DeveloperRepository> _mockDeveloperRepository;
 
         protected GetAllDto _getAllDto;
@@ -74,7 +74,7 @@ namespace DeveloperWepApiTest2
         public void Setup()
         {
             _mockDeveloperRepository = new Mock<DeveloperRepository>();
-            _mockDeveloperService = new Mock<DeveloperService>();
+            // _mockDeveloperService = new Mock<DeveloperService>();
         }
         
         [Test]
