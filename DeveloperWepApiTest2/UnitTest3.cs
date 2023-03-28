@@ -8,6 +8,7 @@ using DeveloperWepApi1.Model.Entities;
 using DeveloperWepApi1.Model.ErrorModels;
 using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NUnit.Framework;
@@ -94,7 +95,53 @@ namespace DeveloperWepApiTest2
 
             //assert
             Assert.AreEqual(result1.Count(), 3);
+            Assert.ThrowsException<ValidationErrorException>(() => developerService.GetAllAsync(new GetAllDto(-1, 5)));
+            Assert.ThrowsException<ValidationErrorException>(() => developerService.GetAllAsync(new GetAllDto(0, 150)));
+            Assert.ThrowsException<ValidationErrorException>(() => developerService.GetAllAsync(new GetAllDto(0, -1)));
+
+        }
+        [Test]
+        public void Delete_Developer_Test()
+        {
+            //arrange
+            var mockRepository = new Mock<IDeveloperRepository>();
+            var developer = new Developer() 
+            {
+                Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
+                Name = "Furkan",
+            };
             
+            mockRepository.Setup(x =>x.Delete(developer.Id))
+                .Returns(developer.Id);
+
+            var developerService = new DeveloperService(mockRepository.Object);
+            
+            // act
+            var result = developerService.Delete(developer.Id);
+           
+            //Assert
+            Assert.IsInstanceOfType<Guid>(result);
+        }
+        
+        [Test]
+        public async Task Insert_Developer_Test()
+        {
+            //arrange
+            var mockRepository = new Mock<IDeveloperRepository>();
+            var developer = new Developer() 
+            {
+                Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
+                Name = "Furkan",
+            };
+            mockRepository.Setup(x => x.InsertDeveloperAsync(developer)).Returns(Task.FromResult<Guid>(developer.Id));
+
+            var developerService = new DeveloperService(mockRepository.Object);
+            //act 
+            var result = await developerService.InsertDeveloperAsync(developer);
+            
+            //Assert
+            
+            Assert.AreEqual(result,developer.Id);
         }
     }
 }
