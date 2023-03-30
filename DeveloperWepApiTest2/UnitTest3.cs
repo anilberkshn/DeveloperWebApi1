@@ -143,5 +143,61 @@ namespace DeveloperWepApiTest2
             
             Assert.AreEqual(result,developer.Id);
         }
+        
+        [Test]
+        public void SoftDelete_Developer_Test()
+        {
+            //arrange
+            var mockRepository = new Mock<IDeveloperRepository>();
+            var softDeleteDto = new SoftDeleteDto();
+            var developer = new Developer() 
+            {
+                Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
+                Name = "Furkan",
+                IsDeleted = false,
+            };
+            
+            mockRepository.Setup(x =>x.SoftDelete(developer.Id,softDeleteDto))
+               // .Returns(developer.Id);
+
+            var developerService = new DeveloperService(mockRepository.Object);
+            
+            // act
+            var result = developerService.SoftDelete(developer.Id,softDeleteDto);
+
+            //Assert
+            Assert.AreEqual(result,developer);
+        }
+        
+        [Test]
+        public void Update_Developer_Test()
+        {
+            //arrange
+            var mockRepository = new Mock<IDeveloperRepository>();
+            var updateDto = new UpdateDeveloperDto();
+            var developer = new Developer() 
+            {
+                Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
+                Name = "Furkan",
+                Department = "backend developer",
+                CreatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
+                UpdatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
+                DeleteTime = DateTime.Parse("0001-01-01T00:00:00Z"),
+                IsDeleted = false
+            };
+            
+            mockRepository.Setup(x =>
+                    x.UpdateDeveloper(developer.Id,updateDto));
+               // .Returns(developer.Id,updateDto); void metot olduğu için
+
+            var developerService = new DeveloperService(mockRepository.Object);
+            
+            // act
+            var result = developerService.UpdateDeveloper(developer.Id,developer);
+           
+            //Assert
+            Assert.AreEqual(result,developer);
+        }
     }
+    
 }

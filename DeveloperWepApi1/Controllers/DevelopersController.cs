@@ -18,7 +18,7 @@ namespace DeveloperWepApi1.Controllers
         {
             _developerService = developerService;
         }
-        //[AllowAnonymous]
+        
         [HttpPost]
         public IActionResult CreateDeveloper([FromBody] CreateDeveloperDto createDeveloperDto)
         {
@@ -28,8 +28,6 @@ namespace DeveloperWepApi1.Controllers
                 Name = createDeveloperDto.Name,
                 Surname = createDeveloperDto.Surname,
                 Department = createDeveloperDto.Department,
-                // Username = createDeveloperDto.Username,
-                // Password = createDeveloperDto.Password
             };
             _developerService.InsertDeveloperAsync(developer);
 
@@ -39,7 +37,7 @@ namespace DeveloperWepApi1.Controllers
             };
             return Ok(response);
         }
-        //[AllowAnonymous]
+       
         [HttpPut]
         public IActionResult UpdateDeveloper(Guid developerId, [FromBody] UpdateDeveloperDto updateDeveloperDto)
         {
@@ -48,7 +46,6 @@ namespace DeveloperWepApi1.Controllers
             return Ok(developer);
         }
         
-        // [AllowAnonymous]
         [HttpGet("{developerId}", Name = "developerId")]
         public IActionResult GetById(Guid developerId)
         {
@@ -56,16 +53,13 @@ namespace DeveloperWepApi1.Controllers
             return Ok(findOne);
         }
 
-      //   [AllowAnonymous]
         [HttpGet("GetAllDeveloper")]  
         public IActionResult GetAll([FromQuery]GetAllDto getAllDto)
         {
             var getAllDeveloper = _developerService.GetAllAsync(getAllDto);
-            // var getAll = _developerService.GetAllAsync();
             return Ok(getAllDeveloper);
         }
         
-        //[AllowAnonymous]
         [HttpDelete("{developerId}", Name = "developerId")]
         public IActionResult Delete(Guid id) // hard delete
         {
@@ -73,7 +67,7 @@ namespace DeveloperWepApi1.Controllers
             _developerService.Delete(developer.Id);
             return Ok(id);
         }
-       //[AllowAnonymous]
+       
         [HttpPut("softDelete")]
         public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
         {
@@ -81,58 +75,6 @@ namespace DeveloperWepApi1.Controllers
             _developerService.SoftDelete(developer.Id, softDeleteDto);
             return Ok(id);
         }
-        
     }
 }
 
-
-
-// softDelete Denemeler
-// developer.Department = updateDeveloperDto.Department;
-// developer.Name = updateDeveloperDto.Name;
-// developer.Surname = updateDeveloperDto.Surname;
-// developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-/*-----SoftDeleteDto-----*/
-// developer.DeleteTime = softDeleteDto.DeletedTime;
-// developer.IsDeleted = softDeleteDto.IsDeleted;
-//--------------------------
-
-// eski developerUpdate
-// developer.Department = updateDeveloperDto.Department;
-// developer.Name = updateDeveloperDto.Name;
-// developer.Surname = updateDeveloperDto.Surname;
-// developer.UpdatedTime = updateDeveloperDto.UpdatedTime;
-
-
-//////----------------------------------------------------
-// //  [AllowAnonymous]
-// [HttpGet("[action]")]       
-//  public IActionResult Login()
-//  {
-//      return Created("", new BuildToken().CreateToken());
-//      //"JwtKeyTokenKodu"
-//  }
-//
-//  //[AllowAnonymous]
-//  [Authorize]
-//  [HttpGet("[action]")]
-//  public IActionResult LoginSuccess()
-//  {
-//      return Ok("Login Success");
-//  }
-//[AllowAnonymous]
-// [HttpPost("authenticate")]
-// public IActionResult Authenticate([FromBody] Developer user)
-//     //[FromHeader]
-// {
-//
-//     var token = _userServiceJwt.AuthenticateService(user);
-//
-//     if (token == null)
-//     {
-//         return Unauthorized();
-//     }
-//
-//     return Ok(new {token,user});
-//    // return Ok(new {user, user });
-// }
