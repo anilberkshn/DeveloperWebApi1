@@ -149,24 +149,29 @@ namespace DeveloperWepApiTest2
         {
             //arrange
             var mockRepository = new Mock<IDeveloperRepository>();
-            var softDeleteDto = new SoftDeleteDto();
+           
             var developer = new Developer() 
             {
                 Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
                 Name = "Furkan",
-                IsDeleted = false,
+                IsDeleted = true,
             };
+            mockRepository.Setup(x => x.GetById(developer.Id)).Returns(developer);
             
-            mockRepository.Setup(x =>x.SoftDelete(developer.Id,softDeleteDto))
-               // .Returns(developer.Id);
-
+            var softDeleteDto = new SoftDeleteDto()
+            {
+                DeletedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
+                IsDeleted = true
+            };
+            mockRepository.Setup(x => x.SoftDelete(developer.Id, softDeleteDto));
+                         
             var developerService = new DeveloperService(mockRepository.Object);
             
             // act
-            var result = developerService.SoftDelete(developer.Id,softDeleteDto);
-
+            developerService.SoftDelete(developer.Id,softDeleteDto);
+            
             //Assert
-            Assert.AreEqual(result,developer);
+            Assert.AreEqual(softDeleteDto.IsDeleted,developer.IsDeleted);
         }
         
         [Test]
@@ -174,29 +179,40 @@ namespace DeveloperWepApiTest2
         {
             //arrange
             var mockRepository = new Mock<IDeveloperRepository>();
-            var updateDto = new UpdateDeveloperDto();
             var developer = new Developer() 
             {
                 Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
                 Name = "Furkan",
+                Surname = "Aydın",
                 Department = "backend developer",
                 CreatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
                 UpdatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
                 DeleteTime = DateTime.Parse("0001-01-01T00:00:00Z"),
                 IsDeleted = false
             };
+
+            mockRepository.Setup(x => x.GetById(developer.Id)).Returns(developer);
+            var updateDto = new UpdateDeveloperDto()
+            {
+                Name = "Furkan",
+                Surname = "Aydın",
+                Department = "backend developer",
+                UpdatedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
+                IsDeleted = false
+            };
             
             mockRepository.Setup(x =>
-                    x.UpdateDeveloper(developer.Id,updateDto));
-               // .Returns(developer.Id,updateDto); void metot olduğu için
+                x.UpdateDeveloper(developer.Id,updateDto));// .Returns(developer);
 
             var developerService = new DeveloperService(mockRepository.Object);
             
             // act
-            var result = developerService.UpdateDeveloper(developer.Id,developer);
-           
+            developerService.UpdateDeveloper(developer.Id,updateDto);
+            
             //Assert
-            Assert.AreEqual(result,developer);
+            Assert.AreEqual(updateDto.Name,developer.Name);
+            Assert.AreEqual(updateDto.Surname,developer.Surname);
+            Assert.AreEqual(updateDto.Department,developer.Department);
         }
     }
     

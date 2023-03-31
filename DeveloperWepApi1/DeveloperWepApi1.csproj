@@ -31,6 +31,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="UnitTest1\packages.config" />
+      <_ContentIncludedByDefault Remove="UnitTest3\packages.config" />
     </ItemGroup>
 
 </Project>
