@@ -30,7 +30,7 @@ namespace DeveloperWepApi1.DeveloperRepository
 
         public async Task<IEnumerable<Developer>> GetAllAsync(GetAllDto getAllDto)
         {
-           var developerList = await FindAllAsync(getAllDto.skip,getAllDto.take);
+           var developerList = await FindAllAsync(getAllDto);
            return developerList ;
         }
 

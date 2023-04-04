@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DeveloperWepApi1.Model.Entities;
+using DeveloperWepApi1.Model.RequestModels;
 using DeveloperWepApi1.Mongo.Interface;
 using FluentValidation.Internal;
 using Microsoft.EntityFrameworkCore;
@@ -43,10 +44,10 @@ namespace DeveloperWepApi1.Mongo
         //    return record;
         //} 
     
-        public async Task<IEnumerable<T>> FindAllAsync(int skip,int take)
+        public async Task<IEnumerable<T>> FindAllAsync(GetAllDto getAllDto)
         {
             var record = _collection.AsQueryable().AsEnumerable();
-            return record.Skip(skip).Take(take);
+            return record.Skip(getAllDto.skip).Take(getAllDto.take);
         }
         
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)

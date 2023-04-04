@@ -154,14 +154,14 @@ namespace DeveloperWepApiTest2
             {
                 Id = Guid.Parse("f9a08115-776f-49f4-b267-36f7ce0d126a"),
                 Name = "Furkan",
-                IsDeleted = true,
+                IsDeleted = false,
             };
             mockRepository.Setup(x => x.GetById(developer.Id)).Returns(developer);
             
             var softDeleteDto = new SoftDeleteDto()
             {
                 DeletedTime = DateTime.Parse("2023-03-16T10:28:26.839Z"),
-                IsDeleted = true
+                IsDeleted = false
             };
             mockRepository.Setup(x => x.SoftDelete(developer.Id, softDeleteDto));
                          
