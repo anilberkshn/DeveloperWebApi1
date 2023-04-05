@@ -1,16 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
-using IdentityServer1.Models.Authentication;
-using IdentityServer1.MongoDb.Interface;
+using IdentityServerApi.Model.Entities;
+using IdentityServerApi.MongoDb.Interface;
 using MongoDB.Driver;
 
-namespace IdentityServer1.MongoDb
+namespace IdentityServerApi.MongoDb
 {
-    public class MongoRepository<T> : IMongoRepository<T> where T : User
+    public class MongoRepository<T> : IMongoRepository<T> where T : UserProperties
     {
         private readonly IMongoCollection<T> _collection;
         
@@ -41,7 +38,7 @@ namespace IdentityServer1.MongoDb
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
         {
             var filter = Builders<T>.Filter.Where(expression);  // builder a static helper class containing various builders
-            var update = updateDefinition.Set(x => x.CreatedOn, DateTime.Now);
+            var update = updateDefinition.Set(x => x.CreatedTime, DateTime.Now);
             _collection.FindOneAndUpdate<T>(filter, update); 
         }
 
@@ -55,8 +52,8 @@ namespace IdentityServer1.MongoDb
         {
             var filter  = Builders<T>.Filter.Where(expression);
 
-            var update = updateDefinition.Set(x => x.CreatedOn, DateTime.Now)
-                .Set(x => x.EmailConfirmed, true);// hata almaması için geçici bool alan parametre
+            var update = updateDefinition.Set(x => x.UpdatedTime, DateTime.Now)
+                .Set(x => x.IsDeleted, true);
             _collection.FindOneAndUpdate<T>(filter, update);
         }
     }

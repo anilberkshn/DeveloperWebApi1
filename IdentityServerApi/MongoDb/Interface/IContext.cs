@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace IdentityServer1.MongoDb.Interface
+namespace IdentityServerApi.MongoDb.Interface
 {
     public interface IContext
     {

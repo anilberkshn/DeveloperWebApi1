@@ -1,30 +1,30 @@
 using System;
 using System.Threading.Tasks;
-using IdentityServer1.Models.Authentication;
-using IdentityServer1.Models.RequestModels;
-using IdentityServer1.MongoDb;
-using IdentityServer1.MongoDb.Interface;
+using IdentityServerApi.Model.Entities;
+using IdentityServerApi.Model.RequestModels;
+using IdentityServerApi.MongoDb;
+using IdentityServerApi.MongoDb.Interface;
 
-namespace IdentityServer1.IdentityRepository
+namespace IdentityServerApi.IdentityRepository
 {
-    public class IdentityRepository : MongoRepository<User>,IIdentityRepository
+    public class IdentityRepository : MongoRepository<UserProperties>,IIdentityRepository
     {
         public IdentityRepository(IContext context, string collectionName) : base(context, collectionName)
         {
         }
 
-        public User GetById(Guid id)
+        public UserProperties GetById(Guid id)
         {
             var user = FindOneAsync(x => x.Id == id).GetAwaiter().GetResult();
             return user;
         }
 
-        public async Task<Guid> InsertAsync(User user)
+        public async Task<Guid> InsertAsync(UserProperties user)
         {
             return await CreateAsync(user);
         }
 
-        public void Update(Guid userId, User userUpdateDto)
+        public void Update(Guid userId, UserProperties userUpdateDto)
         {
             throw new NotImplementedException();
         }

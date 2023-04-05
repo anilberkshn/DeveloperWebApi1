@@ -1,4 +1,4 @@
-namespace IdentityServer1.Config
+namespace IdentityServerApi.Config
 {
     public class MongoDbSettings
     {

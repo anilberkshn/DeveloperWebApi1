@@ -1,7 +1,7 @@
-using IdentityServer1.MongoDb.Interface;
+using IdentityServerApi.MongoDb.Interface;
 using MongoDB.Driver;
 
-namespace IdentityServer1.MongoDb.Context
+namespace IdentityServerApi.MongoDb.Context
 {
     public class Context : IContext
     {

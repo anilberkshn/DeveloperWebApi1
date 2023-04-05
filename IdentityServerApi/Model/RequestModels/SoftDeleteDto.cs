@@ -1,6 +1,6 @@
 using System;
 
-namespace IdentityServer1.Models.RequestModels
+namespace IdentityServerApi.Model.RequestModels
 {
     public class SoftDeleteDto
     {

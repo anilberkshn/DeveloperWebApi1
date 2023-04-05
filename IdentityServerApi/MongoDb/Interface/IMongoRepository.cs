@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
-namespace IdentityServer1.MongoDb.Interface
+namespace IdentityServerApi.MongoDb.Interface
 {
     public interface IMongoRepository<T>
     {
