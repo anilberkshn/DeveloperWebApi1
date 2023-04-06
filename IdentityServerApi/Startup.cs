@@ -6,6 +6,7 @@ using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using IdentityServerApi.IdentityRepository;
 using IdentityServerApi.MongoDb.Context;
 using IdentityServerApi.MongoDb.Interface;
+using IdentityServerApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,11 +38,13 @@ namespace IdentityServerApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IdentityServerApi", Version = "v1" });
             });
-            
+
+            services.AddControllers();
             var dbSettings = Configuration.GetSection("UserDatabaseSettings").Get<MongoDbSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
-            
+
+            services.AddSingleton<IIdentityService, IdentityServerApi.Services.IdentityService>();
             services.AddSingleton<IContext,Context>(_ => context);
             services.AddSingleton<IIdentityRepository,IdentityRepository.IdentityRepository>();
         }

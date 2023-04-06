@@ -1,6 +1,6 @@
-namespace IdentityServerApi.Model.RequestModels
+namespace IdentityServerApi.Config
 {
-    public class LoginRequestModel
+    public class LoginSettings
     {
         public string Username { get; set; }
         public string Email { get; set; }

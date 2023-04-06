@@ -22,7 +22,7 @@ namespace DeveloperWepApi1.DeveloperRepository
            
         }
 
-        public Developer GetById(Guid id)
+        public Developer GetById(Guid id) //TODO: asenkron olsa daha iyi olur mu araştırılacak. 
         {
             var developer = FindOneAsync(x => x.Id == id).GetAwaiter().GetResult();
             return developer;

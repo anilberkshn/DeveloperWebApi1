@@ -4,12 +4,13 @@ using IdentityServerApi.Model.Entities;
 using IdentityServerApi.Model.RequestModels;
 using IdentityServerApi.MongoDb;
 using IdentityServerApi.MongoDb.Interface;
+using MongoDB.Driver;
 
 namespace IdentityServerApi.IdentityRepository
 {
     public class IdentityRepository : MongoRepository<UserProperties>,IIdentityRepository
     {
-        public IdentityRepository(IContext context, string collectionName) : base(context, collectionName)
+        public IdentityRepository(IContext context, string collectionName = "Users") : base(context, collectionName)
         {
         }
 
@@ -24,19 +25,31 @@ namespace IdentityServerApi.IdentityRepository
             return await CreateAsync(user);
         }
 
-        public void Update(Guid userId, UserProperties userUpdateDto)
+        public void Update(Guid userId, UpdateUserDto userUpdateDto)
         {
-            throw new NotImplementedException();
+            var update = Builders<UserProperties>.Update
+                    .Set(x => x.UserName, userUpdateDto.UserName)
+                    .Set(x => x.Email, userUpdateDto.Email)
+                    .Set(x => x.Password, userUpdateDto.Password)
+                    .Set(x => x.UpdatedTime, userUpdateDto.UpdatedTime)
+                    .Set(x => x.IsDeleted, userUpdateDto.IsDeleted)
+                    .Set(x => x.DeleteTime, userUpdateDto.DeletedTime);
+
+            Update(x=> x.Id == userId,update);
         }
 
         public Guid Delete(Guid guid)
         {
-            throw new NotImplementedException();
+            return Delete(x => x.Id == guid);
         }
 
         public void SoftDelete(Guid guid, SoftDeleteDto softDeleteDto)
         {
-            throw new NotImplementedException();
+            var softDelete = Builders<UserProperties>.Update
+                .Set(x => x.DeleteTime, softDeleteDto.DeletedTime)
+                .Set(x => x.IsDeleted , softDeleteDto.IsDeleted);
+
+            SoftDelete(x => x.Id == guid,softDelete);
         }
     }
 }

@@ -1,22 +1,21 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityServerApi.Model.Entities;
 using IdentityServerApi.Model.RequestModels;
 
-namespace IdentityServerApi.IdentityRepository
+namespace IdentityServerApi.Services
 {
-    public interface IIdentityRepository
+    public interface IIdentityService
     {
         public UserProperties GetById(Guid id);
         
         public Task<Guid> InsertAsync(UserProperties user);
         
-        public void Update(Guid userId, UpdateUserDto userUpdateDto);
+        public void Update(Guid guid, UpdateUserDto updateUserDto);
         
         public Guid Delete(Guid guid);
-     
-        public void SoftDelete(Guid guid, SoftDeleteDto softDeleteDto);
         
+        public void SoftDelete(Guid guid, SoftDeleteDto softDeleteDto);
     }
-    
 }
