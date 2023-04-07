@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityServerApi.Model.Entities;
 using IdentityServerApi.Model.RequestModels;
@@ -25,6 +26,11 @@ namespace IdentityServerApi.IdentityRepository
             return await CreateAsync(user);
         }
 
+        public async Task<IEnumerable<UserProperties>> GetAllAsync(GetAllDto getAllDto)
+        {
+            var userList = await FindAllAsync(getAllDto);
+            return userList ;
+        }
         public void Update(Guid userId, UpdateUserDto userUpdateDto)
         {
             var update = Builders<UserProperties>.Update

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using IdentityServerApi.IdentityRepository;
@@ -46,6 +47,20 @@ namespace IdentityServerApi.Services
             return addUser ;
         }
 
+        public Task<IEnumerable<UserProperties>> GetAllAsync(GetAllDto getAllDto)
+        {
+            if (getAllDto.skip < 0)
+            {
+                throw new NotImplementedException(); 
+            }
+
+            if (getAllDto.take is > 100 or < 0)
+            {
+                throw new NotImplementedException(); 
+            }
+
+            return _identityRepository.GetAllAsync(getAllDto);// mock
+        }
         public void Update(Guid guid, UpdateUserDto updateUserDto)
         {
            _identityRepository.Update(guid,updateUserDto);

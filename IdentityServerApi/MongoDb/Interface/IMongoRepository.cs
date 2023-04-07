@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using IdentityServerApi.Model.RequestModels;
 using MongoDB.Driver;
 
 namespace IdentityServerApi.MongoDb.Interface
@@ -9,7 +11,7 @@ namespace IdentityServerApi.MongoDb.Interface
     {
         
         public Task<Guid> CreateAsync (T record);
-        // public Task<IEnumerable<T>> FindAllAsync(GetAllDto getAllDto);
+        public Task<IEnumerable<T>> FindAllAsync(GetAllDto getAllDto);
         // public Task<List<T>> FindAllAsync();
         public  Task<T> FindOneAsync(Expression<Func<T, bool>> expression);
         public void Update(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition);

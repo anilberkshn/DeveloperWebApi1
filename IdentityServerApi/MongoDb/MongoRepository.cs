@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using IdentityServerApi.Model.Entities;
+using IdentityServerApi.Model.RequestModels;
 using IdentityServerApi.MongoDb.Interface;
 using MongoDB.Driver;
 
@@ -28,7 +31,11 @@ namespace IdentityServerApi.MongoDb
             await _collection.InsertOneAsync(record);
             return record.Id;
         }
-       
+        public async Task<IEnumerable<T>> FindAllAsync(GetAllDto getAllDto)
+        {
+            var record = _collection.AsQueryable().AsEnumerable();
+            return record.Skip(getAllDto.skip).Take(getAllDto.take);
+        }
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> expression)
         { 
            var record = await _collection.Find(expression).FirstOrDefaultAsync();

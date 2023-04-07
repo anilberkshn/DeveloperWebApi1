@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IdentityServerApi.Controllers
 {
     [ApiController]
-    [Route("api/identity")]
+    [Route("api/user")]
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _ıdentityService;
@@ -38,19 +38,46 @@ namespace IdentityServerApi.Controllers
             };
             return Ok(response);
         }
+     
         [HttpGet("{userId}", Name = "userId")]
-        public IActionResult GetById(Guid uGuid)
+        public IActionResult GetById([FromQuery] Guid id)
         {
-            var findOne = _ıdentityService.GetById(uGuid);
+            var findOne = _ıdentityService.GetById(id);
             return Ok(findOne);
+        }
+
+        [HttpPut]
+        public IActionResult Update(Guid userId, [FromBody] UpdateUserDto updateUserDto)
+        {
+            var user = _ıdentityService.GetById(userId);
+            _ıdentityService.Update(userId, updateUserDto);
+            return Ok(user);
+        }
+        
+        [HttpDelete( "userId")]
+        public IActionResult Delete(Guid id) 
+        {
+            var user = _ıdentityService.GetById(id);
+            _ıdentityService.Delete(user.Id);
+            return Ok(id);
+        }
+       
+        [HttpPut("softDelete")]
+        public IActionResult SoftDelete(Guid id, [FromBody] SoftDeleteDto softDeleteDto) // soft delete
+        {
+            var user = _ıdentityService.GetById(id);
+            _ıdentityService.SoftDelete(user.Id, softDeleteDto);
+            return Ok(id);
         }
         
         
-        // [HttpGet("GetAllUser")]  
-        // public IActionResult GetAll([FromQuery]GetAllDto getAllDto)
-        // {
-        //     var getAllDeveloper = _ıdentityService.GetAllAsync(getAllDto); // todo: GetAll eklenecek
-        //     return Ok(getAllDeveloper);
-        // }
+        
+        
+         [HttpGet("GetAllUser")]  
+         public IActionResult GetAll([FromQuery]GetAllDto getAllDto)
+        {
+            var getAllDeveloper = _ıdentityService.GetAllAsync(getAllDto); // todo: GetAll eklenecek
+            return Ok(getAllDeveloper);
+        }
     }
 }

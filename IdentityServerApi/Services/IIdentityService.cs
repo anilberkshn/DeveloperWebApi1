@@ -12,6 +12,7 @@ namespace IdentityServerApi.Services
         
         public Task<Guid> InsertAsync(UserProperties user);
         
+        public Task<IEnumerable<UserProperties>>GetAllAsync(GetAllDto getAllDto);
         public void Update(Guid guid, UpdateUserDto updateUserDto);
         
         public Guid Delete(Guid guid);
