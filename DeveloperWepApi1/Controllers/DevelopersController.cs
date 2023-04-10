@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperWepApi1.Controllers
 {
-    // [Authorize] // denemeler sırasında her seferinde giriş yapmamak için.
+    [Authorize] // denemeler sırasında her seferinde giriş yapmamak için.
     [ApiController]
     [Route("api/developer")]
     public class DevelopersController : ControllerBase

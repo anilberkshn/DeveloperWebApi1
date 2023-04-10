@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
+using IdentityServerApi.Extensions;
 using IdentityServerApi.IdentityRepository;
 using IdentityServerApi.MongoDb.Context;
 using IdentityServerApi.MongoDb.Interface;
 using IdentityServerApi.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using MongoDbSettings = IdentityServerApi.Config.MongoDbSettings;
@@ -34,12 +38,27 @@ namespace IdentityServerApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IdentityServerApi", Version = "v1" });
-            });
+            services.AddMySwagger();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                x =>
+                {
+                    x.TokenValidationParameters = new TokenValidationParameters
 
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true, //sonradan
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = Configuration["Token:Issuer"],
+                        ValidAudience = Configuration["Token:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:SecurityKey"])),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                    services.AddControllers();
+                });
+            
             services.AddControllers();
+            
             var dbSettings = Configuration.GetSection("UserDatabaseSettings").Get<MongoDbSettings>();
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
@@ -62,7 +81,7 @@ namespace IdentityServerApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

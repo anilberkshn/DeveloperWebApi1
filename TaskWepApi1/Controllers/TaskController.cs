@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskWepApi1.Model.Entities;
 using TaskWepApi1.Model.ResponseModel;
@@ -8,6 +9,7 @@ using TaskWepApi1.Services;
 
 namespace TaskWepApi1.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/task")]
 

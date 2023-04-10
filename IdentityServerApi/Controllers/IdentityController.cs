@@ -3,12 +3,14 @@ using IdentityServerApi.Model.Entities;
 using IdentityServerApi.Model.RequestModels;
 using IdentityServerApi.Model.ResponseModel;
 using IdentityServerApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServerApi.Controllers
 {
+    // [Authorize]
     [ApiController]
-    [Route("api/user")]
+    [Route("api/userIdentity")]
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _ıdentityService;
@@ -39,14 +41,14 @@ namespace IdentityServerApi.Controllers
             return Ok(response);
         }
      
-        [HttpGet("{userId}", Name = "userId")]
-        public IActionResult GetById([FromQuery] Guid id)
+        [HttpGet]
+        public IActionResult GetById(Guid id)
         {
             var findOne = _ıdentityService.GetById(id);
             return Ok(findOne);
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public IActionResult Update(Guid userId, [FromBody] UpdateUserDto updateUserDto)
         {
             var user = _ıdentityService.GetById(userId);
@@ -70,10 +72,7 @@ namespace IdentityServerApi.Controllers
             return Ok(id);
         }
         
-        
-        
-        
-         [HttpGet("GetAllUser")]  
+        [HttpGet("GetAllUser")]  
          public IActionResult GetAll([FromQuery]GetAllDto getAllDto)
         {
             var getAllDeveloper = _ıdentityService.GetAllAsync(getAllDto); // todo: GetAll eklenecek

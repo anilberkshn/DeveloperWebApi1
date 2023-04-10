@@ -43,8 +43,6 @@ namespace DeveloperWepApi1
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
             {
-              // x.RequireHttpsMetadata = false;
-                
                 x.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = true,

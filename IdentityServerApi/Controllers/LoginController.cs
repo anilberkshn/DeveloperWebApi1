@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using IdentityServerApi.Config;
+using IdentityServerApi.Model.Entities;
 using IdentityServerApi.Model.RequestModels;
 using IdentityServerApi.Model.ResponseModel;
 using IdentityServerApi.Services;
@@ -23,14 +25,16 @@ namespace IdentityServerApi.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("action")]
-        public ActionResult Login([FromBody] LoginSettings model)
+        [HttpPost("api/CreateJwtToken")]
+        public ActionResult Login([FromBody] LoginSettings model,GetAllDto getAllDto)
         {
+            // var getALlDto = new GetAllDto(0,15);
             var userList = _configuration.GetSection("Users").Get<List<LoginSettings>>();
-
-            foreach (var user in userList)
+            var userListDb = _identityService.GetAllAsync(getAllDto).GetAwaiter().GetResult().ToList();
+            
+            foreach (var user in userListDb)
             {
-                if (model.Username == user.Username && model.Password == user.Password)
+                if (model.Username == user.UserName && model.Password == user.Password)
                 {
                     TokenHandler tokenHandler = new Token.TokenHandler(_configuration);
                     string token = tokenHandler.CreateAccessToken(model.Username);
