@@ -37,7 +37,7 @@
       "UpstreamHttpMethod": ["Get","Delete","Post","Put"]
     },
     {
-      "DownstreamPathTemplate": "/api/CreateJwtToken?{everything}/{everything}",
+      "DownstreamPathTemplate": "/api/CreateJwtToken",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

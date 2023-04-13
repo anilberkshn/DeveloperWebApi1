@@ -40,9 +40,9 @@ namespace IdentityServerApi
             services.AddControllers();
             services.AddMySwagger();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
-                x =>
+                options =>
                 {
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    options.TokenValidationParameters = new TokenValidationParameters
 
                     {
                         ValidateAudience = true,
@@ -63,6 +63,7 @@ namespace IdentityServerApi
             var client = new MongoClient(dbSettings.ConnectionString);
             var context = new Context(client, dbSettings.DatabaseName);
 
+         
             services.AddSingleton<IIdentityService, IdentityServerApi.Services.IdentityService>();
             services.AddSingleton<IContext,Context>(_ => context);
             services.AddSingleton<IIdentityRepository,IdentityRepository.IdentityRepository>();
