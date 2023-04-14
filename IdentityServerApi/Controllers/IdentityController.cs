@@ -6,9 +6,10 @@ using IdentityServerApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace IdentityServerApi.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/userIdentity")]
     public class IdentityController : ControllerBase

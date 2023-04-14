@@ -29,6 +29,20 @@ namespace GatewayApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOcelot();
+            services.AddAuthentication()
+                .AddJwtBearer("TestKey", options =>
+                {
+                    options.Authority = "http://localhost:5009/swagger/index.html";//todo :identity server url doğrusu ile değişecek. 
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = "audience";
+                });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PolicyName", policy =>
+                {
+                    policy.RequireClaim("ClaimName", "ClaimValue");
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -51,7 +65,7 @@ namespace GatewayApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

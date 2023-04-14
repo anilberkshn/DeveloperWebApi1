@@ -51,5 +51,13 @@
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
+  },
+  "AuthenticationOptions": {
+    "AuthenticationProviderKey": "TestKey",
+    "AllowedScopes": [
+      "openid",
+      "profile",
+      "email"
+    ]
   }
 }

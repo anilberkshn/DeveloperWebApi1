@@ -7,6 +7,7 @@ using IdentityServerApi.Model.Entities;
 using IdentityServerApi.Model.RequestModels;
 using IdentityServerApi.Model.ResponseModel;
 using IdentityServerApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,7 @@ using TokenHandler = IdentityServerApi.Token.TokenHandler;
 
 namespace IdentityServerApi.Controllers
 {
+
     public class LoginController : ControllerBase
     {
         readonly IConfiguration _configuration;
@@ -28,8 +30,6 @@ namespace IdentityServerApi.Controllers
         [HttpPost("api/CreateJwtToken")]
         public ActionResult Login([FromBody] LoginSettings model,GetAllDto getAllDto)
         {
-            // var getALlDto = new GetAllDto(0,15);
-            var userList = _configuration.GetSection("Users").Get<List<LoginSettings>>();
             var userListDb = _identityService.GetAllAsync(getAllDto).GetAwaiter().GetResult().ToList();
             
             foreach (var user in userListDb)
