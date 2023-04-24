@@ -27,7 +27,7 @@ namespace IdentityServerApi.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("api/CreateJwtToken")]
+        [HttpPost("api/userIdentity/CreateJwtToken")]
         public ActionResult Login([FromBody] LoginSettings model,GetAllDto getAllDto)
         {
             var userListDb = _identityService.GetAllAsync(getAllDto).GetAwaiter().GetResult().ToList();

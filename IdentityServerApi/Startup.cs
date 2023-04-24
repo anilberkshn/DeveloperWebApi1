@@ -43,8 +43,7 @@ namespace IdentityServerApi
                 x =>
                 {
                     x.TokenValidationParameters = new TokenValidationParameters
-
-                    {
+                      {
                         ValidateAudience = true,
                         ValidateIssuer = true, //sonradan
                         ValidateIssuerSigningKey = true,
